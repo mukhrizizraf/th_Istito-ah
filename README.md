@@ -13,7 +13,7 @@ Sister site of the [Kedah Silver Economy dashboard](https://mukhrizizraf.github.
 | `index.html` | Overview, executive summary, the live *istito'ah ladder*, team and roles |
 | `cost.html` | TH's official 1448H/2027M Hajj cost and payment rules, read critically |
 | `tracker.html` | The PoC dashboard: filters, Kos Haji scenario, gauges, tile map, trend, matrix, 2028 watchlist |
-| `depositor.html` | One-depositor simulator with payment category, flexible deadlines and a literacy plan |
+| `depositor.html` | One-depositor simulator: payment category, any number of deadlines (TH's 31 Dec 2028 rule is added for registered depositors; "Use this amount" applies the saving a missed one needs), literacy plan |
 | `plan.html` | Methodology by development phase, the threshold ladder, timeline, risks |
 | `blueprint.html` | Layout schema, data architecture, backend schema, ecosystem map, governance |
 | `literacy.html` | Literacy layers, module → telemetry → dashboard tiles, programme funnel |
@@ -54,5 +54,7 @@ Download the animation's Lottie JSON from [lottiefiles.com](https://lottiefiles.
 - `TH.POLICY` and `TH.SRC` in `th-data.js` hold TH's published figures and their sources (read 4 October 2026).
 - Everything else the tracker draws comes from a seeded synthetic model and is labelled as synthetic where it appears.
 - The fictional depositors, example targets and programme funnel are illustrative.
+
+Every page ends with a Kedah-style footer (brand, page links, about, disclaimer). The live site is https://mukhrizizraf.github.io/th_Istito-ah/.
 
 Prepared by SEFB, UUM. Technical App Development Lead: Mukhriz Izraf.

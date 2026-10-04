@@ -229,6 +229,15 @@ Soft, generous corners in a fixed ladder: 12px for nested tiles and inputs, 16px
 - **Top bar:** sticky, translucent mist with a blur; the co-branded lockup on a light plate, product name in Instrument Serif, short pill links (active = Paddy Green fill), language (BM/EN) and theme buttons as 40px circles. Below 1180px links move into a right-hand drawer listing every page with its description.
 - **Pager:** every page ends with previous/next sheets; left and right arrow keys move between pages.
 
+### Footer
+A mist-raised band: brand mark and lockup, Dashboard and Proposal link columns (current page in green), About facts, then a hairline bar with the disclaimer, presenter-notes switch, page count and arrow-key hint.
+
+### Info notes
+A 24px circled "i" beside panel titles and labels opens one shared popover (title, plain explanation); with Presenter notes on it adds a green-tinted pitch tip. Esc or an outside click closes it.
+
+### Deadlines
+Numbered rows (month, year, target) on a raised well; met rows get a green number and border, off-track rows red, always with a word. Chart lines carry the same numbers.
+
 ### The Istito'ah Ladder (signature)
 A night-band card where about 220 depositor dots (150 on phones) settle along a ringgit axis, crossing gold lines at TH's four amounts; state chips re-flow the dots. Dots are coloured by balance band, with gold for those past the full Kos Haji.
 

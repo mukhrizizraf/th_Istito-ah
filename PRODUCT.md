@@ -26,7 +26,8 @@ Merges SEFB's behavioural financial-literacy research with a production-style da
 ## Operating Context
 
 - Proposal structure is fixed by the brief (`../th_dashboard_proposal_prompt (1).docx`): 1 Executive Summary; 2 Methodology by web-development phases (Phase 1 Data Architecture & Asset Mapping; Phase 2 User-Centric Design & KPI Workshops with 25% / 50% / 100% package thresholds; Phase 3 Interactive PoC Dashboard Deployment); 3 Technical Deliverable Blueprint (layout schema, state / corporate-category filters, modular gauges, ecosystem connectivity map); 4 Aligned Literacy Programme Layers (modules streaming telemetry).
-- The owner is the **Technical App Development Lead**; the proposal must make that role explicit.
+- The owner is the **Technical App Development Lead**; the proposal must make that role explicit (shown in the overview facts strip and the open Team and roles section).
+- Info notes and an optional Presenter-notes mode exist so the owner can pitch without mis-explaining a panel.
 - Tone: advanced, technically precise, authoritative academic and engineering posture, consistent with Shariah-compliant corporate guidelines.
 
 ## Capabilities and Constraints
