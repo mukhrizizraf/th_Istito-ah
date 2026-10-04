@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="assets/art/mark.svg" type="image/svg+xml">
+<title>Technical blueprint · Istito'ah Tracker</title>
+<meta name="description" content="Front-end layout schema, data architecture and the ecosystem connectivity map for the Istito'ah tracker.">
+<meta name="theme-color" content="#0b2a22">
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('th-theme');if(t==='dark'||t==='light')d.setAttribute('data-theme',t);if(localStorage.getItem('th-lang')==='ms'){d.setAttribute('data-lang','ms');d.lang='ms'}}catch(e){}var P=['index','cost','tracker','depositor','plan','blueprint','literacy','notes'],i=P.indexOf((location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''));if(i<0)i=0;try{var p=parseInt(sessionStorage.getItem('th-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('th-idx',i)}catch(e){}})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/css/th.css">
+<script src="assets/js/th-data.js"></script>
+</head>
+<body data-page="blueprint" data-title-en="Technical blueprint · Istito'ah Tracker" data-title-ms="Pelan teknikal · Penjejak Istito'ah">
+<script src="assets/js/th-shell.js"></script>
+
+<main id="main">
+  <section class="wrap page-head">
+    <div class="head-row"><span class="page-icon" data-picon="blueprint"></span></div>
+    <h1><span lang="en">Technical blueprint</span><span lang="ms">Pelan teknikal</span></h1>
+    <p class="lede"><span lang="en">How the dashboard is laid out, where its data comes from, and how TH, partners and depositors connect to it. Click any part to read what it does.</span><span lang="ms">Bagaimana papan pemuka disusun, dari mana datanya, dan bagaimana TH, rakan dan pendeposit berhubung dengannya. Klik mana-mana bahagian untuk membaca fungsinya.</span></p>
+  </section>
+
+  <div class="wrap">
+    <section class="section" aria-labelledby="layoutTitle" style="padding-top:8px">
+      <div class="shead"><div><h2 id="layoutTitle" data-info="wire"><span lang="en">Front-end layout schema</span><span lang="ms">Skema susun atur bahagian hadapan</span></h2>
+        <p><span lang="en">Nine regions on a 12-column grid. Every panel reads one shared filter state, so a click anywhere updates everything.</span><span lang="ms">Sembilan kawasan pada grid 12 lajur. Setiap panel membaca satu keadaan penapis yang sama, jadi satu klik mengemas kini semuanya.</span></p></div>
+        <a class="btn btn-ghost" href="tracker.html"><span lang="en">See it built</span><span lang="ms">Lihat versi siap</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a></div>
+      <div class="wire">
+        <div class="card scroll-x"><div class="chart" id="wire"></div></div>
+        <aside class="card wire-info" id="wireInfo" aria-live="polite"></aside>
+      </div>
+      <div class="grid g2" style="margin-top:16px">
+        <div class="card scroll-x">
+          <h3 style="margin-bottom:8px"><span lang="en">Responsive behaviour</span><span lang="ms">Tingkah laku responsif</span></h3>
+          <table class="tbl"><thead><tr><th><span lang="en">Width</span><span lang="ms">Lebar</span></th><th><span lang="en">Layout</span><span lang="ms">Susun atur</span></th></tr></thead><tbody>
+            <tr><td>≥ 1100 px</td><td><span lang="en">Panels side by side; filter rail sticks under the bar; projector-ready</span><span lang="ms">Panel bersebelahan; rel penapis melekat di bawah bar; sesuai untuk projektor</span></td></tr>
+            <tr><td>760–1099 px</td><td><span lang="en">Panels stack full width; figures in two columns</span><span lang="ms">Panel bertindan lebar penuh; angka dalam dua lajur</span></td></tr>
+            <tr><td>&lt; 760 px</td><td><span lang="en">Single column; filters two-up; matrix scrolls sideways; tap shows values</span><span lang="ms">Satu lajur; penapis dua sebaris; matriks ditatal ke sisi; ketik untuk nilai</span></td></tr>
+          </tbody></table>
+        </div>
+        <div class="card scroll-x">
+          <h3 style="margin-bottom:8px"><span lang="en">Modular components</span><span lang="ms">Komponen modular</span></h3>
+          <table class="tbl"><thead><tr><th><span lang="en">Component</span><span lang="ms">Komponen</span></th><th><span lang="en">Reads</span><span lang="ms">Membaca</span></th></tr></thead><tbody>
+            <tr><td><span lang="en">Gauge module</span><span lang="ms">Modul tolok</span></td><td><code>readiness_agg</code> + <code>target_kpi</code></td></tr>
+            <tr><td><span lang="en">Tile map</span><span lang="ms">Peta jubin</span></td><td><code>readiness_agg</code> <span lang="en">by state</span><span lang="ms">ikut negeri</span></td></tr>
+            <tr><td><span lang="en">Trend line and matrix</span><span lang="ms">Garis trend dan matriks</span></td><td><code>readiness_agg</code> <span lang="en">by quarter</span><span lang="ms">ikut suku</span></td></tr>
+            <tr><td><span lang="en">Programme funnel</span><span lang="ms">Corong program</span></td><td><code>literacy_event</code></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="dataTitle">
+      <div class="shead"><div><h2 id="dataTitle"><span lang="en">Data architecture</span><span lang="ms">Seni bina data</span></h2>
+        <p><span lang="en">Personal data never leaves TH. Everything the dashboard shows is an aggregate built inside TH's secure zone.</span><span lang="ms">Data peribadi tidak sekali-kali keluar dari TH. Semua yang dipaparkan papan pemuka ialah agregat yang dibina di dalam zon selamat TH.</span></p></div></div>
+      <div class="layers">
+        <div class="layer"><b><span lang="en">Sources</span><span lang="ms">Sumber</span></b><div class="pills"><span class="chip"><span lang="en">Tabung Am and Tabung Istito'ah balances</span><span lang="ms">Baki Tabung Am dan Tabung Istito'ah</span></span><span class="chip"><span lang="en">Hajj registration and queue</span><span lang="ms">Pendaftaran dan giliran haji</span></span><span class="chip"><span lang="en">Kos Haji and category rates</span><span lang="ms">Kos Haji dan kadar kategori</span></span><span class="chip"><span lang="en">Employer payroll files</span><span lang="ms">Fail potongan gaji majikan</span></span><span class="chip"><span lang="en">Module apps and workshops</span><span lang="ms">Aplikasi modul dan bengkel</span></span></div></div>
+        <div class="layer"><b><span lang="en">Ingestion</span><span lang="ms">Pengambilan</span></b><div class="pills"><span class="chip"><span lang="en">Scheduled monthly extracts</span><span lang="ms">Ekstrak bulanan berjadual</span></span><span class="chip"><span lang="en">Event API with schema checks</span><span lang="ms">API acara dengan semakan skema</span></span></div></div>
+        <div class="layer"><b><span lang="en">Secure zone</span><span lang="ms">Zon selamat</span></b><div class="pills"><span class="chip brand"><span lang="en">Inside TH</span><span lang="ms">Di dalam TH</span></span><span class="chip"><span lang="en">Salted-hash pseudonyms</span><span lang="ms">Nama samaran cincang bergaram</span></span><span class="chip">PDPA 2010</span></div></div>
+        <div class="layer"><b><span lang="en">Analytics store</span><span lang="ms">Stor analitik</span></b><div class="pills"><span class="chip"><span lang="en">Monthly balance snapshots</span><span lang="ms">Petikan baki bulanan</span></span><span class="chip"><span lang="en">Literacy events</span><span lang="ms">Acara literasi</span></span><span class="chip"><span lang="en">KPI targets</span><span lang="ms">Sasaran KPI</span></span></div></div>
+        <div class="layer"><b><span lang="en">Delivery</span><span lang="ms">Penyampaian</span></b><div class="pills"><span class="chip"><span lang="en">Read-only JSON API</span><span lang="ms">API JSON baca sahaja</span></span><span class="chip"><span lang="en">Role-based views</span><span lang="ms">Paparan ikut peranan</span></span><span class="chip"><span lang="en">Cells under 10 hidden</span><span lang="ms">Sel bawah 10 disorok</span></span></div></div>
+        <div class="layer"><b><span lang="en">Interface</span><span lang="ms">Antara muka</span></b><div class="pills"><span class="chip"><span lang="en">Static HTML, CSS and JS</span><span lang="ms">HTML, CSS dan JS statik</span></span><span class="chip"><span lang="en">Hosted by TH</span><span lang="ms">Dihoskan oleh TH</span></span><span class="chip"><span lang="en">No third-party trackers</span><span lang="ms">Tiada penjejak pihak ketiga</span></span></div></div>
+      </div>
+      <h3 style="margin:22px 0 10px" data-info="schema"><span lang="en">Backend schema (v0, refined in Phase 1)</span><span lang="ms">Skema bahagian belakang (v0, diperhalusi dalam Fasa 1)</span></h3>
+      <div class="entities">
+        <div class="entity"><h4>depositor_dim</h4><ul><li class="pk"><b>pseudo_id</b><span>hash</span></li><li><b>state_code</b><span>char(3)</span></li><li><b>age_band</b><span>enum</span></li><li><b>channel</b><span>enum</span></li><li><b>pay_category</b><span>B40 · M40 · T20</span></li><li><b>registered_on</b><span>date</span></li></ul></div>
+        <div class="entity"><h4>balance_snapshot</h4><ul><li class="pk"><b>snapshot_id</b><span>int</span></li><li class="fk"><b>pseudo_id</b><span>hash</span></li><li><b>month</b><span>date</span></li><li><b>tabung_istitoah_rm</b><span>numeric</span></li><li><b>tabung_am_rm</b><span>numeric</span></li><li><b>deposits_rm</b><span>numeric</span></li></ul></div>
+        <div class="entity"><h4>kos_haji_ref</h4><ul><li class="pk"><b>season</b><span>1448H</span></li><li class="pk"><b>category</b><span>enum</span></li><li><b>kos_haji_rm</b><span>33,300</span></li><li><b>bayaran_rm</b><span>numeric</span></li><li><b>hafis_rm</b><span>numeric</span></li></ul></div>
+        <div class="entity"><h4>ladder_step</h4><ul><li class="pk"><b>step_id</b><span>int</span></li><li><b>amount_rm</b><span>15,000 …</span></li><li><b>basis</b><span>policy · % of cost</span></li><li><b>label</b><span>text</span></li></ul></div>
+        <div class="entity"><h4>target_kpi</h4><ul><li class="pk"><b>kpi_id</b><span>int</span></li><li class="fk"><b>step_id</b><span>int</span></li><li><b>scope</b><span>state · segment</span></li><li><b>target_share</b><span>numeric</span></li><li><b>due_quarter</b><span>text</span></li></ul></div>
+        <div class="entity"><h4>module</h4><ul><li class="pk"><b>module_id</b><span>text</span></li><li><b>audience</b><span>enum</span></li><li><b>version</b><span>text</span></li></ul></div>
+        <div class="entity"><h4>literacy_event</h4><ul><li class="pk"><b>event_id</b><span>uuid</span></li><li class="fk"><b>pseudo_id</b><span>hash</span></li><li class="fk"><b>module_id</b><span>text</span></li><li><b>event_type</b><span>enum</span></li><li><b>ts</b><span>timestamp</span></li></ul></div>
+        <div class="entity"><h4>readiness_agg <small style="font-weight:400;opacity:.8">view</small></h4><ul><li><b>state · band · channel</b><span>keys</span></li><li><b>quarter</b><span>text</span></li><li><b>n</b><span>≥ 10</span></li><li><b>share_per_step</b><span>numeric</span></li><li><b>share_own_payment</b><span>numeric</span></li><li><b>regd_below_15k</b><span>int</span></li></ul></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="ecoTitle">
+      <div class="shead"><div><h2 id="ecoTitle" data-info="eco"><span lang="en">Ecosystem connectivity map</span><span lang="ms">Peta kesalinghubungan ekosistem</span></h2>
+        <p><span lang="en">Who sends what into the tracker, and who sees what out of it. Click a node to trace its flows.</span><span lang="ms">Siapa menghantar apa ke penjejak, dan siapa melihat apa daripadanya. Klik nod untuk menjejak alirannya.</span></p></div>
+        <div class="legend" style="margin:0"><span><i style="background:var(--brand-soft);border:1.5px solid var(--brand);border-radius:50%"></i><span lang="en">Core to the project</span><span lang="ms">Teras projek</span></span><span><i style="background:var(--gold-soft);border:1.5px dashed var(--gold);border-radius:50%"></i><span lang="en">Proposed partner</span><span lang="ms">Rakan dicadangkan</span></span></div></div>
+      <div class="eco">
+        <div class="card scroll-x"><div class="chart" id="eco"></div></div>
+        <aside class="card" id="ecoInfo" aria-live="polite"></aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="band">
+        <h2><span lang="en">Governance built into the build</span><span lang="ms">Tadbir urus dalam binaan</span></h2>
+        <div class="grid g2" style="margin-top:16px">
+          <ul class="bullets">
+            <li><span lang="en">Aggregates only outside TH's secure zone; no name, IC number or account number reaches the dashboard.</span><span lang="ms">Hanya agregat di luar zon selamat TH; tiada nama, nombor KP atau nombor akaun sampai ke papan pemuka.</span></li>
+            <li><span lang="en">Any cell describing fewer than 10 people is hidden.</span><span lang="ms">Mana-mana sel yang menggambarkan kurang daripada 10 orang disorok.</span></li>
+            <li><span lang="en">HQ sees Malaysia; a branch sees its state; a partner sees summaries.</span><span lang="ms">Ibu pejabat melihat Malaysia; cawangan melihat negerinya; rakan melihat ringkasan.</span></li>
+          </ul>
+          <ul class="bullets">
+            <li><span lang="en">Every view and export is logged.</span><span lang="ms">Setiap paparan dan eksport direkodkan.</span></li>
+            <li><span lang="en">TH's profit distribution appears only as an assumption, never as a promised return.</span><span lang="ms">Agihan keuntungan TH hanya dipaparkan sebagai andaian, tidak sekali-kali sebagai pulangan yang dijanjikan.</span></li>
+            <li><span lang="en">Nudges encourage saving within one's means; nothing suggests borrowing to go.</span><span lang="ms">Dorongan menggalakkan menabung mengikut kemampuan; tiada cadangan berhutang untuk pergi.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/vendor/lottie_light.min.js"></script>
+<script src="assets/js/th-lottie.js"></script>
+<script src="assets/js/th-pages.js"></script>
+</body>
+</html>

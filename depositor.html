@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="assets/art/mark.svg" type="image/svg+xml">
+<title>Try a depositor · Istito'ah Tracker</title>
+<meta name="description" content="Projection simulator: when does a depositor reach 25, 50 and 100% of the Hajj package cost, and what does a literacy plan add?">
+<meta name="theme-color" content="#0b2a22">
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('th-theme');if(t==='dark'||t==='light')d.setAttribute('data-theme',t);if(localStorage.getItem('th-lang')==='ms'){d.setAttribute('data-lang','ms');d.lang='ms'}}catch(e){}var P=['index','cost','tracker','depositor','plan','blueprint','literacy','notes'],i=P.indexOf((location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''));if(i<0)i=0;try{var p=parseInt(sessionStorage.getItem('th-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('th-idx',i)}catch(e){}})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/css/th.css">
+<script src="assets/js/th-data.js"></script>
+</head>
+<body data-page="depositor" data-title-en="Try a depositor · Istito'ah Tracker" data-title-ms="Cuba pendeposit · Penjejak Istito'ah">
+<script src="assets/js/th-shell.js"></script>
+
+<main id="main">
+  <section class="wrap page-head">
+    <div class="head-row"><span class="page-icon" data-picon="depositor"></span></div>
+    <h1><span lang="en">Try a depositor</span><span lang="ms">Cuba seorang pendeposit</span></h1>
+    <p class="lede"><span lang="en">Pick one of four fictional depositors, or set your own numbers. The chart shows when savings reach the RM15,000 gate, the depositor's own Bayaran Haji and the full Kos Haji, whether each deadline you set is met (TH's 31 December 2028 rule is added for registered depositors), and how much sooner a literacy plan gets them there. It models one person and does not change the Readiness tracker.</span><span lang="ms">Pilih salah seorang daripada empat pendeposit rekaan, atau tetapkan angka sendiri. Carta menunjukkan bila simpanan mencapai ambang RM15,000, Bayaran Haji sendiri dan Kos Haji penuh, sama ada setiap tarikh akhir yang anda tetapkan dicapai (peraturan TH 31 Disember 2028 ditambah bagi pendeposit berdaftar), dan berapa cepat pelan literasi membawa mereka ke sana. Ia memodelkan seorang dan tidak mengubah Penjejak kesediaan.</span></p>
+  </section>
+
+  <div class="wrap">
+    <h2 class="h3 mini-head" data-info="personas"><span lang="en">Pick a fictional depositor</span><span lang="ms">Pilih pendeposit rekaan</span></h2>
+    <div class="personas" id="personas" role="group" aria-label="Fictional depositors"></div>
+
+    <div class="sim">
+      <form class="card controls" onsubmit="return false" aria-label="Assumptions">
+        <div class="ctl"><span class="ctl-label" id="catLabel" data-info="category"><span lang="en">Payment category</span><span lang="ms">Kategori bayaran</span></span>
+          <div class="seg" id="catSeg" role="group" aria-labelledby="catLabel"><button type="button" data-cat="B40" aria-pressed="false">B40<small>RM15,000</small></button><button type="button" data-cat="M40" aria-pressed="true">M40<small>RM23,500</small></button><button type="button" data-cat="T20" aria-pressed="false">T20<small>RM33,300</small></button></div></div>
+        <div class="check-wrap" data-info="registered"><label class="check-row"><input type="checkbox" id="s-regd"><span><span lang="en">Already registered for Hajj</span><span lang="ms">Sudah mendaftar haji</span></span></label></div>
+        <div class="ctl"><div class="ctl-top"><label for="s-age"><span lang="en">Age today</span><span lang="ms">Umur sekarang</span></label><output id="o-age" for="s-age"></output></div><input type="range" id="s-age" min="18" max="75" step="1" value="24"></div>
+        <div class="ctl"><div class="ctl-top"><label for="s-bal"><span lang="en">TH balance today</span><span lang="ms">Baki TH sekarang</span></label><output id="o-bal" for="s-bal"></output></div><input type="range" id="s-bal" min="0" max="80000" step="100" value="1800"></div>
+        <div class="ctl"><div class="ctl-top"><label for="s-mon"><span lang="en">Monthly deposit</span><span lang="ms">Simpanan bulanan</span></label><output id="o-mon" for="s-mon"></output></div><input type="range" id="s-mon" min="0" max="2000" step="10" value="100"></div>
+        <div class="ctl"><div class="ctl-top"><label for="s-extra" data-info="extra"><span lang="en">Extra from a literacy plan</span><span lang="ms">Tambahan dari pelan literasi</span></label><output id="o-extra" for="s-extra"></output></div><input type="range" id="s-extra" min="0" max="500" step="10" value="50"><small><span lang="en">Per month, e.g. a payroll top-up set during a module.</span><span lang="ms">Sebulan, contohnya tambahan potongan gaji yang ditetapkan semasa modul.</span></small></div>
+        <hr style="border:0;border-top:1px solid var(--line-2);margin:2px 0">
+        <p class="label" style="margin:0" data-info="assumptions"><span lang="en">TH figures and assumptions</span><span lang="ms">Angka TH dan andaian</span></p>
+        <div class="ctl"><div class="ctl-top"><label for="s-cost"><span lang="en">Kos Haji today (Muassasah)</span><span lang="ms">Kos Haji sekarang (Muassasah)</span></label><output id="o-cost" for="s-cost"></output></div><input type="range" id="s-cost" min="25000" max="60000" step="100" value="33300"><small><span lang="en">RM33,300 is TH's figure for 1448H/2027M. Category payments scale with it in this model; the RM15,000 gate does not.</span><span lang="ms">RM33,300 ialah angka TH bagi 1448H/2027M. Dalam model ini bayaran kategori berubah mengikutnya; ambang RM15,000 tidak.</span></small></div>
+        <div class="ctl"><div class="ctl-top"><label for="s-esc"><span lang="en">Yearly rise in Kos Haji</span><span lang="ms">Kenaikan Kos Haji setahun</span></label><output id="o-esc" for="s-esc"></output></div><input type="range" id="s-esc" min="0" max="8" step="0.5" value="0"><small><span lang="en">TH has held Kos Haji flat since 1445H/2024M while Holy Land costs rise. Test a rise here.</span><span lang="ms">TH mengekalkan Kos Haji sejak 1445H/2024M walaupun kos di Tanah Suci meningkat. Uji kenaikan di sini.</span></small></div>
+        <div class="ctl"><div class="ctl-top"><label for="s-hib"><span lang="en">Assumed yearly profit distribution</span><span lang="ms">Andaian agihan keuntungan setahun</span></label><output id="o-hib" for="s-hib"></output></div><input type="range" id="s-hib" min="0" max="6" step="0.25" value="3.5"><small><span lang="en">TH declared 3.50% for 2025 and 3.25% for 2024. It is declared each year after audit and never guaranteed.</span><span lang="ms">TH mengisytiharkan 3.50% bagi 2025 dan 3.25% bagi 2024. Ia diisytiharkan setiap tahun selepas audit dan tidak dijamin.</span></small></div>
+      </form>
+
+      <section class="card" aria-labelledby="simSummary">
+        <div class="sim-head"><h2 id="simSummary" style="font-size:clamp(1.4rem,2.4vw,1.9rem);max-width:30ch;margin:0" aria-live="polite"></h2><span data-info="simchart"></span></div>
+        <div class="chart" id="simChart"></div>
+        <h3 class="mini-head" data-info="milestones"><span lang="en">Milestones</span><span lang="ms">Pencapaian</span></h3>
+        <ul class="milestones" id="milestones"></ul>
+        <section class="deadlines" aria-labelledby="dlTitle">
+          <div class="dl-head"><div><h3 id="dlTitle" data-info="deadlines"><span lang="en">Deadlines</span><span lang="ms">Tarikh akhir</span></h3>
+            <p class="small muted"><span lang="en">Add as many as you need, such as a planned Hajj year. A deadline tests the plan and does not change it; if one is missed, use the amount it suggests.</span><span lang="ms">Tambah seberapa banyak yang perlu, seperti tahun haji yang dirancang. Tarikh akhir menguji pelan dan tidak mengubahnya; jika terlepas, gunakan amaun yang dicadangkan.</span></p></div>
+            <button class="btn btn-ghost btn-sm" id="dlAdd" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span lang="en">Add a deadline</span><span lang="ms">Tambah tarikh akhir</span></button></div>
+          <ol class="dl-list" id="dlList" aria-live="polite"></ol>
+          <p class="small muted" id="dlNote" style="margin:8px 0 0"></p>
+        </section>
+        <div class="nudge">
+          <span class="lt-icon" data-lottie="coin" aria-hidden="true"></span>
+          <div id="nudgeText"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script src="assets/vendor/lottie_light.min.js"></script>
+<script src="assets/js/th-lottie.js"></script>
+<script src="assets/js/th-pages.js"></script>
+</body>
+</html>

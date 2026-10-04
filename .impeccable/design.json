@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-04T23:55:00+08:00",
+  "title": "Design System: Istito'ah Tracker",
+  "extensions": {
+    "colorMeta": {
+      "paddy-green": { "role": "primary", "displayName": "Paddy Green", "canonical": "#0a6b4c", "tonalRamp": ["#04241a", "#073f2b", "#0a5a40", "#0a6b4c", "#3f9a71", "#72b893", "#a6d3bb", "#dcece3"] },
+      "pilgrim-gold": { "role": "secondary", "displayName": "Pilgrimage Gold", "canonical": "#c99316", "tonalRamp": ["#2a1e03", "#4a3405", "#7d5806", "#a8771f", "#c99316", "#e0b03a", "#f0c860", "#f6e9c6"] },
+      "night-band": { "role": "tertiary", "displayName": "Night Band", "canonical": "#0b2a22", "tonalRamp": ["#04120e", "#08130f", "#0b2a22", "#103a2f", "#15392d", "#1d5e46", "#a6bfb4", "#eef5f1"] },
+      "page-mist": { "role": "neutral", "displayName": "Page Mist", "canonical": "#eef2ee", "tonalRamp": ["#0f231d", "#3a4f47", "#566960", "#9fb0a7", "#d3ddd7", "#e3eae5", "#eef2ee", "#fbfcfa"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Overview hero headline only." },
+      "headline": { "displayName": "Headline", "purpose": "Page and section headings, figures in stat tiles." },
+      "title": { "displayName": "Title", "purpose": "Panel and card titles in Inter." },
+      "body": { "displayName": "Body", "purpose": "Prose, ledes, table cells." },
+      "label": { "displayName": "Label", "purpose": "Uppercase figure, field and table labels." }
+    },
+    "shadows": [
+      { "name": "sheet", "value": "0 1px 2px rgba(15,35,30,.05), 0 3px 8px -4px rgba(15,35,30,.12)", "purpose": "Cards, panels, stat tiles." },
+      { "name": "lift", "value": "0 2px 6px rgba(15,35,30,.08), 0 22px 44px -22px rgba(15,35,30,.35)", "purpose": "Tooltip, drawer, hero ladder card." }
+    ],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(.2,.8,.2,1)", "purpose": "State changes, drawer, page head icon draw." },
+      { "name": "ladder-settle", "value": "transform 1.25s cubic-bezier(.16,1,.3,1)", "purpose": "Depositor dots settling on the Istito'ah ladder." },
+      { "name": "page-swap", "value": "view-transition 0.32s out / 0.48s in, sideways with blur", "purpose": "Moving between pages, direction-aware." }
+    ],
+    "breakpoints": [
+      { "name": "nav-drawer", "value": "1180px" },
+      { "name": "collapse", "value": "1100px" },
+      { "name": "phone", "value": "760px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one gold action per view.",
+      "html": "<button class=\"ds-btn-primary\">Open the tracker <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h13M13 6l6 6-6 6\"/></svg></button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:999px;border:0;background:#c99316;color:#1f1703;font:600 .95rem/1 Inter,system-ui,sans-serif;box-shadow:0 1px 2px rgba(15,35,30,.14),0 4px 10px -6px rgba(15,35,30,.35);cursor:pointer;transition:transform .2s cubic-bezier(.2,.8,.2,1)}.ds-btn-primary:hover{transform:translateY(-1px)}.ds-btn-primary:active{transform:scale(.97)}.ds-btn-primary:focus-visible{outline:2.5px solid #0a5a40;outline-offset:3px}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action beside the gold one.",
+      "html": "<button class=\"ds-btn-ghost\">Try a depositor</button>",
+      "css": ".ds-btn-ghost{padding:12px 18px;border-radius:999px;border:1px solid #d3ddd7;background:transparent;color:#0f231d;font:600 .95rem/1 Inter,system-ui,sans-serif;cursor:pointer;transition:background .2s}.ds-btn-ghost:hover{background:#fbfcfa}.ds-btn-ghost:focus-visible{outline:2.5px solid #0a5a40;outline-offset:3px}"
+    },
+    {
+      "name": "Top navigation",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "Short pill links; the active page is filled paddy green.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">Overview</a><a href=\"#\">Cost</a><a href=\"#\">Tracker</a><a href=\"#\">Depositor</a></nav>",
+      "css": ".ds-nav{display:flex;gap:2px}.ds-nav a{padding:8px 11px;border-radius:999px;font:550 .88rem Inter,system-ui,sans-serif;color:#3a4f47;text-decoration:none;transition:background .2s,color .2s}.ds-nav a:hover{background:#e3eae5;color:#0f231d}.ds-nav a[aria-current=page]{background:#0a6b4c;color:#fff}.ds-nav a:focus-visible{outline:2.5px solid #0a5a40;outline-offset:3px}"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Neutral, gold (policy/status) and green (core) variants.",
+      "html": "<span class=\"ds-chip\">PDPA 2010</span> <span class=\"ds-chip ds-chip-gold\">Proposed, for discussion</span> <span class=\"ds-chip ds-chip-green\">Core to the project</span>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font:600 .78rem Inter,system-ui,sans-serif;background:#e3eae5;color:#3a4f47}.ds-chip-gold{background:#f6e9c6;color:#7d5806}.ds-chip-green{background:#dcece3;color:#0a5a40}"
+    },
+    {
+      "name": "Stat tile",
+      "kind": "card",
+      "refersTo": "stat-tile",
+      "description": "Label, serif figure, and change against a year earlier.",
+      "html": "<div class=\"ds-stat\"><p>At or above RM15,000</p><b>24%</b><span><em>+3.9 pts</em> vs a year earlier</span></div>",
+      "css": ".ds-stat{background:#fbfcfa;border:1px solid #e4ebe6;border-radius:18px;padding:16px 18px;box-shadow:0 1px 2px rgba(15,35,30,.05),0 3px 8px -4px rgba(15,35,30,.12);font-family:Inter,system-ui,sans-serif}.ds-stat p{margin:0 0 4px;font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#566960}.ds-stat b{display:block;font:400 2.5rem/1.05 'Instrument Serif',Georgia,serif;color:#0f231d}.ds-stat span{font-size:.82rem;color:#566960}.ds-stat em{font-style:normal;font-weight:600;color:#0b6b1f}"
+    },
+    {
+      "name": "Night band",
+      "kind": "custom",
+      "refersTo": "night-band",
+      "description": "Signature dark sheet with khatam linework for key statements.",
+      "html": "<section class=\"ds-band\"><p class=\"ds-band-q\">TH knows what each depositor holds. It cannot yet see who is on track.</p></section>",
+      "css": ".ds-band{position:relative;overflow:hidden;background:#0b2a22;color:#eef5f1;border-radius:28px;padding:34px;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='none' stroke='%23e6bb4c' stroke-opacity='.12'%3E%3Crect x='14' y='14' width='28' height='28'/%3E%3Crect x='14' y='14' width='28' height='28' transform='rotate(45 28 28)'/%3E%3C/g%3E%3C/svg%3E\")}.ds-band-q{margin:0;font:400 1.9rem/1.3 'Instrument Serif',Georgia,serif}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Istito'ah Ladder",
+    "overview": "Every screen is a rung on one ladder: a depositor's TH balance climbing past the amounts Tabung Haji itself uses (RM8,325, RM15,000, RM23,500, RM33,300). The system is the sister of the Kedah Silver Economy dashboard: paddy green sheets on a pale mist ground, a deep night-green band for the moments that matter, and pilgrimage gold reserved for thresholds and the one primary action. It reads as a working instrument presented as a proposal, so data panels carry the weight and decoration stays out of the way.",
+    "keyCharacteristics": [
+      "Paddy green carries brand and structure; gold marks thresholds and the primary action only.",
+      "Instrument Serif headlines over Inter interface text.",
+      "Night-green bands with faint khatam (8-point star) linework for the signature moments.",
+      "Charts drawn in validated green and gold ramps; status colours always ship with an icon and label.",
+      "A co-branded lockup (SEFB, UUM with Lembaga Tabung Haji) sits on a light plate in every theme."
+    ],
+    "rules": [
+      { "name": "The Gold Means Threshold Rule", "body": "Gold marks a policy amount, a deadline or the single primary action on a view. If gold appears on anything else, it is noise.", "section": "colors" },
+      { "name": "The No Blue Rule", "body": "The owner rejected blue for this family of sites. Categorical needs are met with green, gold and neutral, never blue.", "section": "colors" },
+      { "name": "The Status Pairing Rule", "body": "Good, warn and critical colours appear only with an icon and a word (On track, Close, Below target, Met, Missed).", "section": "colors" },
+      { "name": "The Serif Speaks, Sans Works Rule", "body": "Instrument Serif is for statements and headline figures; every control, label, table and axis is Inter.", "section": "typography" },
+      { "name": "The No Kicker Rule", "body": "Headings carry their own weight. No eyebrow labels above headings.", "section": "typography" },
+      { "name": "The Neutral Shadow Rule", "body": "Shadows are neutral green-black and offset downward. No coloured glows.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do measure readiness against TH's published amounts and label every synthetic figure as synthetic where it appears.",
+      "Do write every visible string as an English and Bahasa Melayu pair.",
+      "Do validate any new chart palette with the dataviz validator before use, and give every chart a hover layer and a table view.",
+      "Do keep the co-branded lockup on its light plate in both themes.",
+      "Do scope text styles with child selectors (for example `.pager a>span`) so they never reach the language spans inside titles."
+    ],
+    "donts": [
+      "Don't use blue, gradient text or coloured shadows.",
+      "Don't put eyebrow labels above headings.",
+      "Don't let colour carry status alone.",
+      "Don't shrink chart text to fit a phone; lay the chart out at its real width or let it scroll."
+    ]
+  }
+}

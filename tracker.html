@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="assets/art/mark.svg" type="image/svg+xml">
+<title>Readiness tracker · Istito'ah Tracker</title>
+<meta name="description" content="Proof-of-concept readiness dashboard on synthetic data: thresholds, state map, trends and the trend matrix.">
+<meta name="theme-color" content="#0b2a22">
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('th-theme');if(t==='dark'||t==='light')d.setAttribute('data-theme',t);if(localStorage.getItem('th-lang')==='ms'){d.setAttribute('data-lang','ms');d.lang='ms'}}catch(e){}var P=['index','cost','tracker','depositor','plan','blueprint','literacy','notes'],i=P.indexOf((location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''));if(i<0)i=0;try{var p=parseInt(sessionStorage.getItem('th-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('th-idx',i)}catch(e){}})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/css/th.css">
+<script src="assets/js/th-data.js"></script>
+</head>
+<body data-page="tracker" data-title-en="Readiness tracker · Istito'ah Tracker" data-title-ms="Penjejak kesediaan · Penjejak Istito'ah">
+<script src="assets/js/th-shell.js"></script>
+
+<main id="main">
+  <section class="wrap page-head">
+    <div class="head-row"><span class="page-icon" data-picon="tracker"></span><span class="live"><span data-lottie="live" aria-hidden="true"></span><span lang="en">Working prototype</span><span lang="ms">Prototaip berfungsi</span></span></div>
+    <h1><span lang="en">Readiness tracker</span><span lang="ms">Penjejak kesediaan</span></h1>
+    <p class="lede"><span lang="en">This is the Phase 3 deliverable in miniature, measured against TH's own amounts for 1448H/2027M. Filter by state, age group and corporate category, click a state on the map, or test a higher Kos Haji. Every panel answers to the same filters.</span><span lang="ms">Ini ialah hasil Fasa 3 dalam bentuk kecil, diukur berbanding amaun TH sendiri bagi 1448H/2027M. Tapis mengikut negeri, kumpulan umur dan kategori korporat, klik negeri pada peta, atau uji Kos Haji yang lebih tinggi. Setiap panel mengikut penapis yang sama.</span></p>
+  </section>
+
+  <div class="wrap">
+    <p class="synthetic" role="note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.2"/></svg><span><span lang="en"><b>Synthetic data.</b> These figures come from a seeded model built to look realistic. They are not TH data and say nothing about real states or depositors; only the amounts (RM15,000, RM23,500, RM33,300) and the 9.7 million total are TH's. Phase 1 replaces the rest with pseudonymised data inside TH.</span><span lang="ms"><b>Data sintetik.</b> Angka ini dijana oleh model yang dibina supaya kelihatan realistik. Ia bukan data TH dan tidak menggambarkan negeri atau pendeposit sebenar; hanya amaun (RM15,000, RM23,500, RM33,300) dan jumlah 9.7 juta adalah milik TH. Fasa 1 akan menggantikan selebihnya dengan data tanpa nama di dalam TH.</span></span></p>
+
+    <form class="filters" onsubmit="return false" aria-label="Filters">
+      <div class="field"><label for="fState"><span lang="en">State</span><span lang="ms">Negeri</span></label><select id="fState"></select></div>
+      <div class="field"><label for="fSeg"><span lang="en">Age group</span><span lang="ms">Kumpulan umur</span></label><select id="fSeg"></select></div>
+      <div class="field"><label for="fChan"><span lang="en">Corporate category</span><span lang="ms">Kategori korporat</span></label><select id="fChan"></select></div>
+      <div class="field"><label for="fQ"><span lang="en">As at</span><span lang="ms">Pada</span></label><select id="fQ"></select></div>
+      <div class="field"><label for="fK"><span lang="en">Kos Haji scenario</span><span lang="ms">Senario Kos Haji</span></label><select id="fK"></select></div>
+      <span class="filters-info" data-info="filters"></span>
+      <button class="btn btn-ghost reset" id="fReset" type="button"><span lang="en">Reset</span><span lang="ms">Set semula</span></button>
+    </form>
+    <p class="muted small" id="scopeNow" aria-live="polite" style="margin:-4px 2px 12px"></p>
+
+    <div class="stat-row" id="stats"></div>
+
+    <div class="dash">
+      <section class="panel w5" aria-labelledby="gTitle">
+        <div class="panel-head"><div><h2 class="h3" id="gTitle" data-info="gauges"><span lang="en">Readiness against targets</span><span lang="ms">Kesediaan berbanding sasaran</span></h2>
+          <p><span lang="en">Share of depositors at each of TH's amounts. The dark tick is an example target; real targets come from the Phase 2 workshops.</span><span lang="ms">Peratus pendeposit pada setiap amaun TH. Tanda gelap ialah contoh sasaran; sasaran sebenar datang dari bengkel Fasa 2.</span></p></div></div>
+        <div class="gauges" id="gauges"></div>
+      </section>
+
+      <section class="panel w7" aria-labelledby="mTitle">
+        <div class="panel-head"><div><h2 class="h3" id="mTitle" data-info="map"><span lang="en">Where depositors stand</span><span lang="ms">Kedudukan pendeposit</span></h2>
+          <p><span lang="en">Tile map, every state the same size so small ones stay visible. Click to filter.</span><span lang="ms">Peta jubin, setiap negeri sama saiz supaya negeri kecil kekal kelihatan. Klik untuk menapis.</span></p></div>
+          <div class="seg" id="metricSeg" role="group" aria-label="Measure">
+            <button type="button" data-m="g15" aria-pressed="true">RM15k</button><button type="button" data-m="pay" aria-pressed="false"><span lang="en">Own payment</span><span lang="ms">Bayaran sendiri</span></button><button type="button" data-m="g100" aria-pressed="false">RM33.3k</button><button type="button" data-m="reg" aria-pressed="false"><span lang="en">Regular</span><span lang="ms">Tetap</span></button>
+          </div></div>
+        <div class="chart" id="map"></div>
+        <div class="heat-scale" id="mapScale"></div>
+      </section>
+
+      <section class="panel w7" aria-labelledby="trendTitle">
+        <div class="panel-head"><div><h2 class="h3 with-info"><span id="trendTitle"></span><span data-info="trend"></span></h2>
+          <p><span lang="en">Your selection against Malaysia. Gold lines mark the RM15,000 minimum (2025) and Seruan Istito'ah (September 2026).</span><span lang="ms">Pilihan anda berbanding Malaysia. Garis emas menandakan syarat minimum RM15,000 (2025) dan Seruan Istito'ah (September 2026).</span></p></div></div>
+        <div class="chart" id="trend"></div>
+        <div class="panel-foot"><button class="linkbtn" id="trendToggle" type="button"></button></div>
+      </section>
+
+      <section class="panel w5" aria-labelledby="dTitle">
+        <div class="panel-head"><div><h2 class="h3" id="dTitle" data-info="bands"><span lang="en">Balance bands by age group</span><span lang="ms">Jalur baki mengikut kumpulan umur</span></h2>
+          <p><span lang="en">For the state and category chosen above.</span><span lang="ms">Bagi negeri dan kategori yang dipilih di atas.</span></p></div></div>
+        <div class="chart" id="dist"></div>
+      </section>
+
+      <section class="panel w12" aria-labelledby="xTitle">
+        <div class="panel-head"><div><h2 class="h3" id="xTitle" data-info="matrix"><span lang="en">Trend matrix</span><span lang="ms">Matriks trend</span></h2>
+          <p><span lang="en">Each state by age group or corporate category, for the measure chosen on the map.</span><span lang="ms">Setiap negeri mengikut kumpulan umur atau kategori korporat, bagi ukuran yang dipilih pada peta.</span></p></div>
+          <div class="seg" id="bySeg" role="group" aria-label="Columns">
+            <button type="button" data-by="seg" aria-pressed="true"><span lang="en">By age group</span><span lang="ms">Ikut umur</span></button><button type="button" data-by="chan" aria-pressed="false"><span lang="en">By corporate category</span><span lang="ms">Ikut kategori</span></button>
+          </div></div>
+        <div class="scroll-x" id="matrix"></div>
+        <div class="heat-scale" id="matrixScale"></div>
+      </section>
+
+      <section class="panel w12" aria-labelledby="wTitle">
+        <div class="panel-head"><div><h2 class="h3" id="wTitle" data-info="watch"><span lang="en">2028 watchlist: registered, still below RM15,000</span><span lang="ms">Senarai pantau 2028: berdaftar, masih bawah RM15,000</span></h2>
+          <p id="watchSub" aria-live="polite"></p></div></div>
+        <div id="watch"></div>
+        <div class="panel-foot"><button class="linkbtn" id="watchToggle" type="button"></button><span><span lang="en">Export to CSV and PDF arrives in Phase 3.</span><span lang="ms">Eksport ke CSV dan PDF dalam Fasa 3.</span></span></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script src="assets/vendor/lottie_light.min.js"></script>
+<script src="assets/js/th-lottie.js"></script>
+<script src="assets/js/th-pages.js"></script>
+</body>
+</html>

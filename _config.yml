@@ -1,0 +1,5 @@
+# GitHub Pages (Jekyll): publish the site files only.
+exclude:
+  - PRODUCT.md
+  - DESIGN.md
+  - README.md

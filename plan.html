@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="assets/art/mark.svg" type="image/svg+xml">
+<title>Phases &amp; plan · Istito'ah Tracker</title>
+<meta name="description" content="Methodology by web development phase: data architecture, KPI workshops and the interactive PoC dashboard.">
+<meta name="theme-color" content="#0b2a22">
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('th-theme');if(t==='dark'||t==='light')d.setAttribute('data-theme',t);if(localStorage.getItem('th-lang')==='ms'){d.setAttribute('data-lang','ms');d.lang='ms'}}catch(e){}var P=['index','cost','tracker','depositor','plan','blueprint','literacy','notes'],i=P.indexOf((location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''));if(i<0)i=0;try{var p=parseInt(sessionStorage.getItem('th-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('th-idx',i)}catch(e){}})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/css/th.css">
+<script src="assets/js/th-data.js"></script>
+</head>
+<body data-page="plan" data-title-en="Phases &amp; plan · Istito'ah Tracker" data-title-ms="Fasa &amp; pelan · Penjejak Istito'ah">
+<script src="assets/js/th-shell.js"></script>
+
+<main id="main">
+  <section class="wrap page-head">
+    <div class="head-row"><span class="page-icon" data-picon="plan"></span><span class="chip gold"><span lang="en">Proposed, for discussion</span><span lang="ms">Dicadangkan, untuk perbincangan</span></span></div>
+    <h1><span lang="en">Three phases, twelve months</span><span lang="ms">Tiga fasa, dua belas bulan</span></h1>
+    <p class="lede"><span lang="en">The method follows how a production dashboard is built: know the data, agree what success looks like, then ship something people use. Each phase ends with a deliverable TH can use on its own.</span><span lang="ms">Kaedah ini mengikut cara papan pemuka pengeluaran dibina: kenali data, sepakati maksud kejayaan, kemudian hasilkan sesuatu yang digunakan. Setiap fasa berakhir dengan hasil yang boleh digunakan TH secara tersendiri.</span></p>
+  </section>
+
+  <div class="wrap">
+    <article class="phase">
+      <div class="phase-no">1<small><span lang="en">Months 1–4</span><span lang="ms">Bulan 1–4</span></small></div>
+      <div>
+        <h2><span lang="en">Data architecture &amp; asset mapping</span><span lang="ms">Seni bina data &amp; pemetaan aset</span></h2>
+        <p><span lang="en">We document every stakeholder data point that bears on readiness, design the backend schema, and fix the demographic measures the dashboard will use.</span><span lang="ms">Kami mendokumenkan setiap titik data pihak berkepentingan yang berkaitan dengan kesediaan, mereka bentuk skema bahagian belakang, dan menetapkan ukuran demografi yang akan digunakan papan pemuka.</span></p>
+        <div class="phase-cols">
+          <div><h4><span lang="en">Activities</span><span lang="ms">Aktiviti</span></h4><ul>
+            <li><span lang="en">Inventory of deposit, demographic and channel data with TH data owners</span><span lang="ms">Inventori data simpanan, demografi dan saluran bersama pemilik data TH</span></li>
+            <li><span lang="en">Data-sharing agreement and PDPA 2010 review</span><span lang="ms">Perjanjian perkongsian data dan semakan PDPA 2010</span></li>
+            <li><span lang="en">Backend schema and data dictionary</span><span lang="ms">Skema bahagian belakang dan kamus data</span></li>
+            <li><span lang="en">Segment rules: age bands, corporate categories, state codes</span><span lang="ms">Peraturan segmen: jalur umur, kategori korporat, kod negeri</span></li>
+            <li><span lang="en">Registration date, expected offer year and a projected payment category (B40, M40, T20) for each registrant</span><span lang="ms">Tarikh daftar, jangkaan tahun tawaran dan unjuran kategori bayaran (B40, M40, T20) bagi setiap pendaftar</span></li>
+            <li><span lang="en">Tabung Istito'ah and Tabung Am balances kept apart</span><span lang="ms">Baki Tabung Istito'ah dan Tabung Am diasingkan</span></li>
+          </ul></div>
+          <div><h4><span lang="en">Deliverables</span><span lang="ms">Hasil</span></h4><ul>
+            <li><span lang="en">Data asset register</span><span lang="ms">Daftar aset data</span></li>
+            <li><span lang="en">Schema v1 with data dictionary</span><span lang="ms">Skema v1 dengan kamus data</span></li>
+            <li><span lang="en">Privacy and data-handling memo</span><span lang="ms">Memo privasi dan pengendalian data</span></li>
+          </ul></div>
+          <div><h4><span lang="en">What we need from TH</span><span lang="ms">Keperluan daripada TH</span></h4><ul>
+            <li><span lang="en">Named data owners</span><span lang="ms">Pemilik data yang dinamakan</span></li>
+            <li><span lang="en">De-identified sample extracts</span><span lang="ms">Sampel ekstrak tanpa pengenalan</span></li>
+          </ul></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="phase">
+      <div class="phase-no">2<small><span lang="en">Months 4–6</span><span lang="ms">Bulan 4–6</span></small></div>
+      <div>
+        <h2><span lang="en">User-centred design &amp; KPI workshops</span><span lang="ms">Reka bentuk berpusatkan pengguna &amp; bengkel KPI</span></h2>
+        <p><span lang="en">With TH strategy and state teams we agree the milestone ladder and the target share at each step, starting from TH's own amounts, then test the dashboard design against the decisions leaders actually make.</span><span lang="ms">Bersama pasukan strategi dan negeri TH, kami menyepakati tangga pencapaian dan sasaran peratus pada setiap langkah, bermula daripada amaun TH sendiri, kemudian menguji reka bentuk papan pemuka berdasarkan keputusan sebenar pemimpin.</span></p>
+        <div class="phase-cols">
+          <div><h4><span lang="en">Activities</span><span lang="ms">Aktiviti</span></h4><ul>
+            <li><span lang="en">Two KPI workshops (months 5 and 6)</span><span lang="ms">Dua bengkel KPI (bulan 5 dan 6)</span></li>
+            <li><span lang="en">Interviews with leaders on the questions they ask each quarter</span><span lang="ms">Temu bual dengan pemimpin tentang soalan yang mereka tanya setiap suku tahun</span></li>
+            <li><span lang="en">Clickable prototype rounds, starting from this site</span><span lang="ms">Pusingan prototaip boleh klik, bermula daripada laman ini</span></li>
+          </ul></div>
+          <div><h4><span lang="en">Deliverables</span><span lang="ms">Hasil</span></h4><ul>
+            <li><span lang="en">KPI and threshold charter</span><span lang="ms">Piagam KPI dan ambang</span></li>
+            <li><span lang="en">Validated wireframes and dashboard specification</span><span lang="ms">Rangka wayar yang disahkan dan spesifikasi papan pemuka</span></li>
+          </ul></div>
+          <div><h4><span lang="en">What we need from TH</span><span lang="ms">Keperluan daripada TH</span></h4><ul>
+            <li><span lang="en">Workshop participants from HQ and branches</span><span lang="ms">Peserta bengkel dari ibu pejabat dan cawangan</span></li>
+            <li><span lang="en">Current Seruan Istito'ah targets and the 2028 transition plan</span><span lang="ms">Sasaran semasa Seruan Istito'ah dan pelan peralihan 2028</span></li>
+          </ul></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="phase">
+      <div class="phase-no">3<small><span lang="en">Months 6–12</span><span lang="ms">Bulan 6–12</span></small></div>
+      <div>
+        <h2><span lang="en">Interactive PoC dashboard deployment</span><span lang="ms">Pemasangan papan pemuka PoC interaktif</span></h2>
+        <p><span lang="en">We build the responsive, browser-based dashboard with geographic breakdowns, filters and trend matrices, connect two literacy modules as a pilot, and hand it over inside TH.</span><span lang="ms">Kami membina papan pemuka responsif berasaskan pelayar dengan pecahan geografi, penapis dan matriks trend, menyambungkan dua modul literasi sebagai rintis, dan menyerahkannya di dalam TH.</span></p>
+        <div class="phase-cols">
+          <div><h4><span lang="en">Activities</span><span lang="ms">Aktiviti</span></h4><ul>
+            <li><span lang="en">Build on TH infrastructure against real, pseudonymised data</span><span lang="ms">Membina di infrastruktur TH dengan data sebenar yang dinyahnama</span></li>
+            <li><span lang="en">Telemetry from two pilot modules (months 8–12)</span><span lang="ms">Telemetri dari dua modul rintis (bulan 8–12)</span></li>
+            <li><span lang="en">User acceptance testing, training, handover</span><span lang="ms">Ujian penerimaan pengguna, latihan, penyerahan</span></li>
+          </ul></div>
+          <div><h4><span lang="en">Deliverables</span><span lang="ms">Hasil</span></h4><ul>
+            <li><span lang="en">Working PoC dashboard</span><span lang="ms">Papan pemuka PoC berfungsi</span></li>
+            <li><span lang="en">User guide and technical handover pack</span><span lang="ms">Panduan pengguna dan pek penyerahan teknikal</span></li>
+            <li><span lang="en">Evaluation report and joint paper</span><span lang="ms">Laporan penilaian dan kertas bersama</span></li>
+          </ul></div>
+          <div><h4><span lang="en">What we need from TH</span><span lang="ms">Keperluan daripada TH</span></h4><ul>
+            <li><span lang="en">Hosting environment and IT contact</span><span lang="ms">Persekitaran pengehosan dan pegawai IT</span></li>
+            <li><span lang="en">Test users for acceptance testing</span><span lang="ms">Pengguna ujian untuk ujian penerimaan</span></li>
+          </ul></div>
+        </div>
+      </div>
+    </article>
+
+    <section class="section">
+      <div class="band">
+        <svg class="pattern" aria-hidden="true" width="100%" height="100%"><defs><pattern id="khatam" width="56" height="56" patternUnits="userSpaceOnUse"><g fill="none" stroke="currentColor" stroke-width="1"><rect x="14" y="14" width="28" height="28"/><rect x="14" y="14" width="28" height="28" transform="rotate(45 28 28)"/></g></pattern></defs><rect width="100%" height="100%" fill="url(#khatam)"/></svg>
+        <h2 style="position:relative" data-info="planLadder"><span lang="en">The ladder Phase 2 will calibrate</span><span lang="ms">Tangga yang akan ditentukur dalam Fasa 2</span></h2>
+        <p style="position:relative;max-width:66ch;margin-top:8px"><span lang="en">The brief suggested 25%, 50% and 100% of the package. Against TH's figures for 1448H/2027M, 50% (RM16,650) sits just above the RM15,000 gate TH already uses, so the working ladder keeps 25% and 100% and uses TH's own amounts in between. In the workshops TH sets a target share for each step, by segment and state; the gauges and the 2028 watchlist read from that charter.</span><span lang="ms">Taklimat mencadangkan 25%, 50% dan 100% pakej. Berbanding angka TH bagi 1448H/2027M, 50% (RM16,650) hanya sedikit di atas ambang RM15,000 yang sudah digunakan TH, jadi tangga kerja mengekalkan 25% dan 100% dan menggunakan amaun TH di antaranya. Dalam bengkel TH menetapkan sasaran peratus bagi setiap langkah, mengikut segmen dan negeri; tolok dan senarai pantau 2028 membaca piagam tersebut.</span></p>
+        <div class="ladder four" style="position:relative">
+          <div class="rung"><div class="pct">RM8,325</div><b><span lang="en">25% of Kos Haji</span><span lang="ms">25% Kos Haji</span></b><p><span lang="en">Saving has started in earnest.</span><span lang="ms">Simpanan bermula dengan serius.</span></p></div>
+          <div class="rung"><div class="pct">RM15,000</div><b><span lang="en">The gate</span><span lang="ms">Ambang</span></b><p><span lang="en">Offer letter possible; automatic queue from 2029; the full B40 payment.</span><span lang="ms">Layak surat tawaran; giliran automatik mulai 2029; bayaran penuh B40.</span></p></div>
+          <div class="rung"><div class="pct">RM23,500</div><b><span lang="en">M40 payment</span><span lang="ms">Bayaran M40</span></b><p><span lang="en">Covers the M40 Bayaran Haji.</span><span lang="ms">Menampung Bayaran Haji M40.</span></p></div>
+          <div class="rung"><div class="pct">RM33,300</div><b><span lang="en">Full Kos Haji</span><span lang="ms">Kos Haji penuh</span></b><p><span lang="en">What T20 and successful appeals pay.</span><span lang="ms">Bayaran T20 dan rayuan yang berjaya.</span></p></div>
+        </div>
+        <div class="ladder-bar" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="ganttTitle">
+      <div class="panel w12">
+        <div class="panel-head"><div><h3 id="ganttTitle" data-info="gantt"><span lang="en">Timeline</span><span lang="ms">Garis masa</span></h3>
+          <p><span lang="en">Bars show phase work; gold diamonds are workshops and steering committee meetings. Month 1 starts when the agreement is signed.</span><span lang="ms">Bar menunjukkan kerja fasa; berlian emas ialah bengkel dan mesyuarat jawatankuasa pemandu. Bulan 1 bermula apabila perjanjian ditandatangani.</span></p></div></div>
+        <div class="scroll-x"><div class="chart gantt" id="gantt"></div></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="riskTitle">
+      <div class="shead"><div><h2 id="riskTitle"><span lang="en">Risks and how we handle them</span><span lang="ms">Risiko dan cara kami menanganinya</span></h2></div></div>
+      <div class="card scroll-x"><table class="tbl">
+        <thead><tr><th><span lang="en">Risk</span><span lang="ms">Risiko</span></th><th><span lang="en">What we do</span><span lang="ms">Tindakan kami</span></th></tr></thead>
+        <tbody>
+          <tr><td><span lang="en">Data access takes longer than planned</span><span lang="ms">Akses data mengambil masa lebih lama</span></td><td><span lang="en">Build on the synthetic model (as on this site) so design and testing never wait; swap in real data when ready.</span><span lang="ms">Membina menggunakan model sintetik (seperti laman ini) supaya reka bentuk dan ujian tidak tertangguh; tukar kepada data sebenar apabila sedia.</span></td></tr>
+          <tr><td><span lang="en">Personal data exposure</span><span lang="ms">Pendedahan data peribadi</span></td><td><span lang="en">Pseudonymise inside TH; only aggregates leave; small cells hidden; access by role.</span><span lang="ms">Nyahnama di dalam TH; hanya agregat keluar; sel kecil disorok; akses mengikut peranan.</span></td></tr>
+          <tr><td><span lang="en">Targets not agreed in time</span><span lang="ms">Sasaran tidak dipersetujui tepat pada masanya</span></td><td><span lang="en">Gauges run on example targets until the charter is signed off; the target table is one file to update.</span><span lang="ms">Tolok menggunakan contoh sasaran sehingga piagam diluluskan; jadual sasaran hanya satu fail untuk dikemas kini.</span></td></tr>
+          <tr><td><span lang="en">Kos Haji or assistance changes after four flat seasons</span><span lang="ms">Kos Haji atau bantuan berubah selepas empat musim kekal</span></td><td><span lang="en">Every amount is a parameter, and the tracker carries a +10% / +20% scenario, so a change is one setting, not a rebuild.</span><span lang="ms">Setiap amaun ialah parameter, dan penjejak mempunyai senario +10% / +20%, jadi perubahan hanya satu tetapan, bukan binaan semula.</span></td></tr>
+          <tr><td><span lang="en">Registered depositors miss the 31 December 2028 deadline</span><span lang="ms">Pendeposit berdaftar terlepas tarikh akhir 31 Disember 2028</span></td><td><span lang="en">The 2028 watchlist ranks states and groups by risk; the mid-career and pre-departure modules target them first.</span><span lang="ms">Senarai pantau 2028 menyusun negeri dan kumpulan mengikut risiko; modul pertengahan kerjaya dan pra-pemergian menyasarkan mereka dahulu.</span></td></tr>
+          <tr><td><span lang="en">Low module take-up in the pilot</span><span lang="ms">Penyertaan modul rendah semasa rintis</span></td><td><span lang="en">Run through payroll partners and mosques; the funnel shows the drop-off point early.</span><span lang="ms">Laksanakan melalui rakan potongan gaji dan masjid; corong menunjukkan titik keciciran lebih awal.</span></td></tr>
+        </tbody>
+      </table></div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/vendor/lottie_light.min.js"></script>
+<script src="assets/js/th-lottie.js"></script>
+<script src="assets/js/th-pages.js"></script>
+</body>
+</html>

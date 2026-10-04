@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="assets/art/mark.svg" type="image/svg+xml">
+<title>Istito'ah Tracker</title>
+<meta name="description" content="A proposal from SEFB, Universiti Utara Malaysia, to Lembaga Tabung Haji: an interactive Istito'ah readiness and literacy tracker.">
+<meta name="theme-color" content="#0b2a22">
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('th-theme');if(t==='dark'||t==='light')d.setAttribute('data-theme',t);if(localStorage.getItem('th-lang')==='ms'){d.setAttribute('data-lang','ms');d.lang='ms'}}catch(e){}var P=['index','cost','tracker','depositor','plan','blueprint','literacy','notes'],i=P.indexOf((location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''));if(i<0)i=0;try{var p=parseInt(sessionStorage.getItem('th-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('th-idx',i)}catch(e){}})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/css/th.css">
+<script src="assets/js/th-data.js"></script>
+</head>
+<body data-page="overview" data-title-en="Istito'ah Tracker" data-title-ms="Penjejak Istito'ah">
+<script src="assets/js/th-shell.js"></script>
+
+<main id="main">
+  <section class="wrap hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <h1><span lang="en">See every depositor's path to <em>istito'ah</em></span><span lang="ms">Lihat perjalanan setiap pendeposit ke arah <em>istito'ah</em></span></h1>
+        <p class="lede"><span lang="en">A proposal from the School of Economics, Finance and Banking (SEFB), Universiti Utara Malaysia, to Lembaga Tabung Haji. We will build a readiness and literacy tracker that shows TH leadership, state by state, how close depositors are to affording Hajj, and which literacy programmes move them forward.</span><span lang="ms">Cadangan daripada Pusat Pengajian Ekonomi, Kewangan dan Perbankan (SEFB), Universiti Utara Malaysia, kepada Lembaga Tabung Haji. Kami akan membina penjejak kesediaan dan literasi yang menunjukkan kepada kepimpinan TH, negeri demi negeri, sejauh mana pendeposit mampu menunaikan haji, dan program literasi yang menggerakkan mereka.</span></p>
+        <div class="actions">
+          <a class="btn btn-gold" href="tracker.html"><span lang="en">Open the tracker</span><span lang="ms">Buka penjejak</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-ghost" href="depositor.html"><span lang="en">Try a depositor</span><span lang="ms">Cuba seorang pendeposit</span></a>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-labelledby="ladderHead">
+        <svg class="pattern" aria-hidden="true" width="100%" height="100%"><defs><pattern id="khatam" width="56" height="56" patternUnits="userSpaceOnUse"><g fill="none" stroke="currentColor" stroke-width="1"><rect x="14" y="14" width="28" height="28"/><rect x="14" y="14" width="28" height="28" transform="rotate(45 28 28)"/><path d="M0 28h8M48 28h8M28 0v8M28 48v8"/></g></pattern></defs><rect width="100%" height="100%" fill="url(#khatam)"/></svg>
+        <div class="card-top">
+          <div>
+            <h2 id="ladderHead" data-info="ladder"><span lang="en">The istito'ah ladder</span><span lang="ms">Tangga istito'ah</span></h2>
+            <p class="small" style="margin:4px 0 0"><span lang="en">Depositors placed by their TH balance against TH's own amounts.</span><span lang="ms">Pendeposit disusun mengikut baki TH berbanding amaun TH sendiri.</span></p>
+          </div>
+          <span class="star" data-lottie="star" aria-hidden="true"></span>
+        </div>
+        <div class="seg dark" id="ladderStates" role="group" aria-label="State" style="margin-top:14px">
+          <button type="button" data-state="all" aria-pressed="true">Malaysia</button>
+          <button type="button" data-state="KDH" aria-pressed="false">Kedah</button>
+          <button type="button" data-state="SGR" aria-pressed="false">Selangor</button>
+          <button type="button" data-state="KTN" aria-pressed="false">Kelantan</button>
+          <button type="button" data-state="SBH" aria-pressed="false">Sabah</button>
+        </div>
+        <div id="ladder"></div>
+        <ul class="ladder-shares" id="ladderShares"></ul>
+        <p class="fine" id="ladderNote"></p>
+      </aside>
+    </div>
+
+    <dl class="meta">
+      <div><dt><span lang="en">From</span><span lang="ms">Daripada</span></dt><dd><span class="plate"><img src="assets/img/logo-sefb.png" width="119" height="34" alt="SEFB, Universiti Utara Malaysia"></span><br><span lang="en">SEFB, UUM, with RMC</span><span lang="ms">SEFB, UUM, bersama RMC</span></dd></div>
+      <div><dt><span lang="en">Submitted to</span><span lang="ms">Dikemukakan kepada</span></dt><dd><span class="plate"><img src="assets/img/logo-th.png" width="99" height="34" alt="Lembaga Tabung Haji"></span><br>Lembaga Tabung Haji, Kuala Lumpur</dd></div>
+      <div><dt><span lang="en">Length</span><span lang="ms">Tempoh</span></dt><dd><span lang="en">12 months (proposed)</span><span lang="ms">12 bulan (dicadangkan)</span></dd></div>
+      <div><dt><span lang="en">Budget</span><span lang="ms">Bajet</span></dt><dd><span lang="en">To be confirmed</span><span lang="ms">Akan disahkan</span></dd></div>
+      <div><dt><span lang="en">Aligned with</span><span lang="ms">Selaras dengan</span></dt><dd>Seruan Istito'ah (Sept 2026)</dd></div>
+    </dl>
+    <p class="official"><b><span lang="en">Working title:</span><span lang="ms">Tajuk kerja:</span></b> <span lang="en">Tabung Haji Istito'ah Readiness &amp; Literacy Tracker: a research and development proof-of-concept</span><span lang="ms">Penjejak Kesediaan &amp; Literasi Istito'ah Tabung Haji: bukti konsep penyelidikan dan pembangunan</span></p>
+  </section>
+
+  <section class="wrap section exec" aria-labelledby="execTitle">
+    <div class="exec-grid">
+      <div class="prose">
+        <h2 id="execTitle"><span lang="en">Executive summary</span><span lang="ms">Ringkasan eksekutif</span></h2>
+        <p><span lang="en">Since 2025 an offer letter needs at least RM15,000 in a TH account. In September 2026 Tabung Haji went further with <b>Seruan Istito'ah</b>, its Hajj Preparation Plan: from 1 January 2029 depositors join the Hajj queue automatically once they hold RM15,000, and those already registered have until 31 December 2028 to get there. To act on that, TH needs to see readiness across 9.7 million depositors, not one account at a time.</span><span lang="ms">Sejak 2025 surat tawaran memerlukan sekurang-kurangnya RM15,000 dalam akaun TH. Pada September 2026 Tabung Haji melangkah lebih jauh dengan <b>Seruan Istito'ah</b>, Pelan Persediaan Haji: mulai 1 Januari 2029 pendeposit layak giliran haji secara automatik apabila memiliki RM15,000, dan yang sudah berdaftar diberi tempoh sehingga 31 Disember 2028. Untuk bertindak, TH perlu melihat kesediaan 9.7 juta pendeposit, bukan satu akaun pada satu masa.</span></p>
+        <p><span lang="en">SEFB studies how people save, why they stop, and which nudges keep them going. This proposal joins that behavioural research to a production-grade visualisation platform: one dashboard where TH leadership can see, in seconds, how many depositors have reached RM15,000, their own Bayaran Haji and the full Kos Haji of RM33,300, by state, age group and corporate category.</span><span lang="ms">SEFB mengkaji cara orang menabung, sebab mereka berhenti dan dorongan yang mengekalkan mereka. Cadangan ini menggabungkan penyelidikan tingkah laku tersebut dengan platform visualisasi bertaraf pengeluaran: satu papan pemuka di mana kepimpinan TH boleh melihat dalam beberapa saat berapa ramai pendeposit telah mencapai RM15,000, Bayaran Haji sendiri dan Kos Haji penuh RM33,300, mengikut negeri, kumpulan umur dan kategori korporat.</span></p>
+        <p><span lang="en">The same dashboard measures literacy work. Each SEFB module sends anonymous events into it, so TH sees which programmes move depositors up the ladder, not only how many people attended.</span><span lang="ms">Papan pemuka yang sama mengukur kerja literasi. Setiap modul SEFB menghantar acara tanpa nama ke dalamnya, supaya TH melihat program mana yang benar-benar menggerakkan pendeposit, bukan sekadar bilangan kehadiran.</span></p>
+        <p class="muted"><span lang="en">This site is the proof-of-concept. Every page works. The figures are synthetic until Phase 1 connects pseudonymised data inside TH.</span><span lang="ms">Laman ini ialah bukti konsep. Setiap halaman berfungsi. Angkanya sintetik sehingga Fasa 1 menyambungkan data tanpa nama di dalam TH.</span></p>
+      </div>
+      <div class="gets">
+        <h3><span lang="en">What TH leadership gets</span><span lang="ms">Apa yang diperoleh kepimpinan TH</span></h3>
+        <ul class="gets-list">
+          <li><b><span lang="en">Oversight in one screen</span><span lang="ms">Pemantauan dalam satu skrin</span></b><span lang="en">A national view that drills down to state, age group and corporate category.</span><span lang="ms">Paparan nasional yang boleh diperinci ke negeri, kumpulan umur dan kategori korporat.</span></li>
+          <li><b><span lang="en">Thresholds TH already uses</span><span lang="ms">Ambang yang sudah digunakan TH</span></b><span lang="en">The ladder runs on TH's own amounts (RM15,000, RM23,500, RM33,300); targets for each are set in the Phase 2 workshops.</span><span lang="ms">Tangga menggunakan amaun TH sendiri (RM15,000, RM23,500, RM33,300); sasaran setiap satu ditetapkan dalam bengkel Fasa 2.</span></li>
+          <li><b><span lang="en">An early warning for 2028</span><span lang="ms">Amaran awal bagi 2028</span></b><span lang="en">Registered depositors still below RM15,000, by state, with the months left to the deadline.</span><span lang="ms">Pendeposit berdaftar yang masih di bawah RM15,000, mengikut negeri, dengan baki bulan ke tarikh akhir.</span></li>
+          <li><b><span lang="en">Evidence of what works</span><span lang="ms">Bukti apa yang berkesan</span></b><span lang="en">Literacy modules tied to deposit behaviour, not attendance counts.</span><span lang="ms">Modul literasi dikaitkan dengan tingkah laku simpanan, bukan bilangan kehadiran.</span></li>
+          <li><b><span lang="en">Privacy by design</span><span lang="ms">Privasi sejak reka bentuk</span></b><span lang="en">Aggregate-only views, pseudonymised inside TH, in line with PDPA 2010.</span><span lang="ms">Paparan agregat sahaja, dinyahnamakan di dalam TH, selaras dengan PDPA 2010.</span></li>
+          <li><b><span lang="en">Shariah-consistent messaging</span><span lang="ms">Mesej selaras Syariah</span></b><span lang="en">TH's profit distribution is never shown as a promised return; saving within one's means comes first.</span><span lang="ms">Agihan keuntungan TH tidak sekali-kali dipaparkan sebagai pulangan yang dijanjikan; menabung mengikut kemampuan diutamakan.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="band gap-band">
+      <svg class="pattern" aria-hidden="true" width="100%" height="100%"><rect width="100%" height="100%" fill="url(#khatam)"/></svg>
+      <div class="gap-grid">
+        <p class="quote"><span lang="en">TH knows what each depositor holds. It cannot yet see, at a glance, who is on track for Hajj, who has stalled, and which programme would help.</span><span lang="ms">TH tahu baki setiap pendeposit. Namun TH belum dapat melihat dengan sekali pandang siapa yang di landasan untuk haji, siapa yang terhenti, dan program mana yang boleh membantu.</span></p>
+        <div>
+          <p><span lang="en">Readiness data sits across systems, branches and campaigns. Literacy programmes report attendance, not changes in saving. Leaders receive reports after the quarter ends, not a view they can question in the meeting.</span><span lang="ms">Data kesediaan tersebar di pelbagai sistem, cawangan dan kempen. Program literasi melaporkan kehadiran, bukan perubahan dalam simpanan. Pemimpin menerima laporan selepas suku tahun berakhir, bukan paparan yang boleh disoal semasa mesyuarat.</span></p>
+          <a class="btn btn-ghost" href="plan.html"><span lang="en">How we close the gap</span><span lang="ms">Cara kami merapatkan jurang</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="partsTitle">
+    <div class="shead"><div><h2 id="partsTitle"><span lang="en">The proposal, part by part</span><span lang="ms">Cadangan, bahagian demi bahagian</span></h2>
+      <p><span lang="en">Each part of the written proposal has a page you can use, not only read.</span><span lang="ms">Setiap bahagian cadangan bertulis mempunyai halaman yang boleh digunakan, bukan sekadar dibaca.</span></p></div></div>
+    <ol class="parts">
+      <li><a href="index.html#execTitle"><span class="pn">1</span><span class="pt"><b><span lang="en">Executive summary</span><span lang="ms">Ringkasan eksekutif</span></b><span lang="en">Behavioural research joined to a live readiness view.</span><span lang="ms">Penyelidikan tingkah laku digabungkan dengan paparan kesediaan.</span></span><span class="pg"><span lang="en">This page</span><span lang="ms">Halaman ini</span></span></a></li>
+      <li><a href="plan.html"><span class="pn">2</span><span class="pt"><b><span lang="en">Methodology by development phase</span><span lang="ms">Metodologi mengikut fasa pembangunan</span></b><span lang="en">Data mapping, KPI workshops, then the deployed dashboard.</span><span lang="ms">Pemetaan data, bengkel KPI, kemudian papan pemuka yang dilaksanakan.</span></span><span class="pg"><span lang="en">Phases &amp; plan</span><span lang="ms">Fasa &amp; pelan</span></span></a></li>
+      <li><a href="blueprint.html"><span class="pn">3</span><span class="pt"><b><span lang="en">Technical deliverable blueprint</span><span lang="ms">Pelan teknikal hasil projek</span></b><span lang="en">Layout schema, data architecture and the ecosystem map.</span><span lang="ms">Skema susun atur, seni bina data dan peta ekosistem.</span></span><span class="pg"><span lang="en">Technical blueprint</span><span lang="ms">Pelan teknikal</span></span></a></li>
+      <li><a href="literacy.html"><span class="pn">4</span><span class="pt"><b><span lang="en">Aligned literacy programme layers</span><span lang="ms">Lapisan program literasi yang diselaraskan</span></b><span lang="en">Modules that stream telemetry into the dashboard.</span><span lang="ms">Modul yang menyalurkan telemetri ke papan pemuka.</span></span><span class="pg"><span lang="en">Literacy layers</span><span lang="ms">Lapisan literasi</span></span></a></li>
+    </ol>
+    <a class="callout" href="cost.html">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.8"/><path d="M6.5 9.5v5M17.5 9.5v5"/></svg></span>
+      <span><b><span lang="en">Added after reading TH's 1448H figures: the cost, read critically</span><span lang="ms">Ditambah selepas meneliti angka TH 1448H: kos haji, dinilai secara kritis</span></b><span lang="en">Why the ladder runs on RM15,000, RM23,500 and RM33,300 instead of a single "100% of the package".</span><span lang="ms">Kenapa tangga menggunakan RM15,000, RM23,500 dan RM33,300, bukan satu "100% pakej".</span></span>
+    </a>
+  </section>
+
+  <section class="wrap section" aria-label="More about the proposal">
+    <div class="drawers">
+      <details class="home-drawer">
+        <summary><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9.4" r="2.4"/><path d="M16.2 14.2c2.6.3 4.4 2.3 4.4 5.2"/></svg></span><strong role="heading" aria-level="2"><span lang="en">Team and roles</span><span lang="ms">Pasukan dan peranan</span><small><span lang="en">Who builds what, and the technical lead's remit.</span><span lang="ms">Siapa membina apa, dan bidang tugas ketua teknikal.</span></small></strong><i aria-hidden="true"></i></summary>
+        <div class="drawer-body">
+          <div class="role card">
+            <span class="avatar" aria-hidden="true">MI</span>
+            <div>
+              <h3>Mukhriz Izraf · <span lang="en">Technical App Development Lead</span><span lang="ms">Ketua Pembangunan Aplikasi Teknikal</span></h3>
+              <p class="muted small" style="margin:2px 0 10px">SEFB, Universiti Utara Malaysia</p>
+              <ul class="bullets">
+                <li><span lang="en">Turns SEFB's behavioural findings into interface decisions: what leaders see first, which nudge a depositor gets.</span><span lang="ms">Menterjemah dapatan tingkah laku SEFB kepada keputusan antara muka: apa yang pemimpin lihat dahulu, dorongan yang diterima pendeposit.</span></li>
+                <li><span lang="en">Owns the front-end architecture, the data schema and the telemetry specification.</span><span lang="ms">Bertanggungjawab ke atas seni bina bahagian hadapan, skema data dan spesifikasi telemetri.</span></li>
+                <li><span lang="en">Runs the design side of the Phase 2 KPI workshops and the user testing with TH.</span><span lang="ms">Mengendalikan aspek reka bentuk bengkel KPI Fasa 2 dan ujian pengguna bersama TH.</span></li>
+                <li><span lang="en">Delivers the Phase 3 deployment, documentation and handover to TH's IT team.</span><span lang="ms">Melaksanakan pemasangan Fasa 3, dokumentasi dan penyerahan kepada pasukan IT TH.</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="scroll-x" style="margin-top:14px"><table class="tbl">
+            <thead><tr><th><span lang="en">Role</span><span lang="ms">Peranan</span></th><th><span lang="en">Who</span><span lang="ms">Siapa</span></th><th><span lang="en">Main responsibility</span><span lang="ms">Tanggungjawab utama</span></th></tr></thead>
+            <tbody>
+              <tr><td><span lang="en">Project leader</span><span lang="ms">Ketua projek</span></td><td class="muted"><span lang="en">To be confirmed (SEFB)</span><span lang="ms">Akan disahkan (SEFB)</span></td><td><span lang="en">Overall direction, reporting to TH and RMC</span><span lang="ms">Hala tuju keseluruhan, laporan kepada TH dan RMC</span></td></tr>
+              <tr class="hl"><td><span lang="en">Technical App Development Lead</span><span lang="ms">Ketua Pembangunan Aplikasi Teknikal</span></td><td>Mukhriz Izraf</td><td><span lang="en">Dashboard, data schema, telemetry, deployment</span><span lang="ms">Papan pemuka, skema data, telemetri, pemasangan</span></td></tr>
+              <tr><td><span lang="en">Behavioural finance researchers</span><span lang="ms">Penyelidik kewangan tingkah laku</span></td><td class="muted"><span lang="en">To be confirmed (SEFB)</span><span lang="ms">Akan disahkan (SEFB)</span></td><td><span lang="en">Readiness models, segment rules, evaluation design</span><span lang="ms">Model kesediaan, peraturan segmen, reka bentuk penilaian</span></td></tr>
+              <tr><td><span lang="en">Literacy module leads</span><span lang="ms">Ketua modul literasi</span></td><td class="muted"><span lang="en">To be confirmed (SEFB)</span><span lang="ms">Akan disahkan (SEFB)</span></td><td><span lang="en">Youth, family, mid-career and pre-departure modules</span><span lang="ms">Modul belia, keluarga, pertengahan kerjaya dan pra-pemergian</span></td></tr>
+              <tr><td>Research Management Centre (RMC)</td><td>UUM</td><td><span lang="en">Agreement, grant and ethics administration</span><span lang="ms">Perjanjian, geran dan pentadbiran etika</span></td></tr>
+              <tr><td><span lang="en">TH counterparts</span><span lang="ms">Rakan sejawat TH</span></td><td class="muted"><span lang="en">To be nominated by TH</span><span lang="ms">Akan dicalonkan oleh TH</span></td><td><span lang="en">Data access, KPI ownership, user testing</span><span lang="ms">Akses data, pemilikan KPI, ujian pengguna</span></td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </details>
+
+      <details class="home-drawer">
+        <summary><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg></span><strong role="heading" aria-level="2"><span lang="en">What it aligns with</span><span lang="ms">Keselarasan</span><small><span lang="en">The campaign, the law and the governance it must respect.</span><span lang="ms">Kempen, undang-undang dan tadbir urus yang perlu dipatuhi.</span></small></strong><i aria-hidden="true"></i></summary>
+        <div class="drawer-body">
+          <ul class="align-list">
+            <li><b>Seruan Istito'ah (September 2026)</b><span lang="en">The RM15,000 gate, automatic queue eligibility from 2029, the 2028 deadline and Tabung Istito'ah are what the dashboard measures.</span><span lang="ms">Ambang RM15,000, kelayakan giliran automatik mulai 2029, tarikh akhir 2028 dan Tabung Istito'ah ialah perkara yang diukur oleh papan pemuka.</span></li>
+            <li><b><span lang="en">Personal Data Protection Act 2010</span><span lang="ms">Akta Perlindungan Data Peribadi 2010</span></b><span lang="en">Pseudonymised inside TH; only aggregates leave the secure zone; cells under 10 people are hidden.</span><span lang="ms">Dinyahnamakan di dalam TH; hanya agregat keluar dari zon selamat; sel bawah 10 orang disorok.</span></li>
+            <li><b><span lang="en">TH Shariah governance</span><span lang="ms">Tadbir urus Syariah TH</span></b><span lang="en">Module content and depositor messages reviewed through TH's Shariah process before release (proposed).</span><span lang="ms">Kandungan modul dan mesej kepada pendeposit disemak melalui proses Syariah TH sebelum diedarkan (dicadangkan).</span></li>
+            <li><b><span lang="en">UUM research and knowledge transfer</span><span lang="ms">Penyelidikan dan pemindahan ilmu UUM</span></b><span lang="en">Publications and an evaluation report alongside the deliverable (details to be confirmed with RMC).</span><span lang="ms">Penerbitan dan laporan penilaian bersama hasil projek (butiran akan disahkan dengan RMC).</span></li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </section>
+</main>
+
+<script src="assets/vendor/lottie_light.min.js"></script>
+<script src="assets/js/th-lottie.js"></script>
+<script src="assets/js/th-pages.js"></script>
+</body>
+</html>

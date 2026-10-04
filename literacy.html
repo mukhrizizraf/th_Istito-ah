@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="assets/art/mark.svg" type="image/svg+xml">
+<title>Literacy layers · Istito'ah Tracker</title>
+<meta name="description" content="How SEFB financial literacy modules stream anonymous telemetry into the readiness dashboard.">
+<meta name="theme-color" content="#0b2a22">
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('th-theme');if(t==='dark'||t==='light')d.setAttribute('data-theme',t);if(localStorage.getItem('th-lang')==='ms'){d.setAttribute('data-lang','ms');d.lang='ms'}}catch(e){}var P=['index','cost','tracker','depositor','plan','blueprint','literacy','notes'],i=P.indexOf((location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''));if(i<0)i=0;try{var p=parseInt(sessionStorage.getItem('th-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('th-idx',i)}catch(e){}})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/css/th.css">
+<script src="assets/js/th-data.js"></script>
+</head>
+<body data-page="literacy" data-title-en="Literacy layers · Istito'ah Tracker" data-title-ms="Lapisan literasi · Penjejak Istito'ah">
+<script src="assets/js/th-shell.js"></script>
+
+<main id="main">
+  <section class="wrap page-head">
+    <div class="head-row"><span class="page-icon" data-picon="literacy"></span></div>
+    <h1><span lang="en">Literacy that shows up in the numbers</span><span lang="ms">Literasi yang terlihat dalam angka</span></h1>
+    <p class="lede"><span lang="en">SEFB colleagues build the modules. Each one sends a small set of anonymous events into the tracker, so TH sees what changed in people's saving, not only who attended.</span><span lang="ms">Rakan SEFB membina modul. Setiap modul menghantar sebilangan kecil acara tanpa nama ke penjejak, supaya TH melihat perubahan dalam simpanan, bukan sekadar siapa yang hadir.</span></p>
+  </section>
+
+  <div class="wrap">
+    <section class="section" aria-labelledby="layersTitle" style="padding-top:6px">
+      <div class="shead"><div><h2 id="layersTitle" data-info="layers"><span lang="en">Four layers, one ladder</span><span lang="ms">Empat lapisan, satu tangga</span></h2>
+        <p><span lang="en">Each layer moves depositors one step and is measured by one figure on the dashboard.</span><span lang="ms">Setiap lapisan menggerakkan pendeposit satu langkah dan diukur oleh satu angka pada papan pemuka.</span></p></div></div>
+      <div class="stack">
+        <div class="lv"><span class="n">1</span><div><h3><span lang="en">Awareness</span><span lang="ms">Kesedaran</span></h3><p><span lang="en">Seruan Istito'ah messages through THiJARI, TH branches, mosques and employers, starting with the RM15,000 gate and the 2028 deadline.</span><span lang="ms">Mesej Seruan Istito'ah melalui THiJARI, cawangan TH, masjid dan majikan, bermula dengan ambang RM15,000 dan tarikh akhir 2028.</span></p></div><span class="chip"><span lang="en">Measured by: module enrolment</span><span lang="ms">Diukur dengan: pendaftaran modul</span></span></div>
+        <div class="lv"><span class="n">2</span><div><h3><span lang="en">Planning</span><span lang="ms">Perancangan</span></h3><p><span lang="en">TH's Kalkulator Haji and SEFB savings blueprints fix a target year and a monthly amount for RM15,000 and the own payment.</span><span lang="ms">Kalkulator Haji TH dan pelan simpanan SEFB menetapkan tahun sasaran dan jumlah bulanan bagi RM15,000 dan bayaran sendiri.</span></p></div><span class="chip"><span lang="en">Measured by: plans created</span><span lang="ms">Diukur dengan: pelan dibuat</span></span></div>
+        <div class="lv"><span class="n">3</span><div><h3><span lang="en">Habit</span><span lang="ms">Tabiat</span></h3><p><span lang="en">Direct debit or salary deduction into Tabung Istito'ah, so saving no longer depends on memory.</span><span lang="ms">Debit terus atau potongan gaji ke Tabung Istito'ah, supaya menabung tidak lagi bergantung pada ingatan.</span></p></div><span class="chip"><span lang="en">Measured by: regular savers</span><span lang="ms">Diukur dengan: penyimpan tetap</span></span></div>
+        <div class="lv"><span class="n">4</span><div><h3><span lang="en">Readiness</span><span lang="ms">Kesediaan</span></h3><p><span lang="en">A pre-departure check across money, knowledge, health and family support, before the offer letter arrives.</span><span lang="ms">Semakan pra-pemergian merangkumi kewangan, ilmu, kesihatan dan sokongan keluarga, sebelum surat tawaran tiba.</span></p></div><span class="chip"><span lang="en">Measured by: own payment covered, fewer deferrals</span><span lang="ms">Diukur dengan: bayaran sendiri dicapai, kurang penangguhan</span></span></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="modTitle">
+      <div class="shead"><div><h2 id="modTitle" data-info="pipe"><span lang="en">Trace a module to the dashboard</span><span lang="ms">Jejak modul ke papan pemuka</span></h2>
+        <p><span lang="en">Pick a module. The pipeline and the event table show exactly what it sends and which tiles it feeds.</span><span lang="ms">Pilih modul. Saluran dan jadual acara menunjukkan apa yang dihantar dan jubin yang disalurkan.</span></p></div></div>
+      <div class="modules" id="modules" role="group" aria-label="Modules"></div>
+      <div class="card pipe" style="margin-top:16px"><div class="scroll-x"><div class="chart" id="pipe" style="min-width:640px"></div></div></div>
+      <div class="card" style="margin-top:16px"><h3 style="margin-bottom:6px" data-info="events"><span lang="en">Telemetry events</span><span lang="ms">Acara telemetri</span></h3>
+        <p class="muted small"><span lang="en">Highlighted rows are sent by the chosen module. No event carries a name, IC or account number.</span><span lang="ms">Baris berwarna dihantar oleh modul yang dipilih. Tiada acara membawa nama, nombor KP atau nombor akaun.</span></p>
+        <div id="events"></div></div>
+    </section>
+
+    <section class="section" aria-labelledby="funTitle">
+      <div class="grid g2">
+        <div class="panel">
+          <div class="panel-head"><div><h3 id="funTitle" data-info="funnel"><span lang="en">What the programme funnel looks like</span><span lang="ms">Rupa corong program</span></h3>
+            <p><span lang="en">Synthetic. In the real tool every step is counted from events, by state and segment.</span><span lang="ms">Sintetik. Dalam alat sebenar setiap langkah dikira daripada acara, mengikut negeri dan segmen.</span></p></div></div>
+          <div class="chart" id="funnel"></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:10px"><span lang="en">How we will know a module works</span><span lang="ms">Cara kami tahu modul berkesan</span></h3>
+          <ul class="bullets">
+            <li><span lang="en">A short literacy quiz before and after each module.</span><span lang="ms">Kuiz literasi ringkas sebelum dan selepas setiap modul.</span></li>
+            <li><span lang="en">Enrolled depositors compared with similar depositors who did not enrol, on deposit regularity and time to RM15,000.</span><span lang="ms">Pendeposit yang mendaftar dibandingkan dengan pendeposit serupa yang tidak mendaftar, dari segi kekerapan simpanan dan masa ke RM15,000.</span></li>
+            <li><span lang="en">The deferral rate among offerees, now reported at 18%, tracked by module and segment.</span><span lang="ms">Kadar penangguhan dalam kalangan penerima tawaran, kini dilaporkan 18%, dijejak mengikut modul dan segmen.</span></li>
+            <li><span lang="en">Results reported each quarter on the dashboard and in the Phase 3 evaluation report.</span><span lang="ms">Keputusan dilaporkan setiap suku tahun di papan pemuka dan dalam laporan penilaian Fasa 3.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/vendor/lottie_light.min.js"></script>
+<script src="assets/js/th-lottie.js"></script>
+<script src="assets/js/th-pages.js"></script>
+</body>
+</html>

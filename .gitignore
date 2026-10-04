@@ -1,0 +1,10 @@
+# review captures and local tooling
+.impeccable/review/
+.impeccable/live/
+.impeccable/config.local.json
+node_modules/
+# OS and sync clutter
+desktop.ini
+Thumbs.db
+.DS_Store
+*.tmp
