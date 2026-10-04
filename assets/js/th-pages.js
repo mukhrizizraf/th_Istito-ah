@@ -131,30 +131,52 @@ TH.pageInit.cost = function () {
     });
   }
   function drawRuler() {
-    const W = 680, l = 16, r = 16, iw = W - l - r, y = 96, H = 170;
-    const x = (rm) => l + rm / P.kosHaji * iw;
+    const box = $('#ruler'), W = widthOf(box, 300), narrow = W < 560;
     const brief = [{rm:8325, p:25}, {rm:16650, p:50}, {rm:33300, p:100}];
     const pol = [{rm:15000, en:'RM15,000 gate · B40 payment', ms:'Ambang RM15,000 · bayaran B40'}, {rm:23500, en:'M40 payment', ms:'Bayaran M40'}, {rm:33300, en:'Full Kos Haji · T20', ms:'Kos Haji penuh · T20'}];
-    let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(TH.T('The brief\'s 25, 50 and 100% milestones against TH\'s own amounts', 'Pencapaian 25, 50 dan 100% dalam taklimat berbanding amaun TH sendiri'))}">`;
-    svg += `<rect x="${l}" y="${y - 5}" width="${iw}" height="10" rx="5" style="fill:var(--sunk)"/>`;
-    svg += `<rect x="${x(15000)}" y="${y - 5}" width="${x(16650) - x(15000)}" height="10" style="fill:var(--crit);opacity:.75"/>`;
-    pol.forEach((p, i) => {
-      const xx = x(p.rm), anchor = i === 2 ? 'end' : i === 0 ? 'end' : 'middle', dx = i === 0 ? -6 : 0;
-      svg += `<line x1="${xx}" x2="${xx}" y1="${y - 26}" y2="${y + 5}" style="stroke:var(--gold-ink)" stroke-width="2"/>` +
-        `<text x="${xx + dx}" y="${y - 44}" text-anchor="${anchor}" style="font:700 13px var(--sans);fill:var(--gold-ink)">${TH.rm(p.rm)}</text>` +
-        `<text x="${xx + dx}" y="${y - 30}" text-anchor="${anchor}" style="font:500 11px var(--sans);fill:var(--muted)">${esc(L(p))}</text>`;
-    });
-    brief.forEach((b, i) => {
-      const xx = x(b.rm), anchor = i === 2 ? 'end' : i === 1 ? 'start' : 'middle', dx = i === 1 ? 6 : 0;
-      svg += `<line x1="${xx}" x2="${xx}" y1="${y - 5}" y2="${y + 26}" style="stroke:var(--ink-2)" stroke-width="1.5" stroke-dasharray="3 3"/>` +
-        `<text x="${xx + dx}" y="${y + 42}" text-anchor="${anchor}" style="font:700 13px var(--sans);fill:var(--ink)">${b.p}% · ${TH.rm(b.rm)}</text>` +
-        `<text x="${xx + dx}" y="${y + 56}" text-anchor="${anchor}" style="font:500 11px var(--sans);fill:var(--muted)">${esc(TH.T('brief\'s milestone', 'pencapaian taklimat'))}</text>`;
-    });
-    svg += '</svg>';
-    $('#ruler').innerHTML = svg;
+    const aria = esc(TH.T('The brief\'s 25, 50 and 100% milestones against TH\'s own amounts', 'Pencapaian 25, 50 dan 100% dalam taklimat berbanding amaun TH sendiri'));
+    const briefSub = esc(TH.T('brief\'s milestone', 'pencapaian taklimat'));
+    let svg;
+    if (narrow) {
+      const H = 430, top = 24, ih = H - top - 30, cx = Math.round(W / 2), y = (rm) => top + rm / P.kosHaji * ih;
+      svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${aria}">`;
+      svg += `<rect x="${cx - 5}" y="${top}" width="10" height="${ih}" rx="5" style="fill:var(--sunk)"/>`;
+      svg += `<rect x="${cx - 5}" y="${y(15000)}" width="10" height="${y(16650) - y(15000)}" style="fill:var(--crit);opacity:.75"/>`;
+      svg += `<text x="${cx}" y="${top - 8}" text-anchor="middle" style="font:500 11px var(--sans);fill:var(--muted)">RM0</text>`;
+      pol.forEach((p) => {
+        const yy = y(p.rm);
+        svg += `<line x1="${cx}" x2="${cx + 22}" y1="${yy}" y2="${yy}" style="stroke:var(--gold-ink)" stroke-width="2"/>` +
+          `<text x="${cx + 28}" y="${yy + 4}" style="font:700 13px var(--sans);fill:var(--gold-ink)">${TH.rm(p.rm)}</text>` +
+          `<text x="${cx + 28}" y="${yy + 19}" style="font:500 11px var(--sans);fill:var(--muted)">${esc(L(p))}</text>`;
+      });
+      brief.forEach((b) => {
+        const yy = y(b.rm);
+        svg += `<line x1="${cx - 22}" x2="${cx}" y1="${yy}" y2="${yy}" style="stroke:var(--ink-2)" stroke-width="1.5" stroke-dasharray="3 3"/>` +
+          `<text x="${cx - 28}" y="${yy + 4}" text-anchor="end" style="font:700 13px var(--sans);fill:var(--ink)">${b.p}% · ${TH.rm(b.rm)}</text>` +
+          `<text x="${cx - 28}" y="${yy + 19}" text-anchor="end" style="font:500 11px var(--sans);fill:var(--muted)">${briefSub}</text>`;
+      });
+    } else {
+      const l = 16, r = 16, iw = W - l - r, y = 96, H = 170, x = (rm) => l + rm / P.kosHaji * iw;
+      svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${aria}">`;
+      svg += `<rect x="${l}" y="${y - 5}" width="${iw}" height="10" rx="5" style="fill:var(--sunk)"/>`;
+      svg += `<rect x="${x(15000)}" y="${y - 5}" width="${x(16650) - x(15000)}" height="10" style="fill:var(--crit);opacity:.75"/>`;
+      pol.forEach((p, k) => {
+        const xx = x(p.rm), anchor = k === 1 ? 'middle' : 'end', dx = k === 0 ? -6 : 0;
+        svg += `<line x1="${xx}" x2="${xx}" y1="${y - 26}" y2="${y + 5}" style="stroke:var(--gold-ink)" stroke-width="2"/>` +
+          `<text x="${xx + dx}" y="${y - 44}" text-anchor="${anchor}" style="font:700 13px var(--sans);fill:var(--gold-ink)">${TH.rm(p.rm)}</text>` +
+          `<text x="${xx + dx}" y="${y - 30}" text-anchor="${anchor}" style="font:500 11px var(--sans);fill:var(--muted)">${esc(L(p))}</text>`;
+      });
+      brief.forEach((b, k) => {
+        const xx = x(b.rm), anchor = k === 2 ? 'end' : k === 1 ? 'start' : 'middle', dx = k === 1 ? 6 : 0;
+        svg += `<line x1="${xx}" x2="${xx}" y1="${y - 5}" y2="${y + 26}" style="stroke:var(--ink-2)" stroke-width="1.5" stroke-dasharray="3 3"/>` +
+          `<text x="${xx + dx}" y="${y + 42}" text-anchor="${anchor}" style="font:700 13px var(--sans);fill:var(--ink)">${b.p}% · ${TH.rm(b.rm)}</text>` +
+          `<text x="${xx + dx}" y="${y + 56}" text-anchor="${anchor}" style="font:500 11px var(--sans);fill:var(--muted)">${briefSub}</text>`;
+      });
+    }
+    box.innerHTML = svg + '</svg>';
   }
   const all = () => { drawSplit(); drawRuler(); };
-  all(); onRedraw(all); onResize(drawSplit);
+  all(); onRedraw(all); onResize(all);
 };
 
 /* ======================================================================
@@ -218,23 +240,23 @@ TH.pageInit.tracker = function () {
         `<path class="g-bg" d="M20 104 A80 80 0 0 1 180 104" stroke-width="16" pathLength="100"/>` +
         `<path class="g-fg" d="M20 104 A80 80 0 0 1 180 104" stroke-width="16" pathLength="100" style="stroke:var(--brand);stroke-dasharray:100;stroke-dashoffset:${(100 - val * 100).toFixed(1)}"/>` +
         `<line class="g-target" x1="${100 + 64 * c}" y1="${104 - 64 * s}" x2="${100 + 96 * c}" y2="${104 - 96 * s}"/>` +
-        `<text class="g-val" x="100" y="96" text-anchor="middle">${TH.pct(val)}</text>` +
-        `<text class="g-sub" x="100" y="118" text-anchor="middle">${esc(TH.T('target ', 'sasaran ') + g.target + '%')}</text></svg>` +
-        `<figcaption><h4>${TH.rm(TH.gateRM(g))}</h4><p>${t(g.name)}</p><span class="status ${stt}">${TH.statusIcon(stt)}${esc(statusLabel(stt))}</span></figcaption></figure>`;
+        `<text class="g-val" x="100" y="98" text-anchor="middle">${TH.pct(val)}</text></svg>` +
+        `<figcaption><h4>${TH.rm(TH.gateRM(g))}</h4><p>${t(g.name)}</p><p class="g-tgt">${esc(TH.T('Example target ', 'Contoh sasaran ') + g.target + '%')}</p><span class="status ${stt}">${TH.statusIcon(stt)}${esc(statusLabel(stt))}</span></figcaption></figure>`;
     }).join('');
   }
 
   function drawMap() {
     const vals = TH.STATES.map((s) => TH.agg({state:s.id, seg:st.seg, chan:st.chan}, st.q)[st.metric]);
-    const b = bins(vals), S = 58, G = 6, Pp = S + G;
-    let svg = `<svg viewBox="-4 -4 ${7 * Pp + 4} ${6 * Pp + 4}" role="group" aria-label="${esc(TH.T('States, coloured by ', 'Negeri, diwarnakan mengikut ') + metricName())}">`;
-    svg += `<text x="${5 * Pp}" y="${1 * Pp + 30}" style="font:600 10px var(--sans);fill:var(--muted);letter-spacing:.06em">${esc(TH.T('EAST MALAYSIA', 'MALAYSIA TIMUR'))}</text>`;
+    const b = bins(vals), S = 58, G = 6, Pp = S + G, narrow = widthOf($('#map'), 280) < 480;
+    const cx = (s) => (narrow && s.x >= 5 ? s.x - 1 : s.x) * Pp, cols = narrow ? 6 : 7;
+    let svg = `<svg viewBox="-4 -4 ${cols * Pp + 4} ${6 * Pp + 4}" role="group" aria-label="${esc(TH.T('States, coloured by ', 'Negeri, diwarnakan mengikut ') + metricName())}">`;
+    svg += `<text x="${(narrow ? 4 : 5) * Pp}" y="${1 * Pp + 30}" style="font:600 11px var(--sans);fill:var(--muted);letter-spacing:.06em">${esc(TH.T('EAST MALAYSIA', 'MALAYSIA TIMUR'))}</text>`;
     TH.STATES.forEach((s, i) => {
       const k = b.idx(vals[i]), sel = st.state === s.id;
       svg += `<g class="tile${sel ? ' sel' : ''}" tabindex="0" role="button" aria-pressed="${sel}" data-id="${s.id}" aria-label="${esc(L(s.name) + ': ' + TH.pct(vals[i]))}">` +
-        `<rect x="${s.x * Pp}" y="${s.y * Pp}" width="${S}" height="${S}" rx="10" style="fill:${v(HEAT[k])}"/>` +
-        `<text x="${s.x * Pp + S / 2}" y="${s.y * Pp + 25}" text-anchor="middle" style="font-size:12px;fill:${heatInk(k)}">${s.id}</text>` +
-        `<text x="${s.x * Pp + S / 2}" y="${s.y * Pp + 42}" text-anchor="middle" style="font-size:11px;font-weight:500;fill:${heatInk(k)}">${TH.pct(vals[i])}</text></g>`;
+        `<rect x="${cx(s)}" y="${s.y * Pp}" width="${S}" height="${S}" rx="10" style="fill:${v(HEAT[k])}"/>` +
+        `<text x="${cx(s) + S / 2}" y="${s.y * Pp + 25}" text-anchor="middle" style="font-size:14px;fill:${heatInk(k)}">${s.id}</text>` +
+        `<text x="${cx(s) + S / 2}" y="${s.y * Pp + 44}" text-anchor="middle" style="font-size:13px;font-weight:500;fill:${heatInk(k)}">${TH.pct(vals[i])}</text></g>`;
     });
     svg += '</svg>';
     $('#map').innerHTML = svg;
@@ -333,7 +355,7 @@ TH.pageInit.tracker = function () {
     const grid = TH.STATES.map((s) => cols.map((c) => cell(s.id, c.id)));
     const b = bins([].concat.apply([], grid));
     const rows = TH.STATES.map((s, i) => ({s, vals:grid[i], all:TH.agg({state:s.id, seg:st.seg, chan:st.chan}, st.q)[st.metric]})).sort((p, q) => q.all - p.all);
-    $('#matrix').innerHTML = `<table class="matrix"><caption class="sr">${esc(metricName())}</caption><thead><tr><th scope="col">${t({en:'State', ms:'Negeri'})}</th>` +
+    $('#matrix').innerHTML = `<table class="matrix"><caption class="sr">${esc(metricName())}</caption><colgroup><col class="c-state">${cols.map(() => '<col>').join('')}<col></colgroup><thead><tr><th scope="col" class="th-state">${t({en:'State', ms:'Negeri'})}</th>` +
       cols.map((c) => `<th scope="col">${esc(L(c.short))}</th>`).join('') + `<th scope="col">${t({en:'All', ms:'Semua'})}</th></tr></thead><tbody>` +
       rows.map((row) => `<tr class="${st.state === row.s.id ? 'sel' : ''}"><th scope="row">${esc(L(row.s.name))}</th>` +
         row.vals.map((val, j) => { const k = b.idx(val); return `<td style="background:${v(HEAT[k])};color:${heatInk(k)}" data-s="${row.s.id}" data-c="${j}">${TH.pct(val)}</td>`; }).join('') +
@@ -357,8 +379,8 @@ TH.pageInit.tracker = function () {
     const sl = {good:TH.T('Lower risk', 'Risiko lebih rendah'), warn:TH.T('Elevated', 'Meningkat'), crit:TH.T('High risk', 'Risiko tinggi')};
     $('#watchSub').textContent = TH.T(`Registered depositors must hold RM15,000 by 31 December 2028; from 1 January 2029 the queue is re-sorted automatically. ${monthsLeft()} months left from ${L(qInfo().label)}.`,
       `Pendeposit berdaftar perlu memiliki RM15,000 sebelum 31 Disember 2028; mulai 1 Januari 2029 giliran disusun semula secara automatik. Tinggal ${monthsLeft()} bulan dari ${L(qInfo().label)}.`);
-    $('#watch').innerHTML = `<div class="scroll-x"><table class="tbl"><thead><tr><th>${t({en:'State', ms:'Negeri'})}</th><th class="r">${t({en:'Registered, below RM15,000', ms:'Berdaftar, bawah RM15,000'})}</th><th class="r">${t({en:'Share of registered', ms:'Peratus yang berdaftar'})}</th><th class="r">${t({en:'Change in a year', ms:'Perubahan setahun'})}</th><th>${t({en:'Risk', ms:'Risiko'})}</th></tr></thead><tbody>` +
-      show.map((r) => `<tr><td>${esc(L(r.s.name))}</td><td class="r">${TH.nf(r.n)}</td><td class="r">${TH.pct(r.share, 1)}</td><td class="r">${r.prev == null ? '–' : pp(r.share - r.prev)}</td><td><span class="status ${r.stt}">${TH.statusIcon(r.stt)}${esc(sl[r.stt])}</span></td></tr>`).join('') +
+    $('#watch').innerHTML = `<div class="scroll-x"><table class="tbl"><thead><tr><th>${t({en:'State', ms:'Negeri'})}</th><th class="r hide-sm">${t({en:'Registered, below RM15,000', ms:'Berdaftar, bawah RM15,000'})}</th><th class="r">${t({en:'Share of registered', ms:'Peratus yang berdaftar'})}</th><th class="r hide-sm">${t({en:'Change in a year', ms:'Perubahan setahun'})}</th><th>${t({en:'Risk', ms:'Risiko'})}</th></tr></thead><tbody>` +
+      show.map((r) => `<tr><td>${esc(L(r.s.name))}</td><td class="r hide-sm">${TH.nf(r.n)}</td><td class="r">${TH.pct(r.share, 1)}</td><td class="r hide-sm">${r.prev == null ? '–' : pp(r.share - r.prev)}</td><td><span class="status ${r.stt}">${TH.statusIcon(r.stt)}${esc(sl[r.stt])}</span></td></tr>`).join('') +
       '</tbody></table></div>';
     $('#watchToggle').textContent = st.watchAll ? TH.T('Show the six highest', 'Papar enam tertinggi') : TH.T('Show all 16 states', 'Papar semua 16 negeri');
   }
@@ -367,7 +389,7 @@ TH.pageInit.tracker = function () {
   fillSelects(); render();
   TH.onLang.push(() => { fillSelects(); render(); });
   TH.onTheme.push(render);
-  onResize(() => { drawTrend(); drawDist(); });
+  onResize(() => { drawTrend(); drawDist(); drawMap(); });
 };
 
 /* ======================================================================
@@ -425,7 +447,7 @@ TH.pageInit.depositor = function () {
   const SYS = {id:'th2028', sys:true, y:P.deadline.y, m:P.deadline.m, target:'gate'};
   let deadlines;
   try { deadlines = JSON.parse(TH.store.get('th-deadlines') || 'null'); } catch (e) { deadlines = null; }
-  if (!Array.isArray(deadlines)) deadlines = [{id:'d1', y:START.y + 8, m:12, target:'pay', amount:20000}];
+  if (!Array.isArray(deadlines)) deadlines = [{id:'d1', y:START.y + 4, m:12, target:'gate', amount:20000}, {id:'d2', y:START.y + 8, m:12, target:'pay', amount:20000}];
   const saveDeadlines = () => TH.store.set('th-deadlines', JSON.stringify(deadlines));
   const activeDeadlines = () => (regd.checked ? [SYS] : []).concat(deadlines);
   const monthsUntil = (d) => (d.y * 12 + d.m) - (START.y * 12 + START.m);
@@ -519,10 +541,10 @@ TH.pageInit.depositor = function () {
       else if (r.met) msg = r.mb === 0 ? TH.T(`${tgtName(r.d)} is already reached.`, `${tgtName(r.d)} sudah dicapai.`)
         : TH.T(`${tgtName(r.d)} by ${fmtDate(r.mb)}, ${r.dm - r.mb} months to spare.`, `${tgtName(r.d)} pada ${fmtDate(r.mb)}, lebih ${r.dm - r.mb} bulan.`);
       else msg = (r.mb == null ? TH.T(`${tgtName(r.d)} is not reached in 30 years.`, `${tgtName(r.d)} tidak dicapai dalam 30 tahun.`)
-        : TH.T(`${r.mb - r.dm} months late (${tgtName(r.d)} in ${fmtDate(r.mb)}).`, `Lewat ${r.mb - r.dm} bulan (${tgtName(r.d)} pada ${fmtDate(r.mb)}).`)) +
+        : TH.T(`Reaches ${tgtName(r.d)} in ${fmtDate(r.mb)}, ${r.mb - r.dm} months after this date.`, `Mencapai ${tgtName(r.d)} pada ${fmtDate(r.mb)}, ${r.mb - r.dm} bulan selepas tarikh ini.`)) +
         (r.planMeets ? TH.T(' The literacy plan alone closes it.', ' Pelan literasi sahaja sudah mencukupi.') : '') +
         (r.need != null ? TH.T(` Needs about ${TH.rm(r.need)} a month from now (${TH.rm(Math.max(0, r.need - mon))} more).`, ` Perlu kira-kira ${TH.rm(r.need)} sebulan mulai sekarang (${TH.rm(Math.max(0, r.need - mon))} lagi).`) : '');
-      $('.dl-status', row).innerHTML = `<span class="status ${r.met ? 'good' : 'crit'}">${TH.statusIcon(r.met ? 'good' : 'crit')}${esc(r.met ? TH.T('Met', 'Dicapai') : TH.T('Missed', 'Terlepas'))}</span> ${esc(msg)}` +
+      $('.dl-status', row).innerHTML = `<span class="status ${r.met ? 'good' : 'crit'}">${TH.statusIcon(r.met ? 'good' : 'crit')}${esc(r.met ? TH.T('On track', 'Di landasan') : TH.T('Off track', 'Tersasar'))}</span> ${esc(msg)}` +
         (r.need != null && r.need > mon ? ` <button class="dl-use" type="button" data-need="${r.need}">${esc(TH.T('Use this amount: ', 'Guna amaun ini: ') + TH.rm(r.need) + TH.T('/month', '/bulan'))}</button>` : '');
     });
     $('#dlNote').innerHTML = regd.checked ? '' : t({en:'Not registered yet: from 1 January 2029 this depositor joins the queue automatically on reaching RM15,000, so no TH deadline applies.', ms:'Belum berdaftar: mulai 1 Januari 2029 pendeposit ini menyertai giliran secara automatik apabila mencapai RM15,000, jadi tiada tarikh akhir TH.'});
@@ -599,26 +621,27 @@ TH.pageInit.plan = function () {
     {n:{en:'Steering committee', ms:'Jawatankuasa pemandu'}, marks:[1, 4, 8, 12]}
   ];
   function draw() {
-    const W = 760, l = 250, r = 12, rowH = 40, top = 30, iw = W - l - r, H = top + rows.length * rowH + 6, cw = iw / 12;
+    const W = widthOf($('#gantt'), 300), narrow = W < 600, lab = narrow ? 18 : 0;
+    const l = narrow ? 0 : 300, r = 8, rowH = narrow ? 30 : 40, top = 30, iw = W - l - r, H = top + rows.length * (rowH + lab) + 6, cw = iw / 12;
     const x = (m) => l + (m - 1) * cw;
     let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(TH.T('Proposed 12-month timeline', 'Garis masa 12 bulan yang dicadangkan'))}">`;
     for (let m = 1; m <= 12; m++) {
-      svg += `<text x="${x(m) + cw / 2}" y="18" text-anchor="middle" style="font:600 11px var(--sans);fill:var(--muted)">${TH.T('M', 'B')}${m}</text>`;
+      svg += `<text x="${x(m) + cw / 2}" y="18" text-anchor="middle" style="font:600 ${narrow ? 10.5 : 11}px var(--sans);fill:var(--muted)">${narrow ? m : TH.T('M', 'B') + m}</text>`;
       svg += `<line x1="${x(m)}" x2="${x(m)}" y1="${top - 4}" y2="${H}" class="gridline"/>`;
     }
     rows.forEach((rw, i) => {
-      const y0 = top + i * rowH;
-      svg += `<text x="0" y="${y0 + rowH / 2 + 4}" style="font:${rw.s ? 600 : 500} 12px var(--sans);fill:var(--ink)">${esc(L(rw.n))}</text>`;
+      const y0 = top + i * (rowH + lab) + lab;
+      svg += `<text x="0" y="${narrow ? y0 - 4 : y0 + rowH / 2 + 4}" style="font:${rw.s ? 600 : 500} 12px var(--sans);fill:var(--ink)">${esc(L(rw.n))}</text>`;
       if (rw.s) svg += `<rect x="${x(rw.s) + 3}" y="${y0 + 9}" width="${(rw.e - rw.s + 1) * cw - 6}" height="${rowH - 18}" rx="6" style="fill:${rw.soft ? 'var(--brand-soft);stroke:var(--brand)' : 'var(--brand)'}" stroke-width="1.5"/>`;
       (rw.marks || []).forEach((m) => {
         const cx = x(m) + cw / 2, cy = y0 + rowH / 2;
-        svg += `<path d="M${cx} ${cy - 8} L${cx + 8} ${cy} L${cx} ${cy + 8} L${cx - 8} ${cy}Z" style="fill:var(--gold);stroke:var(--surface)" stroke-width="2"/>`;
+        svg += `<path d="M${cx} ${cy - 8} L${cx + 8} ${cy} L${cx} ${cy + 8} L${cx - 8} ${cy}Z" style="fill:var(--ink-2);stroke:var(--surface)" stroke-width="2"/>`;
       });
     });
     svg += '</svg>';
     $('#gantt').innerHTML = svg;
   }
-  draw(); TH.onLang.push(draw);
+  draw(); TH.onLang.push(draw); onResize(draw);
 };
 
 /* ======================================================================
@@ -638,8 +661,11 @@ TH.pageInit.blueprint = function () {
   ];
   let cur = 'D';
   function drawWire() {
-    let svg = `<svg viewBox="-2 -2 604 490" role="group" aria-label="${esc(TH.T('Dashboard layout schema', 'Skema susun atur papan pemuka'))}">`;
-    R.forEach((r) => {
+    const narrow = widthOf($('#wire'), 280) < 520, Wn = widthOf($('#wire'), 280);
+    const RR = narrow ? R.map((r, i) => Object.assign({}, r, {x:0, y:i * 46, w:Wn - 4, h:38})) : R;
+    const vb = narrow ? `-2 -2 ${Wn} ${R.length * 46 + 2}` : '-2 -2 604 490';
+    let svg = `<svg viewBox="${vb}" role="group" aria-label="${esc(TH.T('Dashboard layout schema', 'Skema susun atur papan pemuka'))}">`;
+    RR.forEach((r) => {
       svg += `<g class="${r.k === cur ? 'on' : ''}" data-k="${r.k}" tabindex="0" role="button" aria-pressed="${r.k === cur}" aria-label="${esc(r.k + ': ' + L(r.n))}"><rect class="wr" x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="8"/>` +
         `<text class="wl" x="${r.x + 12}" y="${r.y + (r.h > 40 ? 22 : r.h / 2 + 5)}">${r.k}</text><text class="wt" x="${r.x + 30}" y="${r.y + (r.h > 40 ? 22 : r.h / 2 + 4)}">${esc(L(r.n))}</text></g>`;
     });
@@ -659,7 +685,8 @@ TH.pageInit.blueprint = function () {
   const N = TH.ECO.nodes, byId = {}; N.forEach((n) => { byId[n.id] = n; });
   const ARROW = (dir) => `<svg viewBox="0 0 24 24" aria-hidden="true" class="flow-ic"><path d="${dir === 'out' ? 'M5 12h13M13 6l6 6-6 6' : 'M19 12H6M11 6l-6 6 6 6'}"/></svg>`;
   function drawEco() {
-    let svg = `<svg viewBox="-330 -250 660 470" role="group" aria-label="${esc(TH.T('Ecosystem connectivity map', 'Peta kesalinghubungan ekosistem'))}"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--gold)"/></marker></defs>`;
+    if (widthOf($('#eco'), 280) < 560) return drawEcoList();
+    let svg = `<svg viewBox="-330 -250 660 470" role="group" aria-label="${esc(TH.T('Ecosystem connectivity map', 'Peta kesalinghubungan ekosistem'))}"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--brand-ink)"/></marker></defs>`;
     TH.ECO.links.forEach((lk) => {
       const a = byId[lk.a], b = byId[lk.b], act = on === lk.a || on === lk.b;
       const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy), ux = dx / d, uy = dy / d;
@@ -670,10 +697,10 @@ TH.pageInit.blueprint = function () {
     N.forEach((n) => {
       const act = on === n.id || TH.ECO.links.some((lk) => (lk.a === on && lk.b === n.id) || (lk.b === on && lk.a === n.id));
       const prop = n.status === 'proposed';
-      const fillC = n.core && n.id === 'tracker' ? 'var(--brand)' : prop ? 'var(--gold-soft)' : 'var(--brand-soft)';
+      const fillC = n.core && n.id === 'tracker' ? 'var(--brand)' : prop ? 'var(--surface-2)' : 'var(--brand-soft)';
       const ly = n.y + n.r + 16;
       svg += `<g class="node${on === n.id ? ' on' : ''}${on !== 'tracker' && !act ? ' dim' : ''}" data-id="${n.id}" tabindex="0" role="button" aria-pressed="${on === n.id}" aria-label="${esc(L(n.name))}">` +
-        `<circle cx="${n.x}" cy="${n.y}" r="${n.r}" style="fill:${fillC};stroke:${prop ? 'var(--gold)' : 'var(--surface)'}"${prop ? ' stroke-dasharray="4 3"' : ''}/>` +
+        `<circle cx="${n.x}" cy="${n.y}" r="${n.r}" style="fill:${fillC};stroke:${prop ? 'var(--muted)' : 'var(--surface)'}"${prop ? ' stroke-dasharray="4 3"' : ''}/>` +
         (n.id === 'tracker' ? `<g transform="translate(${n.x - 14} ${n.y - 14}) scale(.7)" style="color:var(--on-brand)">${TH.MARK.replace('class="brand-mark"', 'width="40" height="40"')}</g>` : '') +
         `<text x="${n.x}" y="${ly}" text-anchor="middle">${esc(L(n.name))}</text><text class="sub" x="${n.x}" y="${ly + 13}" text-anchor="middle">${esc(L(n.sub))}</text></g>`;
     });
@@ -684,15 +711,25 @@ TH.pageInit.blueprint = function () {
       g.addEventListener('click', pick);
       g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
     });
+    ecoInfo();
+  }
+  function drawEcoList() {
+    $('#eco').innerHTML = `<div class="eco-list" role="group" aria-label="${esc(TH.T('Ecosystem connectivity map', 'Peta kesalinghubungan ekosistem'))}">` + N.map((n) =>
+      `<button type="button" class="eco-node ${n.status === 'proposed' ? 'proposed' : 'core'}${n.id === 'tracker' ? ' hub' : ''}" data-id="${n.id}" aria-pressed="${on === n.id}"><b>${esc(L(n.name))}</b><small>${esc(L(n.sub))}</small></button>`).join('') + '</div>';
+    $$('#eco .eco-node').forEach((b) => b.addEventListener('click', () => { on = b.dataset.id; drawEco(); const f = $(`#eco .eco-node[data-id="${on}"]`); f && f.focus(); }));
+    ecoInfo();
+  }
+  function ecoInfo() {
     const n = byId[on];
     const flows = TH.ECO.links.filter((lk) => lk.a === on || lk.b === on).map((lk) => {
       const out = lk.a === on, other = byId[out ? lk.b : lk.a];
       return `<li>${ARROW(out ? 'out' : 'in')}<span><b>${esc((out ? TH.T('To ', 'Kepada ') : TH.T('From ', 'Daripada ')) + L(other.name))}</b><span class="muted small">${esc(L(lk.label))}</span></span></li>`;
     }).join('');
-    $('#ecoInfo').innerHTML = `<p class="small" style="margin:0 0 6px">${n.status === 'proposed' ? `<span class="chip gold">${t({en:'Proposed partner, not yet agreed', ms:'Rakan dicadangkan, belum dipersetujui'})}</span>` : `<span class="chip brand">${t({en:'Core to the project', ms:'Teras projek'})}</span>`}</p>` +
-      `<h3 style="font-family:var(--display);font-weight:400;font-size:1.6rem">${t(n.name)}</h3><p>${t(n.body)}</p><p class="label">${t({en:'Data flows', ms:'Aliran data'})}</p><ul class="flows">${flows}</ul>`;
+    $('#ecoInfo').innerHTML = `<h3 style="font-family:var(--display);font-weight:400;font-size:1.6rem">${t(n.name)}</h3>` +
+      `<p class="small" style="margin:4px 0 8px">${n.status === 'proposed' ? `<span class="chip">${t({en:'Proposed partner, not yet agreed', ms:'Rakan dicadangkan, belum dipersetujui'})}</span>` : `<span class="chip brand">${t({en:'Core to the project', ms:'Teras projek'})}</span>`}</p>` +
+      `<p>${t(n.body)}</p><p class="label">${t({en:'Data flows', ms:'Aliran data'})}</p><ul class="flows">${flows}</ul>`;
   }
-  drawEco(); TH.onLang.push(drawEco);
+  drawEco(); TH.onLang.push(drawEco); onResize(() => { drawWire(); drawEco(); });
 };
 
 /* ======================================================================
@@ -712,11 +749,11 @@ TH.pageInit.literacy = function () {
     reg:{en:'Regular savers', ms:'Penyimpan tetap'}, funnel:{en:'Programme funnel', ms:'Corong program'}, trend:{en:'Trend panel', ms:'Panel trend'}, matrix:{en:'Trend matrix', ms:'Matriks trend'}, watch:{en:'2028 watchlist', ms:'Senarai pantau 2028'}, map:{en:'Geographic panel', ms:'Panel geografi'}};
 
   function drawModules() {
-    $('#modules').innerHTML = TH.MODULES.map((m) => `<button class="module" type="button" aria-pressed="${m.id === cur}" data-id="${m.id}"><span class="who">${t(m.who)}</span><b>${t(m.name)}</b><p>${t(m.body)}</p></button>`).join('');
+    $('#modules').innerHTML = TH.MODULES.map((m) => `<button class="module" type="button" aria-pressed="${m.id === cur}" data-id="${m.id}"><b>${t(m.name)}</b><span class="who">${t(m.who)}</span><p>${t(m.body)}</p></button>`).join('');
     $$('#modules .module').forEach((b) => b.addEventListener('click', () => { cur = b.dataset.id; drawModules(); drawPipe(); drawEvents(); const f = $(`#modules .module[data-id="${cur}"]`); f && f.focus(); }));
   }
   function drawPipe() {
-    const m = TH.MODULES.find((x) => x.id === cur), W = 780, bw = 112, gap = (W - bw * 6) / 5, H = 140;
+    const m = TH.MODULES.find((x) => x.id === cur), W = 780, bw = 112, gap = (W - bw * 6) / 5, H = 80;
     let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(TH.T('Telemetry pipeline for ', 'Saluran telemetri bagi ') + L(m.name))}">`;
     STAGES.forEach((s, i) => {
       const x = i * (bw + gap);
@@ -725,10 +762,9 @@ TH.pageInit.literacy = function () {
       if (s.id !== 'tile') svg += `<text class="s" x="${x + bw / 2}" y="54" text-anchor="middle">${esc(L(s.s))}</text>`;
       svg += '</g>';
     });
-    const lx = 5 * (bw + gap);
-    m.tiles.forEach((k, j) => { svg += `<circle cx="${lx + 8}" cy="${86 + j * 16}" r="3" style="fill:var(--gold)"/><text x="${lx + 16}" y="${90 + j * 16}" style="font:600 11px var(--sans);fill:var(--gold-ink)">${esc(L(TILE[k]))}</text>`; });
-    svg += `<text x="0" y="96" style="font:500 11px var(--sans);fill:var(--muted)">${esc(m.events.length + TH.T(' event types from ', ' jenis acara dari ') + L(m.name))}</text></svg>`;
+    svg += '</svg>';
     $('#pipe').innerHTML = svg;
+    $('#pipeTiles').innerHTML = `<span class="muted small">${esc(m.events.length + TH.T(' event types from ', ' jenis acara dari ') + L(m.name) + TH.T(' feed:', ' menyalurkan:'))}</span> ` + m.tiles.map((k) => `<span class="chip brand">${esc(L(TILE[k]))}</span>`).join(' ');
   }
   function drawEvents() {
     const m = TH.MODULES.find((x) => x.id === cur);

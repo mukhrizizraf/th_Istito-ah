@@ -135,7 +135,7 @@ A restrained two-hue world: paddy greens for structure and data, pilgrimage gold
 - **Paddy Green** (#0a6b4c): active navigation, page icons, gauge fills, focus colour, the brand mark. Its deeper ink step (#0a5a40) carries links and green text on light surfaces.
 
 ### Secondary
-- **Pilgrimage Gold** (#c99316): the primary button, threshold lines on charts, deadline and policy chips (gold-soft #f6e9c6 with gold-ink #7d5806 text). On the night band it brightens to Band Gold (#e6bb4c).
+- **Pilgrimage Gold** (#c99316): the primary button, TH's amounts (ladder gates, threshold lines, the RM15,000 line), TH policy markers on charts, and the chip for TH's 2028 rule (gold-soft #f6e9c6 with gold-ink #7d5806 text). On the night band it brightens to Band Gold (#e6bb4c). Bullets, selections, highlights, links and arrows are green or neutral.
 
 ### Tertiary
 - **Night Band** (#0b2a22, raised #103a2f): the hero ladder card, the problem statement band, the governance band and the threshold band. Text on it uses Band Ink (#eef5f1) and Band Muted (#a6bfb4).
@@ -212,7 +212,7 @@ Soft, generous corners in a fixed ladder: 12px for nested tiles and inputs, 16px
 
 ### Chips
 - **Style:** pill, Sunk Well background, Soft Ink text, 0.78rem 600.
-- **Variants:** gold (policy and proposal status), green (core to the project).
+- **Variants:** green (core to the project, telemetry tiles), gold (TH policy items only, such as the 2028 rule), neutral (proposed partners).
 
 ### Cards / Containers
 - **Corner Style:** 20px.

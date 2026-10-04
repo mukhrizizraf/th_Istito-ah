@@ -238,7 +238,7 @@ TH.sampleLadder = function (stateId, N) {
 TH.PERSONAS = [
   {id:'aiman', initials:'A', hue:'#2f8a63', name:{en:'Aiman, 24', ms:'Aiman, 24'}, place:'Kedah', cat:'M40', registered:false,
    role:{en:'Fresh graduate, private payroll', ms:'Graduan baharu, gaji swasta'}, age:24, bal:1800, monthly:150},
-  {id:'nurul', initials:'N', hue:'#8a5a06', name:{en:'Nurul & Hafiz, 34', ms:'Nurul & Hafiz, 34'}, place:'Selangor', cat:'B40', registered:true,
+  {id:'nurul', initials:'N', hue:'#4a5d55', name:{en:'Nurul & Hafiz, 34', ms:'Nurul & Hafiz, 34'}, place:'Selangor', cat:'B40', registered:true,
    role:{en:'Young family, STR recipients', ms:'Keluarga muda, penerima STR'}, age:34, bal:6500, monthly:200},
   {id:'rahman', initials:'R', hue:'#156444', name:{en:'Encik Rahman, 51', ms:'Encik Rahman, 51'}, place:'Perak', cat:'M40', registered:true,
    role:{en:'Civil servant', ms:'Penjawat awam'}, age:51, bal:11000, monthly:300},

@@ -19,9 +19,9 @@
 
 <main id="main">
   <section class="wrap page-head">
-    <div class="head-row"><span class="page-icon" data-picon="tracker"></span><span class="live"><span data-lottie="live" aria-hidden="true"></span><span lang="en">Working prototype</span><span lang="ms">Prototaip berfungsi</span></span></div>
+    <div class="head-row"><span class="page-icon" data-picon="tracker"></span></div>
     <h1><span lang="en">Readiness tracker</span><span lang="ms">Penjejak kesediaan</span></h1>
-    <p class="lede"><span lang="en">This is the Phase 3 deliverable in miniature, measured against TH's own amounts for 1448H/2027M. Filter by state, age group and corporate category, click a state on the map, or test a higher Kos Haji. Every panel answers to the same filters.</span><span lang="ms">Ini ialah hasil Fasa 3 dalam bentuk kecil, diukur berbanding amaun TH sendiri bagi 1448H/2027M. Tapis mengikut negeri, kumpulan umur dan kategori korporat, klik negeri pada peta, atau uji Kos Haji yang lebih tinggi. Setiap panel mengikut penapis yang sama.</span></p>
+    <p class="lede"><span lang="en">A working prototype of the Phase 3 deliverable, measured against TH's own amounts for 1448H/2027M. Filter by state, age group and corporate category, click a state on the map, or test a higher Kos Haji. Every panel answers to the same filters.</span><span lang="ms">Prototaip berfungsi bagi hasil Fasa 3, diukur berbanding amaun TH sendiri bagi 1448H/2027M. Tapis mengikut negeri, kumpulan umur dan kategori korporat, klik negeri pada peta, atau uji Kos Haji yang lebih tinggi. Setiap panel mengikut penapis yang sama.</span></p>
   </section>
 
   <div class="wrap">
@@ -36,12 +36,12 @@
       <span class="filters-info" data-info="filters"></span>
       <button class="btn btn-ghost reset" id="fReset" type="button"><span lang="en">Reset</span><span lang="ms">Set semula</span></button>
     </form>
-    <p class="muted small" id="scopeNow" aria-live="polite" style="margin:-4px 2px 12px"></p>
+    <p class="muted small scope-line"><span class="live-dot" data-lottie="live" aria-hidden="true"></span><span id="scopeNow" aria-live="polite"></span></p>
 
     <div class="stat-row" id="stats"></div>
 
     <div class="dash">
-      <section class="panel w5" aria-labelledby="gTitle">
+      <section class="panel w5 panel-fill" aria-labelledby="gTitle">
         <div class="panel-head"><div><h2 class="h3" id="gTitle" data-info="gauges"><span lang="en">Readiness against targets</span><span lang="ms">Kesediaan berbanding sasaran</span></h2>
           <p><span lang="en">Share of depositors at each of TH's amounts. The dark tick is an example target; real targets come from the Phase 2 workshops.</span><span lang="ms">Peratus pendeposit pada setiap amaun TH. Tanda gelap ialah contoh sasaran; sasaran sebenar datang dari bengkel Fasa 2.</span></p></div></div>
         <div class="gauges" id="gauges"></div>
