@@ -10,14 +10,18 @@ Sister site of the [Kedah Silver Economy dashboard](https://mukhrizizraf.github.
 
 | Page | What it does |
 | --- | --- |
-| `index.html` | Overview, executive summary, the live *istito'ah ladder*, team and roles |
-| `cost.html` | TH's official 1448H/2027M Hajj cost and payment rules, read critically |
+| `index.html` | Overview: the live *istito'ah ladder*, TH's three problems (each with what the prototype does and an open question), executive summary, team, and a link to the technical blueprint |
+| `cost.html` | TH's official 1448H/2027M Hajj cost and payment rules, read critically; an illustrative early-payment calculator (problem 2) |
 | `tracker.html` | The PoC dashboard: filters, Kos Haji scenario, gauges, tile map, trend, matrix, 2028 watchlist |
 | `depositor.html` | One-depositor simulator: payment category, any number of deadlines (TH's 31 Dec 2028 rule is added for registered depositors; "Use this amount" applies the saving a missed one needs), literacy plan |
 | `plan.html` | Methodology by development phase, the threshold ladder, timeline, risks |
-| `blueprint.html` | Layout schema, data architecture, backend schema, ecosystem map, governance |
-| `literacy.html` | Literacy layers, module → telemetry → dashboard tiles, programme funnel |
+| `literacy.html` | Literacy programmes in plain language: four steps, five programmes, the funnel |
+| `blueprint.html` | Technical appendix, not in the top bar (linked from the bottom of the overview, the menu and the footer): layout schema, data architecture, backend schema, programme telemetry trace, ecosystem map, governance |
 | `notes.html` | Sources, what is official vs synthetic, questions for TH, glossary |
+
+Pages that use data (tracker, depositor, plan, cost, programmes) end with **The data behind this page**: a preview of the Excel template that feeds it, sample rows, a column guide, and clickable steps that light up the rows and columns each figure uses. The `.xlsx` files are in `assets/templates/`.
+
+Highlights follow one vocabulary on every page: `.term` (serif italic) for TH and Hajj terms, `.kw` (gold marker) for key figures, `.issue` (red wavy underline) for problems, `.ask` / `.ask-inline` (gold, with a ?) for open questions for colleagues, and `.tag` labels for problem / in the prototype / proposed.
 
 Every page is bilingual (English / Bahasa Melayu toggle), has light and dark themes, and supports ← → keys to move between pages. The "i" buttons explain each panel; switch on **Presenter notes** in the footer to add pitch tips to them (or open any page with `?present`).
 
@@ -43,7 +47,13 @@ assets/js/th-pages.js    page logic and hand-drawn SVG charts
 assets/js/th-lottie.js   Lottie animations (bodymovin JSON kept inline so the site runs from file://)
 assets/vendor/           lottie-web light player (5.12.2, MIT, from cdnjs)
 assets/img/              SEFB and TH logos (sourced from sefb.uum.edu.my and tabunghaji.gov.my)
+assets/templates/        Excel data templates (built, do not edit by hand)
+tools/                   build_templates.py + export-templates.js: rebuild the templates
 ```
+
+### Rebuilding the Excel templates
+
+The templates are defined once, in `TH.TEMPLATES` in `th-data.js`; the pages render them and the `.xlsx` files are built from them. After changing a template, run `python tools/build_templates.py` (needs Node and `openpyxl`).
 
 ### Adding a LottieFiles animation
 
@@ -57,4 +67,4 @@ Download the animation's Lottie JSON from [lottiefiles.com](https://lottiefiles.
 
 Every page ends with a Kedah-style footer (brand, page links, about, disclaimer). The live site is https://mukhrizizraf.github.io/th_Istito-ah/.
 
-Prepared by SEFB, UUM. Technical App Development Lead: Mukhriz Izraf.
+Prepared by SEFB, UUM.

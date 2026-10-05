@@ -177,6 +177,33 @@ TH.pageInit.cost = function () {
   }
   const all = () => { drawSplit(); drawRuler(); };
   all(); onRedraw(all); onResize(all);
+
+  /* Problem 2: what TH pays early against what the next pilgrims have saved (illustrative) */
+  const MIX = {B40:.45, M40:.45, T20:.10}, OWNAVG = Object.keys(MIX).reduce((s, k) => s + MIX[k] * P.pay[k], 0);
+  const eAdv = $('#e-adv'), eSaved = $('#e-saved');
+  const mil = (n) => TH.T('RM' + (n / 1e6).toFixed(0) + ' million', 'RM' + (n / 1e6).toFixed(0) + ' juta');
+  function early() {
+    rangeFill(eAdv); rangeFill(eSaved);
+    const adv = +eAdv.value / 100, saved = +eSaved.value / 100;
+    $('#o-adv').textContent = eAdv.value + '%'; $('#o-saved').textContent = eSaved.value + '%';
+    $('#e-own').textContent = TH.rm(OWNAVG); $('#e-own2').textContent = TH.rm(OWNAVG);
+    const bill = P.quota * P.kosHaji * adv, held = P.quota * OWNAVG * saved, cover = Math.min(bill, held), gap = bill - cover;
+    $('#earlyNums').innerHTML =
+      `<li><span class="label">${t({en:'TH pays early', ms:'TH bayar awal'})}</span><b>${esc(mil(bill))}</b></li>` +
+      `<li><span class="label">${t({en:'Pilgrims\' savings could cover', ms:'Simpanan jemaah boleh tampung'})}</span><b class="ok">${esc(mil(cover))}</b></li>` +
+      `<li><span class="label">${t({en:'Gap TH carries', ms:'Jurang ditanggung TH'})}</span><b class="${gap > 0 ? 'bad' : 'ok'}">${esc(mil(gap))}</b></li>`;
+    const W = widthOf($('#earlyBar'), 280), H = 46, x = (n) => n / bill * (W - 2);
+    $('#earlyBar').innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(TH.T('Early payments split between pilgrims\' savings and the gap TH carries', 'Bayaran awal dibahagi antara simpanan jemaah dan jurang yang ditanggung TH'))}">` +
+      `<rect x="1" y="8" width="${Math.max(0, x(cover) - (gap > 0 ? 2 : 0))}" height="30" rx="6" style="fill:var(--s-a)"/>` +
+      (gap > 0 ? `<rect x="${1 + x(cover)}" y="8" width="${x(gap)}" height="30" rx="6" style="fill:var(--crit);opacity:.85"/>` : '') + '</svg>' +
+      `<div class="legend"><span><i style="background:var(--s-a)"></i>${t({en:'Covered by pilgrims\' own savings', ms:'Ditampung simpanan jemaah sendiri'})}</span><span><i style="background:var(--crit)"></i>${t({en:'Gap TH funds itself', ms:'Jurang dibiayai TH sendiri'})}</span></div>`;
+    const need = bill / (P.quota * OWNAVG);
+    $('#earlyClose').innerHTML = need <= 1
+      ? t({en:`The gap closes if the next pilgrims hold <b>${Math.ceil(need * 100)}%</b> of their own payment three years before their season.`, ms:`Jurang tertutup jika bakal jemaah memiliki <b>${Math.ceil(need * 100)}%</b> daripada bayaran sendiri tiga tahun sebelum musim mereka.`}).replace(/&lt;b&gt;/g, '<b>').replace(/&lt;\/b&gt;/g, '</b>')
+      : t({en:'Even full own payments would not cover this: the rest is assistance (HAFIS) that TH carries anyway.', ms:'Bayaran sendiri penuh pun tidak mencukupi: bakinya ialah bantuan (HAFIS) yang memang ditanggung TH.'});
+  }
+  [eAdv, eSaved].forEach((el) => el.addEventListener('input', early));
+  early(); TH.onLang.push(early); onResize(early);
 };
 
 /* ======================================================================
@@ -672,9 +699,9 @@ TH.pageInit.blueprint = function () {
     svg += '</svg>';
     $('#wire').innerHTML = svg;
     $$('#wire g[data-k]').forEach((g) => {
-      const pick = () => { cur = g.dataset.k; drawWire(); const f = $(`#wire g[data-k="${cur}"]`); f && f.focus(); };
-      g.addEventListener('click', pick);
-      g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
+      const pick = (kb) => { cur = g.dataset.k; drawWire(); const f = kb && $(`#wire g[data-k="${cur}"]`); f && f.focus(); };
+      g.addEventListener('click', () => pick(false));
+      g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(true); } });
     });
     const r = R.find((x) => x.k === cur);
     $('#wireInfo').innerHTML = `<span class="k">${r.k}</span><h3>${t(r.n)}</h3><p>${t(r.d)}</p>`;
@@ -707,9 +734,9 @@ TH.pageInit.blueprint = function () {
     svg += '</svg>';
     $('#eco').innerHTML = svg;
     $$('#eco .node').forEach((g) => {
-      const pick = () => { on = g.dataset.id; drawEco(); const f = $(`#eco .node[data-id="${on}"]`); f && f.focus(); };
-      g.addEventListener('click', pick);
-      g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
+      const pick = (kb) => { on = g.dataset.id; drawEco(); const f = kb && $(`#eco .node[data-id="${on}"]`); f && f.focus(); };
+      g.addEventListener('click', () => pick(false));
+      g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(true); } });
     });
     ecoInfo();
   }
@@ -730,15 +757,17 @@ TH.pageInit.blueprint = function () {
       `<p>${t(n.body)}</p><p class="label">${t({en:'Data flows', ms:'Aliran data'})}</p><ul class="flows">${flows}</ul>`;
   }
   drawEco(); TH.onLang.push(drawEco); onResize(() => { drawWire(); drawEco(); });
+  traceInit();
 };
 
 /* ======================================================================
-   Literacy layers: module → telemetry → tiles, and the funnel
+   Blueprint (technical): trace one programme's data to the dashboard
    ====================================================================== */
-TH.pageInit.literacy = function () {
+function traceInit() {
+  if (!$('#pipe')) return;
   let cur = 'youth';
   const STAGES = [
-    {id:'mod', n:{en:'Module', ms:'Modul'}, s:{en:'app · workshop · HR', ms:'aplikasi · bengkel · HR'}},
+    {id:'mod', n:{en:'Programme', ms:'Program'}, s:{en:'app · workshop · HR', ms:'aplikasi · bengkel · HR'}},
     {id:'col', n:{en:'Event collector', ms:'Pengumpul acara'}, s:{en:'schema check', ms:'semakan skema'}},
     {id:'pse', n:{en:'Pseudonymise', ms:'Nyahnama'}, s:{en:'inside TH, PDPA', ms:'dalam TH, PDPA'}},
     {id:'wh', n:{en:'Analytics store', ms:'Stor analitik'}, s:{en:'events · snapshots', ms:'acara · petikan'}},
@@ -747,10 +776,9 @@ TH.pageInit.literacy = function () {
   ];
   const TILE = {gauge25:{en:'RM8,325 gauge', ms:'Tolok RM8,325'}, gauge15:{en:'RM15,000 gauge', ms:'Tolok RM15,000'}, gauge235:{en:'RM23,500 gauge', ms:'Tolok RM23,500'}, gauge100:{en:'RM33,300 gauge', ms:'Tolok RM33,300'},
     reg:{en:'Regular savers', ms:'Penyimpan tetap'}, funnel:{en:'Programme funnel', ms:'Corong program'}, trend:{en:'Trend panel', ms:'Panel trend'}, matrix:{en:'Trend matrix', ms:'Matriks trend'}, watch:{en:'2028 watchlist', ms:'Senarai pantau 2028'}, map:{en:'Geographic panel', ms:'Panel geografi'}};
-
-  function drawModules() {
-    $('#modules').innerHTML = TH.MODULES.map((m) => `<button class="module" type="button" aria-pressed="${m.id === cur}" data-id="${m.id}"><b>${t(m.name)}</b><span class="who">${t(m.who)}</span><p>${t(m.body)}</p></button>`).join('');
-    $$('#modules .module').forEach((b) => b.addEventListener('click', () => { cur = b.dataset.id; drawModules(); drawPipe(); drawEvents(); const f = $(`#modules .module[data-id="${cur}"]`); f && f.focus(); }));
+  function drawPick() {
+    $('#modPick').innerHTML = TH.MODULES.map((m) => `<button type="button" data-id="${m.id}" aria-pressed="${m.id === cur}">${t(m.name)}</button>`).join('');
+    $$('#modPick button').forEach((b) => b.addEventListener('click', () => { cur = b.dataset.id; $$('#modPick button').forEach((x) => x.setAttribute('aria-pressed', x === b)); drawPipe(); drawEvents(); }));
   }
   function drawPipe() {
     const m = TH.MODULES.find((x) => x.id === cur), W = 780, bw = 112, gap = (W - bw * 6) / 5, H = 80;
@@ -762,14 +790,25 @@ TH.pageInit.literacy = function () {
       if (s.id !== 'tile') svg += `<text class="s" x="${x + bw / 2}" y="54" text-anchor="middle">${esc(L(s.s))}</text>`;
       svg += '</g>';
     });
-    svg += '</svg>';
-    $('#pipe').innerHTML = svg;
+    $('#pipe').innerHTML = svg + '</svg>';
     $('#pipeTiles').innerHTML = `<span class="muted small">${esc(m.events.length + TH.T(' event types from ', ' jenis acara dari ') + L(m.name) + TH.T(' feed:', ' menyalurkan:'))}</span> ` + m.tiles.map((k) => `<span class="chip brand">${esc(L(TILE[k]))}</span>`).join(' ');
   }
   function drawEvents() {
     const m = TH.MODULES.find((x) => x.id === cur);
     $('#events').innerHTML = `<div class="scroll-x"><table class="tbl"><thead><tr><th>${t({en:'Event', ms:'Acara'})}</th><th>${t({en:'Sent when', ms:'Dihantar apabila'})}</th><th>${t({en:'Key fields', ms:'Medan utama'})}</th><th>${t({en:'Feeds', ms:'Menyalurkan'})}</th></tr></thead><tbody>` +
       TH.EVENTS.map((e) => `<tr class="${m.events.includes(e.id) ? 'hl' : ''}"><td><code>${e.id}</code></td><td>${t(e.when)}</td><td><code>${esc(e.fields)}</code></td><td>${t(e.feeds)}</td></tr>`).join('') + '</tbody></table></div>';
+  }
+  const all = () => { drawPick(); drawPipe(); drawEvents(); };
+  all(); TH.onLang.push(all);
+}
+
+/* ======================================================================
+   Literacy programmes (plain language): programme cards and the funnel
+   ====================================================================== */
+TH.pageInit.literacy = function () {
+  function drawProgrammes() {
+    $('#programmes').innerHTML = TH.MODULES.map((m) => `<li class="prog"><span class="chip brand">${t(m.who)}</span><h3>${t(m.name)}</h3><p>${t(m.body)}</p>` +
+      `<p class="prog-goal"><span class="label">${t({en:'Success looks like', ms:'Tanda kejayaan'})}</span>${t(m.goal)}</p></li>`).join('');
   }
   function drawFunnel() {
     const box = $('#funnel'), W = widthOf(box, 280), compact = W < 520;
@@ -782,11 +821,70 @@ TH.pageInit.literacy = function () {
         `<text x="${l + w + 8}" y="${y0 + rowH / 2 + 4}" style="font:600 12px var(--sans);fill:var(--ink)">${TH.nf(f.n)}</text>` +
         (i ? `<text x="${l + w + 52}" y="${y0 + rowH / 2 + 4}" style="font:500 11px var(--sans);fill:var(--muted)">${TH.pct(f.n / TH.FUNNEL[i - 1].n)}${compact ? '' : ' ' + esc(TH.T('of previous', 'drp sebelum'))}</text>` : '');
     });
-    svg += '</svg>';
-    box.innerHTML = svg;
+    box.innerHTML = svg + '</svg>';
   }
-  const all = () => { drawModules(); drawPipe(); drawEvents(); drawFunnel(); };
+  const all = () => { drawProgrammes(); drawFunnel(); };
   all(); TH.onLang.push(all); TH.onTheme.push(drawFunnel); onResize(drawFunnel);
+};
+
+/* ======================================================================
+   Data templates: the spreadsheet behind a page (any [data-template])
+   A sheet preview with Excel-style letters and row numbers, sheet tabs,
+   steps that light up the rows and columns they use, and a column guide.
+   ====================================================================== */
+const COLS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+TH.templateInit = function () {
+  $$('[data-template]').forEach((host) => {
+    const T = TH.TEMPLATES && TH.TEMPLATES[host.getAttribute('data-template')]; if (!T) return;
+    let step = 0, sheet = T.steps[0].sheet || 0;
+    const val = (c, r) => typeof c.calc === 'function' ? c.calc(r) : r[c.k];
+    const cell = (c, x) => x === '' || x == null ? '' : typeof x === 'number' && c.type === 'pct' ? x + '%' : typeof x === 'number' ? x.toLocaleString('en-MY', {maximumFractionDigits:2}) : String(x);
+    const isNum = (c) => c.type === 'rm' || c.type === 'int' || c.type === 'pct';
+    const formula = (c, i, r) => { const f = (r._f && r._f[c.k]) || (i === 0 && c.f0) || c.f; return f ? '=' + f.replace(/\{r\}/g, i + 2).replace(/\{p\}/g, i + 1) : ''; };
+    const typeName = (c) => c.type === 'rm' ? 'RM' : c.type === 'yn' ? 'Y / N' : c.type === 'int' ? TH.T('number', 'nombor') : c.type === 'pct' ? '%' : TH.T('text', 'teks');
+    function render() {
+      const S = T.sheets[sheet], st = T.steps[step], on = (st.sheet || 0) === sheet;
+      const hitCols = on ? st.cols.map((x) => COLS.indexOf(x)) : [];
+      const hits = S.rows.map((r) => on && !!st.match(r)), anyHit = hits.some(Boolean);
+      const ch = (j) => hitCols.includes(j) ? ' col-hit' : '';
+      const grid = `<table class="xl-grid"><thead><tr><th class="xl-corner" aria-hidden="true"></th>${S.cols.map((c, j) => `<th scope="col" class="${ch(j)}">${COLS[j]}</th>`).join('')}</tr></thead><tbody>` +
+        `<tr class="xl-hdr"><th scope="row">1</th>${S.cols.map((c, j) => `<td class="${c.f ? 'calc' : ''}${ch(j)}" title="${esc(L(c.d))}">${c.f ? '<i class="fx">fx</i>' : ''}${esc(c.k)}</td>`).join('')}</tr>` +
+        S.rows.map((r, i) => `<tr class="${hits[i] ? 'hit' : anyHit ? 'dim' : ''}"><th scope="row">${i + 2}</th>${S.cols.map((c, j) => { const f = formula(c, i, r); return `<td class="${f ? 'calc' : ''}${ch(j)}${isNum(c) || typeof val(c, r) === 'number' ? ' r' : ''}"${f ? ` title="${esc(f)}"` : ''}>${esc(cell(c, val(c, r)))}</td>`; }).join('')}</tr>`).join('') +
+        '</tbody></table>';
+      const tabs = T.sheets.length > 1 ? T.sheets.map((s, k) => `<button type="button" role="tab" aria-selected="${k === sheet}" data-s="${k}">${esc(s.name)}</button>`).join('') : `<span class="xl-tab-one">${esc(S.name)}</span>`;
+      const stepsHtml = T.steps.map((s, k) => {
+        const res = s.res(T.sheets[s.sheet || 0].rows);
+        return `<li><button type="button" class="dt-step${s.proposed ? ' proposed' : ''}" aria-pressed="${k === step}" data-k="${k}"><span class="dt-n">${k + 1}</span>` +
+          `<b>${t(s.t)}${s.proposed ? ` <span class="tag tag-new">${t({en:'proposed', ms:'dicadangkan'})}</span>` : ''}</b><span class="dt-rule">${t(s.rule)}</span>` +
+          `<span class="dt-res">${t({en:'In these rows: ', ms:'Dalam baris ini: '})}<strong>${t(res)}</strong></span><span class="dt-feeds">${TH.icon('right')}${t(s.feeds)}</span></button></li>`;
+      }).join('');
+      const guide = T.sheets.map((s) => `<tr class="g-sheet"><th colspan="4">${esc(s.name)}</th></tr>` + s.cols.map((c, j) =>
+        `<tr><td class="nowrap"><span class="xl-letter">${COLS[j]}</span><code>${esc(c.k)}</code></td><td class="nowrap">${esc(typeName(c))}${c.f ? ' · fx' : ''}</td><td>${t(c.d)}</td><td class="muted small">${c.opts ? esc(c.opts.length > 6 ? c.opts.slice(0, 5).join(', ') + ' …' : c.opts.join(', ')) : ''}</td></tr>`).join('')).join('');
+      const wasOpen = $('.dt-cols', host) && $('.dt-cols', host).open, oldXl = $('.xl', host), keepX = oldXl ? oldXl.scrollLeft : 0;
+      host.innerHTML = `<div class="dt-card">` +
+        `<header class="dt-head"><span class="dt-ic" aria-hidden="true">${TH.icon('sheet')}</span><div><p class="label">${t({en:'Data template', ms:'Templat data'})}</p>` +
+        `<h2 class="with-info">${t({en:'The data behind this page', ms:'Data di sebalik halaman ini'})}${TH.info('dt')}</h2><p>${t(T.intro)}</p></div>` +
+        `<a class="btn btn-gold dt-dl" href="${T.file}" download>${TH.icon('download')}${t({en:'Download Excel template', ms:'Muat turun templat Excel'})}</a></header>` +
+        `<div class="xl" role="region" tabindex="0" aria-label="${esc(TH.T('Sheet preview: ', 'Pratonton helaian: ') + S.name)}">${grid}</div>` +
+        `<div class="xl-tabs" role="tablist" aria-label="${esc(TH.T('Sheets', 'Helaian'))}">${tabs}<span class="xl-note">${t({en:'Sample rows, made up. Shaded fx cells are worked out: hover one for its formula.', ms:'Baris contoh, rekaan. Sel fx berlorek dikira: halakan tetikus untuk formulanya.'})}</span></div>` +
+        `<h3 class="dt-how">${t({en:'How rows become the numbers on this page', ms:'Bagaimana baris menjadi angka di halaman ini'})}</h3><p class="muted small dt-hint">${t({en:'Click a step: the rows and columns it uses light up above.', ms:'Klik satu langkah: baris dan lajur yang digunakan akan diserlahkan di atas.'})}</p>` +
+        `<ol class="dt-steps">${stepsHtml}</ol>` +
+        (T.privacy ? `<p class="dt-privacy">${TH.icon('info')}<span>${t(T.privacy)}</span></p>` : '') +
+        `<details class="dt-cols"${wasOpen ? ' open' : ''}><summary>${t({en:'Column guide', ms:'Panduan lajur'})} <span class="muted">(${T.sheets.reduce((n, s) => n + s.cols.length, 0)})</span></summary><div class="scroll-x"><table class="tbl"><thead><tr><th>${t({en:'Column', ms:'Lajur'})}</th><th>${t({en:'Type', ms:'Jenis'})}</th><th>${t({en:'What it means', ms:'Maksud'})}</th><th>${t({en:'Allowed values', ms:'Nilai dibenarkan'})}</th></tr></thead><tbody>${guide}</tbody></table></div></details>` +
+        '</div>';
+      /* keep the sheet's sideways scroll, but bring the step's columns into view */
+      const xl = $('.xl', host), hc = $$('thead th.col-hit', xl);
+      xl.scrollLeft = keepX;
+      if (hc.length) {
+        const first = hc[0], last = hc[hc.length - 1], rowHead = $('tbody th', xl).offsetWidth;
+        const left = first.offsetLeft - rowHead - 8, right = last.offsetLeft + last.offsetWidth + 8;
+        if (left < xl.scrollLeft || right > xl.scrollLeft + xl.clientWidth) xl.scrollLeft = Math.max(0, Math.min(left, right - xl.clientWidth));
+      }
+      $$('.dt-step', host).forEach((b) => b.addEventListener('click', () => { step = +b.dataset.k; sheet = T.steps[step].sheet || 0; render(); }));
+      $$('.xl-tabs [role="tab"]', host).forEach((b) => b.addEventListener('click', () => { sheet = +b.dataset.s; render(); }));
+    }
+    render(); TH.onLang.push(render);
+  });
 };
 
 /* ======================================================================

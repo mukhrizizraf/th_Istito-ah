@@ -7,7 +7,7 @@
 <title>Cost &amp; policy · Istito'ah Tracker</title>
 <meta name="description" content="Lembaga Tabung Haji's official Hajj cost and payment rules for 1448H/2027M, read critically for what a readiness tracker must measure.">
 <meta name="theme-color" content="#0b2a22">
-<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('th-theme');if(t==='dark'||t==='light')d.setAttribute('data-theme',t);if(localStorage.getItem('th-lang')==='ms'){d.setAttribute('data-lang','ms');d.lang='ms'}}catch(e){}var P=['index','cost','tracker','depositor','plan','blueprint','literacy','notes'],i=P.indexOf((location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''));if(i<0)i=0;try{var p=parseInt(sessionStorage.getItem('th-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('th-idx',i)}catch(e){}})()</script>
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('th-theme');if(t==='dark'||t==='light')d.setAttribute('data-theme',t);if(localStorage.getItem('th-lang')==='ms'){d.setAttribute('data-lang','ms');d.lang='ms'}}catch(e){}var P=['index','cost','tracker','depositor','plan','literacy','notes'],i=P.indexOf((location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''));if(i<0)i=0;try{var p=parseInt(sessionStorage.getItem('th-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('th-idx',i)}catch(e){}})()</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400..700&display=swap">
@@ -32,7 +32,27 @@
       <li><b>9.7 <span lang="en">million</span><span lang="ms">juta</span></b><span><span lang="en">TH depositors; profit distribution of 3.50% for 2025 (3.25% for 2024)</span><span lang="ms">Pendeposit TH; agihan keuntungan 3.50% bagi 2025 (3.25% bagi 2024)</span></span></li>
     </ul>
 
-    <section class="section" aria-labelledby="splitTitle" style="padding-top:6px">
+    <section class="section" aria-labelledby="earlyTitle" id="early" style="padding-top:6px">
+      <div class="shead"><div><p class="label"><span class="tag tag-problem"><span lang="en">Problem 2 from TH</span><span lang="ms">Masalah 2 daripada TH</span></span></p>
+        <h2 id="earlyTitle" data-info="early"><span lang="en">Paying years ahead: how much can pilgrims' own savings cover?</span><span lang="ms">Bayar bertahun lebih awal: berapa banyak boleh ditampung simpanan jemaah sendiri?</span></h2>
+        <p><span lang="en">TH pays some costs <span class="kw">2–3 years</span> before each season, and <span class="issue">cannot use depositors' money</span> while many future pilgrims have not saved enough. Move the settings to see the gap TH carries.</span><span lang="ms">TH membayar sebahagian kos <span class="kw">2–3 tahun</span> sebelum setiap musim, dan <span class="issue">tidak boleh menggunakan wang pendeposit</span> selagi ramai bakal jemaah belum cukup simpanan. Ubah tetapan untuk melihat jurang yang ditanggung TH.</span></p></div>
+        <span class="chip gold"><span lang="en">Illustrative: TH's real figures are not public</span><span lang="ms">Ilustrasi: angka sebenar TH tidak diterbitkan</span></span></div>
+      <div class="early">
+        <form class="card controls" onsubmit="return false" aria-label="Early payment settings">
+          <div class="ctl"><div class="ctl-top"><label for="e-adv"><span lang="en">Share of Kos Haji TH pays early</span><span lang="ms">Bahagian Kos Haji yang dibayar awal oleh TH</span></label><output id="o-adv" for="e-adv"></output></div><input type="range" id="e-adv" min="10" max="80" step="5" value="40"><small><span lang="en">An assumption to ask TH about: deposits for flights, accommodation and Masyair services.</span><span lang="ms">Andaian untuk ditanya kepada TH: deposit penerbangan, penginapan dan perkhidmatan Masyair.</span></small></div>
+          <div class="ctl"><div class="ctl-top"><label for="e-saved"><span lang="en">Saved by the next pilgrims, 3 years ahead</span><span lang="ms">Simpanan bakal jemaah, 3 tahun lebih awal</span></label><output id="o-saved" for="e-saved"></output></div><input type="range" id="e-saved" min="0" max="100" step="5" value="45"><small><span lang="en">As a share of their own Bayaran Haji. Real data: the Monthly snapshot rows of registrants whose turn is near.</span><span lang="ms">Sebagai peratus Bayaran Haji sendiri. Data sebenar: baris Monthly snapshot bagi pendaftar yang hampir giliran.</span></small></div>
+          <p class="small muted" style="margin:0"><span lang="en">Fixed: <b>31,600</b> pilgrims, Kos Haji <b>RM33,300</b>, and a category mix of B40 45%, M40 45%, T20 10% (assumed), so the average own payment is about <b id="e-own"></b>.</span><span lang="ms">Tetap: <b>31,600</b> jemaah, Kos Haji <b>RM33,300</b>, dan campuran kategori B40 45%, M40 45%, T20 10% (andaian), jadi purata bayaran sendiri kira-kira <b id="e-own2"></b>.</span></p>
+        </form>
+        <div class="card early-out" aria-live="polite">
+          <ul class="early-nums" id="earlyNums"></ul>
+          <div class="chart" id="earlyBar"></div>
+          <p class="early-close" id="earlyClose"></p>
+        </div>
+      </div>
+      <p class="ask"><span lang="en">Who has an idea to close this gap? For example: an earlier savings deadline for pilgrims near their turn, a locked Tabung Istito'ah, or a Shariah-compliant reserve. Finance and Shariah colleagues especially welcome.</span><span lang="ms">Siapa ada idea untuk merapatkan jurang ini? Contohnya: tarikh akhir simpanan lebih awal bagi bakal jemaah yang hampir giliran, Tabung Istito'ah yang dikunci, atau rizab patuh Syariah. Rakan kewangan dan Syariah amat dialu-alukan.</span></p>
+    </section>
+
+    <section class="section" aria-labelledby="splitTitle">
       <div class="grid split-grid">
         <div class="panel">
           <div class="panel-head"><div><h2 class="h3" id="splitTitle" data-info="split"><span lang="en">Who pays the RM33,300</span><span lang="ms">Siapa membayar RM33,300</span></h2>
@@ -132,6 +152,7 @@
       </div>
     </section>
   </div>
+  <section class="wrap section dt" id="data" data-template="cost" aria-label="Data template"></section>
 </main>
 
 <script src="assets/vendor/lottie_light.min.js"></script>

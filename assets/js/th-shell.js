@@ -34,6 +34,9 @@ TH.pageInit = {};
 TH.page = body.getAttribute('data-page') || 'overview';
 TH.pageIndex = 0;
 TH.PAGES.forEach(function (p, i) { if (p.id === TH.page) TH.pageIndex = i; });
+/* An extra page (the technical blueprint) sits outside the numbered set: no tab, pager back to the overview. */
+TH.extraPage = (TH.EXTRA_PAGES || []).filter(function (p) { return p.id === TH.page; })[0] || null;
+if (TH.extraPage) TH.pageIndex = -1;
 
 /* ---------- Icons (24px grid, 1.8 stroke) ---------- */
 var ICON = {
@@ -48,6 +51,8 @@ var ICON = {
   warn:'<path d="M12 7.5v5.5M12 16.4v.2"/>',
   crit:'<path d="M8 8l8 8M16 8l-8 8"/>',
   print:'<path d="M7 9V3.5h10V9M7 17H4.5V10.5a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5V17H17"/><path d="M7 14h10v6.5H7z"/>',
+  sheet:'<rect x="3.5" y="4" width="17" height="16" rx="2.5"/><path d="M3.5 9h17M3.5 14.5h17M9.5 4v16"/>',
+  download:'<path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/>',
   coin:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v9M9.5 9.8c0-1.2 1.1-1.8 2.5-1.8s2.5.6 2.5 1.7c0 2.6-5 1.6-5 4.3 0 1.1 1.1 1.8 2.5 1.8s2.5-.6 2.5-1.8"/>'
 };
 TH.icon = function (n) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICON[n] + '</svg>'; };
@@ -67,7 +72,7 @@ var PICON = {
   tracker:'<path pathLength="1" d="M3.5 16.5a8.5 8.5 0 0 1 17 0"/><path pathLength="1" d="M12 16.5l4-5.5"/><path pathLength="1" d="M3.5 20h17"/>',
   depositor:'<circle pathLength="1" cx="9" cy="7.5" r="3.2"/><path pathLength="1" d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><circle pathLength="1" cx="17.5" cy="15.5" r="3.5"/><path pathLength="1" d="M17.5 13.8v3.4"/>',
   plan:'<rect pathLength="1" x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path pathLength="1" d="M3.5 9.8h17M8 3v4M16 3v4"/><path pathLength="1" d="M8.5 14.8l2.3 2.2 4.7-4.6"/>',
-  blueprint:'<rect pathLength="1" x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path pathLength="1" d="M3.5 9h17M10 9v11.5"/>',
+  blueprint:'<path pathLength="1" d="M5.5 3.5h9l4 4v13h-13z"/><path pathLength="1" d="M14.5 3.5v4h4"/><path pathLength="1" d="M8.5 17.5l3.5-7 3.5 7z"/><circle pathLength="1" cx="12" cy="10.5" r="1.3"/>',
   literacy:'<path pathLength="1" d="M12 6.5C9.8 5 6.6 4.5 3.5 5v13.5c3.1-.5 6.3 0 8.5 1.5 2.2-1.5 5.4-2 8.5-1.5V5c-3.1-.5-6.3 0-8.5 1.5z"/><path pathLength="1" d="M12 6.5V20"/>',
   notes:'<path pathLength="1" d="M6 3.5h8.5l4 4v13H6z"/><path pathLength="1" d="M14.5 3.5v4h4M9 12h7M9 15.5h7M9 9h3"/>',
   cost:'<rect pathLength="1" x="2.5" y="6" width="19" height="12" rx="2.5"/><circle pathLength="1" cx="12" cy="12" r="2.8"/><path pathLength="1" d="M6.5 9.5v5M17.5 9.5v5"/>'
@@ -90,6 +95,8 @@ function navLinks() {
 function drawerLinks() {
   return TH.PAGES.map(function (p, i) {
     return '<li><a href="' + p.href + '"' + (i === TH.pageIndex ? ' aria-current="page"' : '') + '><span class="n" aria-hidden="true">' + (i + 1) + '</span><b>' + TH.t(p.label) + '</b><span>' + TH.t(p.desc) + '</span></a></li>';
+  }).join('') + (TH.EXTRA_PAGES || []).map(function (p) {
+    return '<li class="extra"><a href="' + p.href + '"' + (p.id === TH.page ? ' aria-current="page"' : '') + '><span class="n" aria-hidden="true">' + TH.picon(p.id) + '</span><b>' + TH.t(p.label) + '</b><span>' + TH.t(p.desc) + '</span></a></li>';
   }).join('');
 }
 var bar = '<a class="skip sr" href="#main">' + TH.t({en:'Skip to content', ms:'Langkau ke kandungan'}) + '</a>' +
@@ -197,7 +204,7 @@ doc.addEventListener('DOMContentLoaded', function () {
   });
 
   /* pager + footer */
-  var prev = TH.PAGES[TH.pageIndex - 1], next = TH.PAGES[TH.pageIndex + 1];
+  var prev = TH.extraPage ? TH.PAGES[0] : TH.PAGES[TH.pageIndex - 1], next = TH.extraPage ? null : TH.PAGES[TH.pageIndex + 1];
   var pager = '<nav class="wrap pager" aria-label="' + TH.T('Previous and next page', 'Halaman sebelum dan seterusnya') + '">' +
     (prev ? '<a class="prev" href="' + prev.href + '" data-dir="-1"><small>' + TH.t({en:'Previous', ms:'Sebelum'}) + '</small><b>' + TH.t(prev.label) + '</b><span>' + TH.t(prev.desc) + '</span></a>' : '') +
     (next ? '<a class="next" href="' + next.href + '" data-dir="1"><small>' + TH.t({en:'Next', ms:'Seterusnya'}) + '</small><b>' + TH.t(next.label) + '</b><span>' + TH.t(next.desc) + '</span></a>' : '') +
@@ -208,7 +215,7 @@ doc.addEventListener('DOMContentLoaded', function () {
       '<div class="foot-brand">' + MARK + '<div><b>' + TH.t({en:'Istito\'ah Tracker', ms:'Penjejak Istito\'ah'}) + '</b>' +
         '<p>' + TH.t({en:'A working proposal that shows how ready Tabung Haji depositors are for Hajj, measured against TH\'s own amounts, and which literacy programmes move them.', ms:'Cadangan berfungsi yang menunjukkan tahap kesediaan pendeposit Tabung Haji untuk menunaikan haji, diukur berbanding amaun TH sendiri, dan program literasi yang menggerakkan mereka.'}) + '</p>' + TH.LOCKUP + '</div></div>' +
       '<nav class="foot-col" aria-label="' + TH.esc(TH.T('Dashboard pages', 'Halaman papan pemuka')) + '"><p class="foot-h">' + TH.t({en:'Dashboard', ms:'Papan pemuka'}) + '</p><ul>' + TH.PAGES.slice(0, 4).map(flink).join('') + '</ul></nav>' +
-      '<nav class="foot-col" aria-label="' + TH.esc(TH.T('Proposal pages', 'Halaman cadangan')) + '"><p class="foot-h">' + TH.t({en:'Proposal', ms:'Cadangan'}) + '</p><ul>' + TH.PAGES.slice(4).map(flink).join('') + '</ul></nav>' +
+      '<nav class="foot-col" aria-label="' + TH.esc(TH.T('Proposal pages', 'Halaman cadangan')) + '"><p class="foot-h">' + TH.t({en:'Proposal', ms:'Cadangan'}) + '</p><ul>' + TH.PAGES.slice(4).concat(TH.EXTRA_PAGES || []).map(flink).join('') + '</ul></nav>' +
       '<div class="foot-col"><p class="foot-h">' + TH.t({en:'About', ms:'Perihal'}) + '</p><ul class="foot-facts">' +
         '<li>' + TH.t({en:'12 months, proposed', ms:'12 bulan, dicadangkan'}) + '</li>' +
         '<li>' + TH.t({en:'SEFB, UUM, with RMC', ms:'SEFB, UUM, bersama RMC'}) + '</li>' +
@@ -216,7 +223,7 @@ doc.addEventListener('DOMContentLoaded', function () {
         '<li>' + TH.t({en:'TH figures for 1448H/2027M', ms:'Angka TH bagi 1448H/2027M'}) + '</li></ul></div>' +
     '</div>' +
     '<div class="foot-bar"><span>' + TH.t({en:'Draft proposal by the School of Economics, Finance and Banking (SEFB), Universiti Utara Malaysia. Not an official Lembaga Tabung Haji product. Dashboard figures are synthetic.', ms:'Draf cadangan oleh Pusat Pengajian Ekonomi, Kewangan dan Perbankan (SEFB), Universiti Utara Malaysia. Bukan produk rasmi Lembaga Tabung Haji. Angka papan pemuka adalah sintetik.'}) + '</span>' +
-      '<span class="foot-tools"><button class="present-btn" type="button" aria-pressed="false"></button><span>' + TH.t({en:'Page', ms:'Halaman'}) + ' ' + (TH.pageIndex + 1) + ' / ' + TH.PAGES.length + '</span><span><kbd>←</kbd> <kbd>→</kbd> ' + TH.t({en:'move between pages', ms:'beralih halaman'}) + '</span></span></div>' +
+      '<span class="foot-tools"><button class="present-btn" type="button" aria-pressed="false"></button><span>' + (TH.extraPage ? TH.t({en:'Technical appendix', ms:'Lampiran teknikal'}) : TH.t({en:'Page', ms:'Halaman'}) + ' ' + (TH.pageIndex + 1) + ' / ' + TH.PAGES.length) + '</span><span><kbd>←</kbd> <kbd>→</kbd> ' + TH.t({en:'move between pages', ms:'beralih halaman'}) + '</span></span></div>' +
     '</div></footer>';
   var main = TH.$('#main');
   main.insertAdjacentHTML('beforeend', pager);
@@ -284,6 +291,7 @@ doc.addEventListener('DOMContentLoaded', function () {
   applyLang(); paintThemeBtn(); paintPresent();
   var init = TH.pageInit[TH.page];
   if (init) init();
+  if (TH.templateInit) TH.templateInit();
   if (TH.lottieInit) TH.lottieInit();
 });
 

@@ -21,12 +21,15 @@ TH.PAGES = [
    desc:{en:'See when one depositor reaches RM15,000 and their own payment.', ms:'Lihat bila seorang pendeposit mencapai RM15,000 dan bayaran hajinya.'}},
   {id:'plan', href:'plan.html', nav:{en:'Plan', ms:'Pelan'}, label:{en:'Phases & plan', ms:'Fasa & pelan'},
    desc:{en:'Three development phases, the KPI workshops and the timeline.', ms:'Tiga fasa pembangunan, bengkel KPI dan garis masa.'}},
-  {id:'blueprint', href:'blueprint.html', nav:{en:'Blueprint', ms:'Teknikal'}, label:{en:'Technical blueprint', ms:'Pelan teknikal'},
-   desc:{en:'Layout schema, data architecture and the ecosystem map.', ms:'Skema susun atur, seni bina data dan peta ekosistem.'}},
-  {id:'literacy', href:'literacy.html', nav:{en:'Literacy', ms:'Literasi'}, label:{en:'Literacy layers', ms:'Lapisan literasi'},
-   desc:{en:'How SEFB literacy modules feed the dashboard.', ms:'Bagaimana modul literasi SEFB menyalurkan data ke papan pemuka.'}},
+  {id:'literacy', href:'literacy.html', nav:{en:'Programmes', ms:'Program'}, label:{en:'Literacy programmes', ms:'Program literasi'},
+   desc:{en:'Programmes that help depositors save every month, and how TH sees if they work.', ms:'Program yang membantu pendeposit menabung setiap bulan, dan cara TH melihat keberkesanannya.'}},
   {id:'notes', href:'notes.html', nav:{en:'Sources', ms:'Sumber'}, label:{en:'Sources & assumptions', ms:'Sumber & andaian'},
    desc:{en:'What is official, what is synthetic, and what TH must confirm.', ms:'Apa yang rasmi, apa yang sintetik, dan apa yang perlu disahkan TH.'}}
+];
+/* Pages kept out of the top bar: linked from the bottom of the overview and the footer */
+TH.EXTRA_PAGES = [
+  {id:'blueprint', href:'blueprint.html', label:{en:'Technical blueprint', ms:'Pelan teknikal'},
+   desc:{en:'For IT teams and reviewers: layout, data architecture, ecosystem map.', ms:'Untuk pasukan IT dan penilai: susun atur, seni bina data, peta ekosistem.'}}
 ];
 
 /* ---------- Official figures (Lembaga Tabung Haji) ---------- */
@@ -246,22 +249,29 @@ TH.PERSONAS = [
    role:{en:'Retired, STR recipient', ms:'Bersara, penerima STR'}, age:63, bal:9800, monthly:150}
 ];
 
-/* ---------- Literacy modules and telemetry ---------- */
+/* ---------- Literacy programmes and their data ----------
+   body and goal are the plain-language copy on the Programmes page;
+   events and tiles are the technical trace shown on the blueprint page. */
 TH.MODULES = [
-  {id:'youth', who:{en:'Youth 18–29', ms:'Belia 18–29'}, name:{en:'Youth Savings Blueprint', ms:'Pelan Simpanan Belia'},
-   body:{en:'Six short in-app lessons and a campus workshop. Goal: a standing instruction into Tabung Istito\'ah and a dated path to RM15,000.', ms:'Enam pelajaran ringkas dalam aplikasi dan bengkel kampus. Matlamat: arahan tetap ke Tabung Istito\'ah dan laluan bertarikh ke RM15,000.'},
+  {id:'youth', who:{en:'Youth 18–29', ms:'Belia 18–29'}, name:{en:'Youth Savings Starter', ms:'Pelan Simpanan Belia'},
+   body:{en:'Six short lessons in the app and a campus workshop. Each young saver leaves with a monthly auto-deposit into Tabung Istito\'ah and a date for reaching RM15,000.', ms:'Enam pelajaran ringkas dalam aplikasi dan bengkel kampus. Setiap penyimpan muda pulang dengan simpanan automatik bulanan ke Tabung Istito\'ah dan tarikh untuk mencapai RM15,000.'},
+   goal:{en:'Still saving every month after six months', ms:'Masih menyimpan setiap bulan selepas enam bulan'},
    events:['module_enrolled','lesson_completed','plan_created','auto_deposit_on','milestone_reached'], tiles:['gauge25','reg','funnel']},
   {id:'family', who:{en:'Couples 30–44', ms:'Pasangan 30–44'}, name:{en:'Family Hajj Plan', ms:'Pelan Haji Keluarga'},
-   body:{en:'A household worksheet that plans two RM15,000 gates and two category payments, and checks the 2028 deadline for each spouse.', ms:'Lembaran isi rumah yang merancang dua ambang RM15,000 dan dua bayaran kategori, serta menyemak tarikh akhir 2028 bagi setiap pasangan.'},
+   body:{en:'A worksheet for couples that plans RM15,000 and the Hajj payment for both husband and wife, and checks the 2028 deadline for each.', ms:'Lembaran untuk pasangan yang merancang RM15,000 dan bayaran haji bagi suami dan isteri, serta menyemak tarikh akhir 2028 bagi setiap seorang.'},
+   goal:{en:'Both spouses on track for RM15,000', ms:'Kedua-dua pasangan di landasan ke RM15,000'},
    events:['module_enrolled','plan_created','auto_deposit_on','milestone_reached'], tiles:['gauge15','trend','funnel']},
   {id:'mid', who:{en:'Mid-career 45–59', ms:'Pertengahan kerjaya 45–59'}, name:{en:'Mid-career Top-up', ms:'Tambahan Pertengahan Kerjaya'},
-   body:{en:'Payroll top-ups and a rule for each bonus, aimed at the registered depositors still below RM15,000 before 31 December 2028.', ms:'Tambahan potongan gaji dan peraturan bagi setiap bonus, untuk pendeposit berdaftar yang masih di bawah RM15,000 sebelum 31 Disember 2028.'},
+   body:{en:'Adds a small top-up to salary deduction and sets a rule for each bonus, for registered depositors still below RM15,000 before 31 December 2028.', ms:'Menambah sedikit potongan gaji dan menetapkan peraturan bagi setiap bonus, untuk pendeposit berdaftar yang masih di bawah RM15,000 sebelum 31 Disember 2028.'},
+   goal:{en:'Fewer registered depositors below RM15,000 at the 2028 deadline', ms:'Kurang pendeposit berdaftar di bawah RM15,000 pada tarikh akhir 2028'},
    events:['module_enrolled','plan_created','auto_deposit_on','milestone_reached'], tiles:['gauge235','watch','matrix']},
   {id:'senior', who:{en:'60 and above', ms:'60 tahun ke atas'}, name:{en:'Pre-departure Readiness Check', ms:'Semakan Kesediaan Pra-Pemergian'},
-   body:{en:'A one-to-one check across money, knowledge, health and family support, before the offer letter arrives.', ms:'Semakan bersemuka merangkumi kewangan, ilmu, kesihatan dan sokongan keluarga, sebelum surat tawaran tiba.'},
+   body:{en:'A one-to-one check of money, Hajj knowledge, health and family support, before the offer letter arrives.', ms:'Semakan bersemuka tentang kewangan, ilmu haji, kesihatan dan sokongan keluarga, sebelum surat tawaran tiba.'},
+   goal:{en:'Fewer offers deferred (now about 18%)', ms:'Kurang tawaran ditangguhkan (kini kira-kira 18%)'},
    events:['module_enrolled','readiness_check_done','milestone_reached'], tiles:['gauge100','watch']},
-  {id:'employer', who:{en:'Corporate partners', ms:'Rakan korporat'}, name:{en:'Employer Payroll Programme', ms:'Program Potongan Gaji Majikan'},
-   body:{en:'An HR toolkit that enrols staff in salary deduction into TH in one step, reported as the corporate category on the dashboard.', ms:'Kit HR yang mendaftarkan pekerja dalam potongan gaji ke TH dengan satu langkah, dilaporkan sebagai kategori korporat di papan pemuka.'},
+  {id:'employer', who:{en:'Employers', ms:'Majikan'}, name:{en:'Employer Payroll Programme', ms:'Program Potongan Gaji Majikan'},
+   body:{en:'A simple HR kit so employers can sign staff up for salary deduction into TH in one step.', ms:'Kit HR mudah supaya majikan boleh mendaftarkan pekerja untuk potongan gaji ke TH dengan satu langkah.'},
+   goal:{en:'More depositors saving through payroll', ms:'Lebih ramai pendeposit menyimpan melalui potongan gaji'},
    events:['employer_enrolled','auto_deposit_on','milestone_reached'], tiles:['reg','map','matrix']}
 ];
 TH.EVENTS = [
@@ -315,6 +325,285 @@ TH.ECO = {
   ]
 };
 
+
+/* ---------- Data templates: the spreadsheets that feed each page ----------
+   One entry per page. Each sheet has columns (k = header, type, d = meaning,
+   opts = allowed values, calc = worked out from the row, f = Excel formula
+   with {r} for this row and {p} for the row above) and SAMPLE rows that are
+   made up. steps explain how rows become the page's numbers: match picks the
+   rows to highlight, cols the columns, res the result in these sample rows.
+   tools/build_templates.py turns the same entries into the .xlsx downloads. */
+const RMf = (n) => 'RM' + Math.round(n).toLocaleString('en-MY');
+const pctf = (a, b) => b ? Math.round(a / b * 100) + '%' : '0%';
+const OWN = {B40:15000, M40:23500, T20:33300};
+const bal = (r) => r.tabung_istitoah_rm + r.tabung_am_rm;
+
+/* Depositor page: yearly projection worked out from the Inputs sheet */
+const SIM_IN = {age:24, balance_today_rm:1800, monthly_deposit_rm:150, extra_from_programme_rm:50, pay_category:'M40', registered:'N', kos_haji_rm:33300, profit_pct:3.5};
+function simRows() {
+  const out = [], mon = SIM_IN.monthly_deposit_rm, p = SIM_IN.profit_pct / 100, own = OWN[SIM_IN.pay_category];
+  const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  let open = SIM_IN.balance_today_rm;
+  for (let y = 1; y <= 12; y++) {
+    const dep = 12 * mon, prof = Math.round((open + dep) * p * 100) / 100, close = open + dep + prof, hit = [];
+    if (open < 15000 && close >= 15000) hit.push('RM15,000 gate');
+    if (open < own && close >= own) hit.push('Own payment');
+    out.push({year_no:y, to_month:MON[8] + ' ' + (2026 + y), opening_rm:Math.round(open * 100) / 100, deposits_rm:dep, profit_rm:prof, closing_rm:Math.round(close * 100) / 100, passes:hit.join(', ')});
+    open = close;
+    if (close >= own) break;
+  }
+  return out;
+}
+/* first month the balance reaches rm, on the same rule as the simulator */
+function monthsTo(rm, extra) {
+  let b = SIM_IN.balance_today_rm;
+  for (let m = 1; m <= 600; m++) { b += SIM_IN.monthly_deposit_rm + (extra || 0); if (m % 12 === 0) b += b * SIM_IN.profit_pct / 100; if (b >= rm) return m; }
+  return null;
+}
+const ym = (m) => { const t = 2026 * 12 + 9 + m - 1; return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][t % 12] + ' ' + Math.floor(t / 12); };
+
+TH.TEMPLATES = {
+  tracker: {
+    file:'assets/templates/tracker-monthly-snapshot.xlsx',
+    intro:{en:'One row per depositor per month. TH would produce this inside its own systems each month; the dashboard only ever receives the totals worked out from it. The eight rows below are made up.', ms:'Satu baris bagi setiap pendeposit setiap bulan. TH akan menghasilkannya di dalam sistem sendiri setiap bulan; papan pemuka hanya menerima jumlah yang dikira daripadanya. Lapan baris di bawah adalah rekaan.'},
+    sheets:[{name:'Monthly snapshot',
+      cols:[
+        {k:'month', type:'text', d:{en:'Month of the balance (end of month), as YYYY-MM.', ms:'Bulan baki (akhir bulan), format YYYY-MM.'}},
+        {k:'pseudo_id', type:'text', d:{en:'A code TH makes inside TH. Never a name, IC or account number.', ms:'Kod yang dijana di dalam TH. Bukan nama, nombor KP atau nombor akaun.'}},
+        {k:'state', type:'text', opts:TH.STATES.map((s) => s.id), d:{en:'State code of the depositor\'s TH branch.', ms:'Kod negeri cawangan TH pendeposit.'}},
+        {k:'age_band', type:'text', opts:['18-29', '30-44', '45-59', '60+'], d:{en:'Age group.', ms:'Kumpulan umur.'}},
+        {k:'saving_channel', type:'text', opts:['Public payroll', 'Private payroll', 'Self-employed', 'None'], d:{en:'How the depositor saves. "None" means no regular deposit. Called corporate category on the tracker.', ms:'Cara pendeposit menyimpan. "None" bermaksud tiada simpanan tetap. Dipanggil kategori korporat pada penjejak.'}},
+        {k:'pay_category', type:'text', opts:['B40', 'M40', 'T20'], d:{en:'Payment category, projected until the offer letter fixes it.', ms:'Kategori bayaran, diunjurkan sehingga ditetapkan dalam surat tawaran.'}},
+        {k:'registered', type:'yn', opts:['Y', 'N'], d:{en:'Y if already registered for Hajj.', ms:'Y jika sudah mendaftar haji.'}},
+        {k:'tabung_istitoah_rm', type:'rm', d:{en:'Balance in Tabung Istito\'ah.', ms:'Baki dalam Tabung Istito\'ah.'}},
+        {k:'tabung_am_rm', type:'rm', d:{en:'Balance in Tabung Am.', ms:'Baki dalam Tabung Am.'}},
+        {k:'deposit_this_month_rm', type:'rm', d:{en:'Total paid in during the month.', ms:'Jumlah simpanan dalam bulan itu.'}},
+        {k:'months_deposited_12m', type:'int', d:{en:'Of the last 12 months, how many had a deposit (0 to 12).', ms:'Daripada 12 bulan lepas, berapa bulan ada simpanan (0 hingga 12).'}},
+        {k:'balance_rm', type:'rm', calc:bal, f:'H{r}+I{r}', d:{en:'Worked out: H + I. TH to confirm whether Tabung Am counts.', ms:'Dikira: H + I. TH perlu mengesahkan sama ada Tabung Am dikira.'}}
+      ],
+      rows:[
+        {month:'2026-09', pseudo_id:'D-0001', state:'KDH', age_band:'18-29', saving_channel:'Private payroll', pay_category:'M40', registered:'N', tabung_istitoah_rm:2400, tabung_am_rm:300, deposit_this_month_rm:150, months_deposited_12m:12},
+        {month:'2026-09', pseudo_id:'D-0002', state:'KDH', age_band:'30-44', saving_channel:'None', pay_category:'B40', registered:'Y', tabung_istitoah_rm:6100, tabung_am_rm:0, deposit_this_month_rm:0, months_deposited_12m:2},
+        {month:'2026-09', pseudo_id:'D-0003', state:'SGR', age_band:'45-59', saving_channel:'Public payroll', pay_category:'M40', registered:'Y', tabung_istitoah_rm:16800, tabung_am_rm:4200, deposit_this_month_rm:400, months_deposited_12m:12},
+        {month:'2026-09', pseudo_id:'D-0004', state:'KTN', age_band:'60+', saving_channel:'None', pay_category:'B40', registered:'Y', tabung_istitoah_rm:9800, tabung_am_rm:1200, deposit_this_month_rm:5000, months_deposited_12m:1},
+        {month:'2026-09', pseudo_id:'D-0005', state:'SGR', age_band:'30-44', saving_channel:'Private payroll', pay_category:'T20', registered:'N', tabung_istitoah_rm:27500, tabung_am_rm:8000, deposit_this_month_rm:800, months_deposited_12m:11},
+        {month:'2026-09', pseudo_id:'D-0006', state:'PRK', age_band:'45-59', saving_channel:'Self-employed', pay_category:'M40', registered:'Y', tabung_istitoah_rm:12500, tabung_am_rm:3000, deposit_this_month_rm:0, months_deposited_12m:4},
+        {month:'2026-09', pseudo_id:'D-0007', state:'SBH', age_band:'18-29', saving_channel:'None', pay_category:'B40', registered:'N', tabung_istitoah_rm:350, tabung_am_rm:0, deposit_this_month_rm:0, months_deposited_12m:0},
+        {month:'2026-09', pseudo_id:'D-0008', state:'KDH', age_band:'60+', saving_channel:'Public payroll', pay_category:'B40', registered:'Y', tabung_istitoah_rm:15200, tabung_am_rm:900, deposit_this_month_rm:250, months_deposited_12m:12}
+      ]}],
+    steps:[
+      {cols:['L'], match:(r) => bal(r) >= 15000,
+       t:{en:'At or above RM15,000', ms:'RM15,000 ke atas'}, rule:{en:'Count the rows where balance_rm (L) is RM15,000 or more, then divide by all rows.', ms:'Kira baris dengan balance_rm (L) RM15,000 atau lebih, kemudian bahagi dengan semua baris.'},
+       res:(rows) => { const n = rows.filter((r) => bal(r) >= 15000).length; return {en:n + ' of ' + rows.length + ' rows = ' + pctf(n, rows.length), ms:n + ' daripada ' + rows.length + ' baris = ' + pctf(n, rows.length)}; },
+       feeds:{en:'RM15,000 gauge, map, trend', ms:'Tolok RM15,000, peta, trend'}},
+      {cols:['F', 'L'], match:(r) => bal(r) >= OWN[r.pay_category],
+       t:{en:'Can cover own Bayaran Haji', ms:'Mampu tampung Bayaran Haji sendiri'}, rule:{en:'Compare L with the payment for the row\'s category (F): B40 RM15,000, M40 RM23,500, T20 RM33,300.', ms:'Bandingkan L dengan bayaran kategori baris (F): B40 RM15,000, M40 RM23,500, T20 RM33,300.'},
+       res:(rows) => { const n = rows.filter((r) => bal(r) >= OWN[r.pay_category]).length; return {en:n + ' of ' + rows.length + ' rows = ' + pctf(n, rows.length), ms:n + ' daripada ' + rows.length + ' baris = ' + pctf(n, rows.length)}; },
+       feeds:{en:'"Own payment" figure and map measure', ms:'Angka dan ukuran peta "Bayaran sendiri"'}},
+      {cols:['G', 'L'], match:(r) => r.registered === 'Y' && bal(r) < 15000,
+       t:{en:'Registered, still below RM15,000', ms:'Berdaftar, masih bawah RM15,000'}, rule:{en:'Rows with registered (G) = Y and L under RM15,000. These depositors must reach RM15,000 by 31 December 2028.', ms:'Baris dengan registered (G) = Y dan L bawah RM15,000. Mereka perlu mencapai RM15,000 sebelum 31 Disember 2028.'},
+       res:(rows) => { const reg = rows.filter((r) => r.registered === 'Y').length, n = rows.filter((r) => r.registered === 'Y' && bal(r) < 15000).length; return {en:n + ' people, ' + pctf(n, reg) + ' of the ' + reg + ' registered', ms:n + ' orang, ' + pctf(n, reg) + ' daripada ' + reg + ' yang berdaftar'}; },
+       feeds:{en:'2028 watchlist', ms:'Senarai pantau 2028'}},
+      {cols:['K'], match:(r) => r.months_deposited_12m >= 10,
+       t:{en:'Regular savers', ms:'Penyimpan tetap'}, rule:{en:'Rows where months_deposited_12m (K) is 10 or more: saving in almost every month (proposed rule).', ms:'Baris dengan months_deposited_12m (K) 10 atau lebih: menyimpan hampir setiap bulan (peraturan dicadangkan).'},
+       res:(rows) => { const n = rows.filter((r) => r.months_deposited_12m >= 10).length; return {en:n + ' of ' + rows.length + ' rows = ' + pctf(n, rows.length), ms:n + ' daripada ' + rows.length + ' baris = ' + pctf(n, rows.length)}; },
+       feeds:{en:'"Regular" map measure', ms:'Ukuran peta "Tetap"'}},
+      {cols:['J', 'K'], match:(r) => r.months_deposited_12m <= 3 && r.deposit_this_month_rm >= 3000, proposed:true,
+       t:{en:'Last-minute lump sums', ms:'Simpanan sekaligus saat akhir'}, rule:{en:'Deposited in 3 or fewer of the last 12 months (K), yet RM3,000 or more this month (J). The pattern TH raised: little for years, then one big deposit near the turn.', ms:'Menyimpan dalam 3 bulan atau kurang daripada 12 bulan lepas (K), tetapi RM3,000 atau lebih bulan ini (J). Corak yang dibangkitkan TH: sedikit bertahun-tahun, kemudian satu simpanan besar apabila hampir giliran.'},
+       res:(rows) => { const n = rows.filter((r) => r.months_deposited_12m <= 3 && r.deposit_this_month_rm >= 3000).length; return {en:n + ' of ' + rows.length + ' rows', ms:n + ' daripada ' + rows.length + ' baris'}; },
+       feeds:{en:'Proposed new measure, not on the tracker yet', ms:'Ukuran baharu dicadangkan, belum ada pada penjejak'}}
+    ],
+    privacy:{en:'On the real dashboard TH runs these counts inside its own systems over millions of rows. Only the totals leave, and any group under 10 people is hidden.', ms:'Pada papan pemuka sebenar TH membuat kiraan ini di dalam sistem sendiri ke atas berjuta-juta baris. Hanya jumlah yang keluar, dan kumpulan bawah 10 orang disorok.'}
+  },
+
+  depositor: {
+    file:'assets/templates/depositor-plan.xlsx',
+    intro:{en:'Two sheets: the settings for one depositor, and the year-by-year projection the page works out from them. In Excel the projection is live formulas, so changing a setting changes it. Aiman\'s settings are shown.', ms:'Dua helaian: tetapan bagi seorang pendeposit, dan unjuran tahun demi tahun yang dikira daripadanya. Dalam Excel unjuran ialah formula hidup, jadi menukar tetapan akan mengubahnya. Tetapan Aiman dipaparkan.'},
+    sheets:[
+      {name:'Inputs',
+       cols:[
+         {k:'setting', type:'text', d:{en:'What the value is.', ms:'Maksud nilai.'}},
+         {k:'value', type:'text', d:{en:'The depositor\'s figure. Change these.', ms:'Angka pendeposit. Ubah nilai ini.'}},
+         {k:'note', type:'text', d:{en:'Where the figure comes from.', ms:'Dari mana angka itu datang.'}}
+       ],
+       rows:[
+         {setting:'age', value:SIM_IN.age, note:'Age today'},
+         {setting:'balance_today_rm', value:SIM_IN.balance_today_rm, note:'Real data: balance_rm in the Monthly snapshot'},
+         {setting:'monthly_deposit_rm', value:SIM_IN.monthly_deposit_rm, note:'Real data: average deposit_this_month_rm'},
+         {setting:'extra_from_programme_rm', value:SIM_IN.extra_from_programme_rm, note:'Extra a month agreed in a literacy programme'},
+         {setting:'pay_category', value:SIM_IN.pay_category, note:'B40, M40 or T20'},
+         {setting:'registered', value:SIM_IN.registered, note:'Y adds the 31 Dec 2028 deadline'},
+         {setting:'kos_haji_rm', value:SIM_IN.kos_haji_rm, note:'TH, 1448H/2027M'},
+         {setting:'profit_pct', value:SIM_IN.profit_pct, note:'Assumed yearly profit distribution; never guaranteed'},
+         {setting:'own_payment_rm', value:OWN[SIM_IN.pay_category], note:'Worked out from pay_category', _f:{value:'IF(B6="B40",15000,IF(B6="M40",23500,33300))'}}
+       ]},
+      {name:'Projection',
+       cols:[
+         {k:'year_no', type:'int', d:{en:'Year of saving, from October 2026.', ms:'Tahun menyimpan, mulai Oktober 2026.'}},
+         {k:'to_month', type:'text', d:{en:'The year ends in this month.', ms:'Tahun berakhir pada bulan ini.'}},
+         {k:'opening_rm', type:'rm', calc:true, f:'F{p}', f0:'Inputs!B3', d:{en:'Balance at the start of the year: last year\'s closing balance.', ms:'Baki awal tahun: baki akhir tahun sebelumnya.'}},
+         {k:'deposits_rm', type:'rm', calc:true, f:'12*Inputs!$B$4', d:{en:'Twelve monthly deposits.', ms:'Dua belas simpanan bulanan.'}},
+         {k:'profit_rm', type:'rm', calc:true, f:'ROUND((C{r}+D{r})*Inputs!$B$9/100,2)', d:{en:'Profit distribution added at year end on the balance.', ms:'Agihan keuntungan ditambah pada akhir tahun ke atas baki.'}},
+         {k:'closing_rm', type:'rm', calc:true, f:'C{r}+D{r}+E{r}', d:{en:'Opening + deposits + profit.', ms:'Baki awal + simpanan + keuntungan.'}},
+         {k:'passes', type:'text', calc:true, f:'TRIM(IF(AND(C{r}<15000,F{r}>=15000),"RM15,000 gate ","")&IF(AND(C{r}<Inputs!$B$10,F{r}>=Inputs!$B$10),"Own payment",""))', d:{en:'The amounts passed during the year.', ms:'Amaun yang dilepasi dalam tahun itu.'}}
+       ],
+       rows:simRows()}
+    ],
+    steps:[
+      {sheet:1, cols:['D'], match:() => true,
+       t:{en:'Every month: add the deposit', ms:'Setiap bulan: tambah simpanan'}, rule:{en:'RM150 a month goes in, RM1,800 a year (column D).', ms:'RM150 sebulan dimasukkan, RM1,800 setahun (lajur D).'},
+       res:() => ({en:'RM1,800 a year', ms:'RM1,800 setahun'}), feeds:{en:'Green line on the chart', ms:'Garis hijau pada carta'}},
+      {sheet:1, cols:['E'], match:() => true,
+       t:{en:'Every 12 months: add the profit', ms:'Setiap 12 bulan: tambah keuntungan'}, rule:{en:'3.5% of the balance at year end (column E). An assumption you can change; TH never guarantees it.', ms:'3.5% daripada baki pada akhir tahun (lajur E). Andaian yang boleh diubah; TH tidak menjaminnya.'},
+       res:(rows) => ({en:RMf(rows.reduce((s, r) => s + r.profit_rm, 0)) + ' of profit over ' + rows.length + ' years', ms:RMf(rows.reduce((s, r) => s + r.profit_rm, 0)) + ' keuntungan dalam ' + rows.length + ' tahun'}),
+       feeds:{en:'Green line on the chart', ms:'Garis hijau pada carta'}},
+      {sheet:1, cols:['F', 'G'], match:(r) => /RM15,000/.test(r.passes),
+       t:{en:'Milestone: first month past RM15,000', ms:'Pencapaian: bulan pertama melepasi RM15,000'}, rule:{en:'The year is found here (G); the page then steps month by month to give the exact date.', ms:'Tahunnya dikenal pasti di sini (G); halaman kemudian mengira bulan demi bulan untuk tarikh tepat.'},
+       res:() => { const m = monthsTo(15000); return {en:ym(m) + ', age ' + Math.floor(SIM_IN.age + m / 12), ms:ym(m) + ', umur ' + Math.floor(SIM_IN.age + m / 12)}; },
+       feeds:{en:'Milestones list', ms:'Senarai pencapaian'}},
+      {sheet:0, cols:['B'], match:(r) => r.setting === 'extra_from_programme_rm',
+       t:{en:'With the programme\'s extra RM50', ms:'Dengan tambahan RM50 daripada program'}, rule:{en:'The same sums with RM200 a month instead of RM150.', ms:'Kiraan yang sama dengan RM200 sebulan, bukan RM150.'},
+       res:() => { const a = monthsTo(15000), b = monthsTo(15000, SIM_IN.extra_from_programme_rm); return {en:'RM15,000 ' + (a - b) + ' months sooner (' + ym(b) + ')', ms:'RM15,000 ' + (a - b) + ' bulan lebih awal (' + ym(b) + ')'}; },
+       feeds:{en:'Dashed gold line', ms:'Garis emas putus-putus'}}
+    ]
+  },
+
+  plan: {
+    file:'assets/templates/kpi-targets.xlsx',
+    intro:{en:'What the Phase 2 workshops produce: the ladder of amounts and a target for each, by scope. The gauges read these two sheets. The targets below are examples, not agreed figures.', ms:'Hasil bengkel Fasa 2: tangga amaun dan sasaran bagi setiap satu, mengikut skop. Tolok membaca dua helaian ini. Sasaran di bawah ialah contoh, bukan angka yang dipersetujui.'},
+    sheets:[
+      {name:'KPI targets',
+       cols:[
+         {k:'kpi_id', type:'int', d:{en:'Row number of the target.', ms:'Nombor baris sasaran.'}},
+         {k:'step_amount_rm', type:'rm', opts:['8325', '15000', '23500', '33300'], d:{en:'Which ladder amount the target is for (from the Ladder sheet).', ms:'Amaun tangga bagi sasaran ini (daripada helaian Ladder).'}},
+         {k:'scope_type', type:'text', opts:['National', 'State', 'Age group'], d:{en:'Whole country, one state or one age group.', ms:'Seluruh negara, satu negeri atau satu kumpulan umur.'}},
+         {k:'scope', type:'text', d:{en:'Which one, e.g. Kedah or 45-59.', ms:'Yang mana, contohnya Kedah atau 45-59.'}},
+         {k:'target_pct', type:'pct', d:{en:'Share of depositors that should be at or above the amount.', ms:'Peratus pendeposit yang sepatutnya mencapai amaun itu.'}},
+         {k:'due_quarter', type:'text', d:{en:'When the target should be met.', ms:'Bila sasaran perlu dicapai.'}},
+         {k:'owner', type:'text', d:{en:'Who answers for it at TH.', ms:'Siapa yang bertanggungjawab di TH.'}}
+       ],
+       rows:[
+         {kpi_id:1, step_amount_rm:8325, scope_type:'National', scope:'Malaysia', target_pct:40, due_quarter:'Q4 2027', owner:'TH Strategy'},
+         {kpi_id:2, step_amount_rm:15000, scope_type:'National', scope:'Malaysia', target_pct:25, due_quarter:'Q4 2027', owner:'TH Strategy'},
+         {kpi_id:3, step_amount_rm:23500, scope_type:'National', scope:'Malaysia', target_pct:17, due_quarter:'Q4 2027', owner:'TH Strategy'},
+         {kpi_id:4, step_amount_rm:33300, scope_type:'National', scope:'Malaysia', target_pct:12, due_quarter:'Q4 2027', owner:'TH Strategy'},
+         {kpi_id:5, step_amount_rm:15000, scope_type:'State', scope:'Kedah', target_pct:28, due_quarter:'Q4 2027', owner:'TH Kedah branch'},
+         {kpi_id:6, step_amount_rm:15000, scope_type:'Age group', scope:'45-59', target_pct:35, due_quarter:'Q4 2028', owner:'TH Strategy'}
+       ]},
+      {name:'Ladder',
+       cols:[
+         {k:'step_id', type:'int', d:{en:'Order on the ladder.', ms:'Susunan pada tangga.'}},
+         {k:'amount_rm', type:'rm', d:{en:'The amount in ringgit.', ms:'Amaun dalam ringgit.'}},
+         {k:'basis', type:'text', d:{en:'Why this amount: a TH policy, or a share of Kos Haji.', ms:'Sebab amaun ini: dasar TH, atau peratus Kos Haji.'}},
+         {k:'label', type:'text', d:{en:'Name shown on the dashboard.', ms:'Nama yang dipaparkan pada papan pemuka.'}}
+       ],
+       rows:[
+         {step_id:1, amount_rm:8325, basis:'25% of Kos Haji', label:'Saving has started'},
+         {step_id:2, amount_rm:15000, basis:'TH policy: offer letter minimum', label:'RM15,000 gate'},
+         {step_id:3, amount_rm:23500, basis:'TH policy: M40 Bayaran Haji', label:'M40 payment'},
+         {step_id:4, amount_rm:33300, basis:'TH policy: full Kos Haji', label:'Full Kos Haji'}
+       ]}
+    ],
+    steps:[
+      {sheet:1, cols:['B'], match:() => true,
+       t:{en:'The ladder sets the lines', ms:'Tangga menetapkan garisan'}, rule:{en:'Each row is one gold line on the overview and one gauge on the tracker. Add a row to add a step.', ms:'Setiap baris ialah satu garis emas pada gambaran dan satu tolok pada penjejak. Tambah baris untuk menambah langkah.'},
+       res:(rows) => ({en:rows.length + ' steps', ms:rows.length + ' langkah'}), feeds:{en:'Ladder, gauges', ms:'Tangga, tolok'}},
+      {sheet:0, cols:['E'], match:(r) => r.scope_type === 'National',
+       t:{en:'Each target is one row', ms:'Setiap sasaran satu baris'}, rule:{en:'A national target, a state target or an age-group target: the same columns, a different scope.', ms:'Sasaran nasional, negeri atau kumpulan umur: lajur yang sama, skop berbeza.'},
+       res:(rows) => ({en:rows.length + ' targets, ' + rows.filter((r) => r.scope_type === 'National').length + ' national', ms:rows.length + ' sasaran, ' + rows.filter((r) => r.scope_type === 'National').length + ' nasional'}),
+       feeds:{en:'The dark tick on each gauge', ms:'Tanda gelap pada setiap tolok'}},
+      {sheet:0, cols:['B', 'E'], match:(r) => r.kpi_id === 2,
+       t:{en:'The gauge compares actual with target', ms:'Tolok membandingkan sebenar dengan sasaran'}, rule:{en:'On track at or above the target; Close within 3 points; Below target otherwise.', ms:'Menepati sasaran jika sama atau melebihi; Hampir jika dalam 3 mata; Bawah sasaran jika tidak.'},
+       res:() => { const a = TH.agg({}, TH.lastQ).g15 * 100, d = a - 25, s = d >= 0 ? ['On track', 'Menepati sasaran'] : d >= -3 ? ['Close', 'Hampir'] : ['Below target', 'Bawah sasaran']; return {en:'Malaysia, RM15,000: ' + a.toFixed(0) + '% against 25%: ' + s[0], ms:'Malaysia, RM15,000: ' + a.toFixed(0) + '% berbanding 25%: ' + s[1]}; },
+       feeds:{en:'Gauge status label', ms:'Label status tolok'}}
+    ]
+  },
+
+  cost: {
+    file:'assets/templates/th-amounts.xlsx',
+    intro:{en:'TH\'s own amounts, one row per payment category per season, plus the policy settings. These are real 1448H/2027M figures. When TH announces a new season, the team adds rows here and every page follows.', ms:'Amaun TH sendiri, satu baris bagi setiap kategori bayaran setiap musim, serta tetapan dasar. Ini angka sebenar 1448H/2027M. Apabila TH mengumumkan musim baharu, pasukan menambah baris di sini dan semua halaman mengikut.'},
+    sheets:[
+      {name:'Amounts by season',
+       cols:[
+         {k:'season', type:'text', d:{en:'Hajj season.', ms:'Musim haji.'}},
+         {k:'category', type:'text', opts:['B40', 'M40', 'T20', 'Appeal'], d:{en:'Payment category.', ms:'Kategori bayaran.'}},
+         {k:'kos_haji_rm', type:'rm', d:{en:'Full cost per Muassasah pilgrim.', ms:'Kos penuh bagi seorang jemaah Muassasah.'}},
+         {k:'bayaran_haji_rm', type:'rm', d:{en:'What the pilgrim pays.', ms:'Bayaran oleh jemaah.'}},
+         {k:'hafis_rm', type:'rm', d:{en:'TH assistance (HAFIS).', ms:'Bantuan TH (HAFIS).'}},
+         {k:'government_aid_rm', type:'rm', d:{en:'Government assistance.', ms:'Bantuan Kerajaan.'}},
+         {k:'check_rm', type:'rm', calc:(r) => r.bayaran_haji_rm + r.hafis_rm + r.government_aid_rm, f:'D{r}+E{r}+F{r}', d:{en:'Worked out: D + E + F. Must equal C.', ms:'Dikira: D + E + F. Mesti sama dengan C.'}}
+       ],
+       rows:TH.CATS.map((c) => ({season:'1448H/2027M', category:c.id === 'appeal' ? 'Appeal' : c.id, kos_haji_rm:TH.POLICY.kosHaji, bayaran_haji_rm:TH.POLICY.pay[c.id], hafis_rm:TH.POLICY.aid[c.id].hafis, government_aid_rm:TH.POLICY.aid[c.id].gov}))},
+      {name:'Policy settings',
+       cols:[
+         {k:'setting', type:'text', d:{en:'Name of the setting.', ms:'Nama tetapan.'}},
+         {k:'value', type:'text', d:{en:'Its value.', ms:'Nilainya.'}},
+         {k:'source', type:'text', d:{en:'Where TH published it.', ms:'Di mana TH menerbitkannya.'}}
+       ],
+       rows:[
+         {setting:'gate_rm', value:15000, source:'TH FAQ 1448H, Q3'},
+         {setting:'registered_deadline', value:'2028-12-31', source:'Seruan Istito\'ah'},
+         {setting:'auto_queue_from', value:'2029-01-01', source:'Seruan Istito\'ah'},
+         {setting:'quota_places', value:31600, source:'TH FAQ 1448H, Q4'},
+         {setting:'depositors', value:9700000, source:'TH press release, 18 Mar 2026'}
+       ]}
+    ],
+    steps:[
+      {cols:['D', 'E', 'F', 'G'], match:() => true,
+       t:{en:'The parts add up to Kos Haji', ms:'Bahagian-bahagian menjadi Kos Haji'}, rule:{en:'Bayaran Haji + HAFIS + Government aid (G) must equal Kos Haji (C) in every row. A wrong figure shows at once.', ms:'Bayaran Haji + HAFIS + bantuan Kerajaan (G) mesti sama dengan Kos Haji (C) dalam setiap baris. Angka salah kelihatan serta-merta.'},
+       res:(rows) => { const ok = rows.filter((r) => r.bayaran_haji_rm + r.hafis_rm + r.government_aid_rm === r.kos_haji_rm).length; return {en:ok + ' of ' + rows.length + ' rows add up', ms:ok + ' daripada ' + rows.length + ' baris tepat'}; },
+       feeds:{en:'"Who pays the RM33,300" chart', ms:'Carta "Siapa membayar RM33,300"'}},
+      {cols:['B', 'D'], match:(r) => r.category !== 'Appeal',
+       t:{en:'Each person\'s own target', ms:'Sasaran setiap orang'}, rule:{en:'Bayaran Haji by category becomes each depositor\'s own payment target.', ms:'Bayaran Haji mengikut kategori menjadi sasaran bayaran sendiri setiap pendeposit.'},
+       res:(rows) => ({en:rows.filter((r) => r.category !== 'Appeal').map((r) => r.category + ' ' + RMf(r.bayaran_haji_rm)).join(' · '), ms:rows.filter((r) => r.category !== 'Appeal').map((r) => r.category + ' ' + RMf(r.bayaran_haji_rm)).join(' · ')}),
+       feeds:{en:'"Own payment" on the tracker and simulator', ms:'"Bayaran sendiri" pada penjejak dan simulasi'}},
+      {sheet:1, cols:['B'], match:(r) => r.setting === 'gate_rm' || r.setting === 'registered_deadline',
+       t:{en:'Policy settings drive the rules', ms:'Tetapan dasar menggerakkan peraturan'}, rule:{en:'The RM15,000 gate and the 31 December 2028 deadline are read from here, not typed into the charts.', ms:'Ambang RM15,000 dan tarikh akhir 31 Disember 2028 dibaca dari sini, bukan ditaip ke dalam carta.'},
+       res:() => ({en:'Gate RM15,000 · deadline 31 Dec 2028', ms:'Ambang RM15,000 · tarikh akhir 31 Dis 2028'}), feeds:{en:'Gold lines, 2028 watchlist', ms:'Garis emas, senarai pantau 2028'}}
+    ]
+  },
+
+  literacy: {
+    file:'assets/templates/programme-log.xlsx',
+    intro:{en:'One row each time a depositor takes a step in a programme. Programme staff or the app add rows; the funnel counts people at each step. The rows below are made up.', ms:'Satu baris setiap kali pendeposit mengambil langkah dalam program. Kakitangan program atau aplikasi menambah baris; corong mengira orang pada setiap langkah. Baris di bawah adalah rekaan.'},
+    sheets:[{name:'Programme log',
+      cols:[
+        {k:'date', type:'text', d:{en:'When it happened, YYYY-MM-DD.', ms:'Bila berlaku, YYYY-MM-DD.'}},
+        {k:'pseudo_id', type:'text', d:{en:'Same code as in the Monthly snapshot, so the two sheets can be joined inside TH.', ms:'Kod sama seperti dalam Monthly snapshot, supaya dua helaian boleh digabung di dalam TH.'}},
+        {k:'programme', type:'text', opts:['Youth Savings Starter', 'Family Hajj Plan', 'Mid-career Top-up', 'Pre-departure Readiness Check', 'Employer Payroll Programme'], d:{en:'Which programme.', ms:'Program yang mana.'}},
+        {k:'state', type:'text', opts:TH.STATES.map((s) => s.id), d:{en:'State code.', ms:'Kod negeri.'}},
+        {k:'step', type:'text', opts:['Joined', 'Finished lessons', 'Set a plan', 'Started auto-deposit', 'Still saving at 6 months'], d:{en:'What the person did.', ms:'Apa yang dilakukan.'}},
+        {k:'monthly_rm', type:'rm', d:{en:'Monthly amount, for "Set a plan" and "Started auto-deposit". Blank otherwise.', ms:'Jumlah bulanan, bagi "Set a plan" dan "Started auto-deposit". Kosong jika tidak.'}}
+      ],
+      rows:[
+        {date:'2026-10-03', pseudo_id:'D-0001', programme:'Youth Savings Starter', state:'KDH', step:'Joined', monthly_rm:''},
+        {date:'2026-10-03', pseudo_id:'D-0007', programme:'Youth Savings Starter', state:'SBH', step:'Joined', monthly_rm:''},
+        {date:'2026-10-05', pseudo_id:'D-0004', programme:'Pre-departure Readiness Check', state:'KTN', step:'Joined', monthly_rm:''},
+        {date:'2026-10-08', pseudo_id:'D-0006', programme:'Mid-career Top-up', state:'PRK', step:'Joined', monthly_rm:''},
+        {date:'2026-10-12', pseudo_id:'D-0004', programme:'Pre-departure Readiness Check', state:'KTN', step:'Set a plan', monthly_rm:400},
+        {date:'2026-10-15', pseudo_id:'D-0006', programme:'Mid-career Top-up', state:'PRK', step:'Started auto-deposit', monthly_rm:300},
+        {date:'2026-10-17', pseudo_id:'D-0001', programme:'Youth Savings Starter', state:'KDH', step:'Finished lessons', monthly_rm:''},
+        {date:'2026-10-20', pseudo_id:'D-0001', programme:'Youth Savings Starter', state:'KDH', step:'Set a plan', monthly_rm:200},
+        {date:'2026-11-01', pseudo_id:'D-0001', programme:'Youth Savings Starter', state:'KDH', step:'Started auto-deposit', monthly_rm:200},
+        {date:'2027-05-01', pseudo_id:'D-0001', programme:'Youth Savings Starter', state:'KDH', step:'Still saving at 6 months', monthly_rm:''}
+      ]}],
+    steps:[
+      {cols:['B', 'E'], match:(r) => r.step === 'Joined',
+       t:{en:'Joined', ms:'Menyertai'}, rule:{en:'Count different people (B) with step "Joined".', ms:'Kira orang berbeza (B) dengan langkah "Joined".'},
+       res:(rows) => { const n = new Set(rows.filter((r) => r.step === 'Joined').map((r) => r.pseudo_id)).size; return {en:n + ' people', ms:n + ' orang'}; }, feeds:{en:'Top of the funnel', ms:'Bahagian atas corong'}},
+      {cols:['B', 'E', 'F'], match:(r) => r.step === 'Set a plan',
+       t:{en:'Set a plan', ms:'Tetapkan pelan'}, rule:{en:'People who chose a target date and a monthly amount (F).', ms:'Orang yang memilih tarikh sasaran dan jumlah bulanan (F).'},
+       res:(rows) => { const n = new Set(rows.filter((r) => r.step === 'Set a plan').map((r) => r.pseudo_id)).size; return {en:n + ' people', ms:n + ' orang'}; }, feeds:{en:'Funnel, step 3', ms:'Corong, langkah 3'}},
+      {cols:['B', 'E', 'F'], match:(r) => r.step === 'Started auto-deposit',
+       t:{en:'Saving automatically', ms:'Menyimpan secara automatik'}, rule:{en:'Direct debit or salary deduction started: saving no longer depends on memory.', ms:'Debit terus atau potongan gaji bermula: menyimpan tidak lagi bergantung pada ingatan.'},
+       res:(rows) => { const n = new Set(rows.filter((r) => r.step === 'Started auto-deposit').map((r) => r.pseudo_id)).size; return {en:n + ' people', ms:n + ' orang'}; }, feeds:{en:'Funnel, step 4', ms:'Corong, langkah 4'}},
+      {cols:['B', 'E'], match:(r) => r.step === 'Still saving at 6 months',
+       t:{en:'Still saving after 6 months', ms:'Masih menyimpan selepas 6 bulan'}, rule:{en:'The step that matters most: a habit, not a one-off.', ms:'Langkah paling penting: tabiat, bukan sekali sahaja.'},
+       res:(rows) => { const n = new Set(rows.filter((r) => r.step === 'Still saving at 6 months').map((r) => r.pseudo_id)).size; return {en:n + ' person', ms:n + ' orang'}; }, feeds:{en:'Bottom of the funnel', ms:'Bahagian bawah corong'}}
+    ],
+    privacy:{en:'To see whether a programme works, TH joins this log to the Monthly snapshot by pseudo_id and compares people who joined with similar people who did not.', ms:'Untuk melihat keberkesanan program, TH menggabungkan log ini dengan Monthly snapshot melalui pseudo_id dan membandingkan peserta dengan orang serupa yang tidak menyertai.'}
+  }
+};
 
 /* ---------- Info notes ("i" buttons) ----------
    t = title, d = what it shows and how to read it (everyone),
@@ -390,6 +679,12 @@ TH.INFO = {
     d:{en:'How one module\'s events travel from the app or workshop to the dashboard tiles, staying anonymous on the way. Pick a module above to change it.', ms:'Bagaimana acara sesuatu modul bergerak dari aplikasi atau bengkel ke jubin papan pemuka, kekal tanpa nama sepanjang jalan. Pilih modul di atas untuk menukarnya.'}},
   events: {t:{en:'Telemetry events', ms:'Acara telemetri'},
     d:{en:'The events modules can send. Highlighted rows are the ones the chosen module sends.', ms:'Acara yang boleh dihantar modul. Baris berwarna ialah acara yang dihantar oleh modul yang dipilih.'}},
+  early: {t:{en:'Early-payment calculator', ms:'Kalkulator bayaran awal'},
+    d:{en:'What TH pays ahead = 31,600 pilgrims × RM33,300 × the share paid early. What the next pilgrims hold = 31,600 × their average own payment × the share saved. Their savings can cover up to the bill; the rest is the gap TH funds itself. Both shares are assumptions to check with TH.', ms:'Bayaran awal TH = 31,600 jemaah × RM33,300 × bahagian dibayar awal. Simpanan bakal jemaah = 31,600 × purata bayaran sendiri × bahagian disimpan. Simpanan mereka boleh menampung sehingga jumlah bil; bakinya jurang yang dibiayai TH. Kedua-dua bahagian ialah andaian untuk disemak dengan TH.'},
+    p:{en:'Ask TH in the meeting: what share is paid early, and how far ahead? Then set the slider live.', ms:'Tanya TH dalam mesyuarat: berapa bahagian dibayar awal, dan berapa lama lebih awal? Kemudian tetapkan peluncur secara langsung.'}},
+  dt: {t:{en:'Data template', ms:'Templat data'},
+    d:{en:'The shape of the spreadsheet that feeds this page: its columns, a few made-up rows, and how the page turns rows into numbers. Click a step to light up the rows and columns it uses. Shaded fx columns are worked out, not typed. Download it to see the same thing in Excel.', ms:'Bentuk hamparan yang menyalurkan data ke halaman ini: lajurnya, beberapa baris rekaan, dan cara halaman menukar baris kepada angka. Klik satu langkah untuk menyerlahkan baris dan lajur yang digunakan. Lajur fx berlorek dikira, bukan ditaip. Muat turun untuk melihatnya dalam Excel.'},
+    p:{en:'Show this when someone asks "where do the numbers come from?" Click the steps one by one.', ms:'Tunjukkan ini apabila ditanya "dari mana angka ini datang?" Klik langkah satu demi satu.'}},
   funnel: {t:{en:'Programme funnel', ms:'Corong program'},
     d:{en:'Illustrative drop-off from enrolment to still saving after six months. In the real tool each step is counted from events, by state and segment.', ms:'Contoh keciciran dari pendaftaran hingga masih menyimpan selepas enam bulan. Dalam alat sebenar setiap langkah dikira daripada acara, mengikut negeri dan segmen.'}}
 };

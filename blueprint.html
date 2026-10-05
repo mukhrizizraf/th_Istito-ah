@@ -7,7 +7,7 @@
 <title>Technical blueprint · Istito'ah Tracker</title>
 <meta name="description" content="Front-end layout schema, data architecture and the ecosystem connectivity map for the Istito'ah tracker.">
 <meta name="theme-color" content="#0b2a22">
-<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('th-theme');if(t==='dark'||t==='light')d.setAttribute('data-theme',t);if(localStorage.getItem('th-lang')==='ms'){d.setAttribute('data-lang','ms');d.lang='ms'}}catch(e){}var P=['index','cost','tracker','depositor','plan','blueprint','literacy','notes'],i=P.indexOf((location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''));if(i<0)i=0;try{var p=parseInt(sessionStorage.getItem('th-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('th-idx',i)}catch(e){}})()</script>
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('th-theme');if(t==='dark'||t==='light')d.setAttribute('data-theme',t);if(localStorage.getItem('th-lang')==='ms'){d.setAttribute('data-lang','ms');d.lang='ms'}}catch(e){}var P=['index','cost','tracker','depositor','plan','literacy','notes'],i=P.indexOf((location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''));if(i<0)i=0;try{var p=parseInt(sessionStorage.getItem('th-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('th-idx',i)}catch(e){}})()</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400..700&display=swap">
@@ -19,7 +19,7 @@
 
 <main id="main">
   <section class="wrap page-head">
-    <div class="head-row"><span class="page-icon" data-picon="blueprint"></span></div>
+    <div class="head-row"><span class="page-icon" data-picon="blueprint"></span><span class="chip gold"><span lang="en">Technical appendix · for IT teams and reviewers</span><span lang="ms">Lampiran teknikal · untuk pasukan IT dan penilai</span></span></div>
     <h1><span lang="en">Technical blueprint</span><span lang="ms">Pelan teknikal</span></h1>
     <p class="lede"><span lang="en">How the dashboard is laid out, where its data comes from, and how TH, partners and depositors connect to it. Click any part to read what it does.</span><span lang="ms">Bagaimana papan pemuka disusun, dari mana datanya, dan bagaimana TH, rakan dan pendeposit berhubung dengannya. Klik mana-mana bahagian untuk membaca fungsinya.</span></p>
   </section>
@@ -86,6 +86,16 @@
         <div class="card scroll-x"><div class="chart" id="eco"></div></div>
         <aside class="card" id="ecoInfo" aria-live="polite"></aside>
       </div>
+    </section>
+
+    <section class="section" aria-labelledby="traceTitle">
+      <div class="shead"><div><h2 id="traceTitle" data-info="pipe"><span lang="en">How programme data reaches the dashboard</span><span lang="ms">Bagaimana data program sampai ke papan pemuka</span></h2>
+        <p><span lang="en">Pick a programme. The pipeline and the event table show exactly what it sends and which tiles it feeds. No event carries a name, IC or account number.</span><span lang="ms">Pilih program. Saluran dan jadual acara menunjukkan apa yang dihantar dan jubin yang disalurkan. Tiada acara membawa nama, nombor KP atau nombor akaun.</span></p></div></div>
+      <div class="seg wrap-seg" id="modPick" role="group" aria-label="Programme"></div>
+      <div class="card pipe" style="margin-top:14px"><div class="scroll-x"><div class="chart" id="pipe" style="min-width:640px"></div></div><p class="pipe-tiles" id="pipeTiles" aria-live="polite"></p></div>
+      <div class="card" style="margin-top:16px"><h3 style="margin-bottom:6px" data-info="events"><span lang="en">Telemetry events</span><span lang="ms">Acara telemetri</span></h3>
+        <p class="muted small"><span lang="en">Highlighted rows are sent by the chosen programme.</span><span lang="ms">Baris berwarna dihantar oleh program yang dipilih.</span></p>
+        <div id="events"></div></div>
     </section>
 
     <section class="section">
