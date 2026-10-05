@@ -888,6 +888,75 @@ TH.templateInit = function () {
 };
 
 /* ======================================================================
+   Grant proposal topics: coverage table, filter, topic cards, copy
+   ====================================================================== */
+TH.pageInit.topics = function () {
+  let filter = 'all';
+  const PAGE_NAME = (id) => { const p = TH.PAGES.concat(TH.EXTRA_PAGES || []).find((x) => x.id === id); return p ? p : null; };
+  const COVER = [
+    {k:'p1', n:{en:'Problem 1 · irregular saving', ms:'Masalah 1 · simpanan tidak konsisten'}, s:{en:'P1', ms:'M1'}, has:(tp) => tp.problems.includes(1)},
+    {k:'p2', n:{en:'Problem 2 · paying ahead', ms:'Masalah 2 · bayaran awal'}, s:{en:'P2', ms:'M2'}, has:(tp) => tp.problems.includes(2)},
+    {k:'p3', n:{en:'Problem 3 · the long queue', ms:'Masalah 3 · giliran panjang'}, s:{en:'P3', ms:'M3'}, has:(tp) => tp.problems.includes(3)},
+    {k:'tracker', n:{en:'Tracker', ms:'Penjejak'}, has:(tp) => tp.pages.includes('tracker')},
+    {k:'depositor', n:{en:'Depositor', ms:'Pendeposit'}, has:(tp) => tp.pages.includes('depositor')},
+    {k:'cost', n:{en:'Cost', ms:'Kos'}, has:(tp) => tp.pages.includes('cost')},
+    {k:'literacy', n:{en:'Programmes', ms:'Program'}, has:(tp) => tp.pages.includes('literacy')},
+    {k:'plan', n:{en:'Plan & KPIs', ms:'Pelan & KPI'}, has:(tp) => tp.pages.includes('plan')},
+    {k:'blueprint', n:{en:'Blueprint', ms:'Pelan teknikal'}, has:(tp) => tp.pages.includes('blueprint')}
+  ];
+  /* the site's highlight vocabulary, applied to topic text: key figures and TH terms */
+  const hl = (s) => esc(s)
+    .replace(/(RM[\d,.]+(?: (?:million|juta))?|9\.7 (?:million|juta)|31,600|18%|31 (?:December|Disember) 2028)/g, '<span class="kw">$1</span>')
+    .replace(/((?:Seruan |Tabung )?Istito&#39;ah|istito&#39;ah)/g, '<span class="term">$1</span>');
+  const tx = (o) => `<span lang="en">${hl(o.en)}</span><span lang="ms">${hl(o.ms || o.en)}</span>`;
+  const probName = (n) => TH.T('Problem ', 'Masalah ') + n;
+
+  function drawCoverage() {
+    $('#coverage').innerHTML = `<table class="cov"><thead><tr><th scope="col">${t({en:'Topic', ms:'Topik'})}</th>` +
+      COVER.map((c, j) => `<th scope="col" class="${j === 2 ? 'cov-split' : ''}"><span>${t(c.n)}</span></th>`).join('') + '</tr></thead><tbody>' +
+      TH.TOPICS.map((tp, i) => `<tr data-id="${tp.id}" tabindex="0"><th scope="row"><b>${i + 1}</b> ${t(TH.TOPIC_KINDS[tp.kind])}</th>` +
+        COVER.map((c, j) => `<td class="${j === 2 ? 'cov-split' : ''}">${c.has(tp) ? `<i class="dot on" aria-label="${esc(TH.T('yes', 'ya'))}"></i>` : '<i class="dot" aria-hidden="true"></i>'}</td>`).join('') + '</tr>').join('') +
+      `</tbody><tfoot><tr><th scope="row">${t({en:'Topics', ms:'Topik'})}</th>${COVER.map((c, j) => `<td class="${j === 2 ? 'cov-split' : ''}">${TH.TOPICS.filter(c.has).length}</td>`).join('')}</tr></tfoot></table>`;
+    $$('#coverage tbody tr').forEach((tr) => {
+      const go = () => { filter = 'all'; drawFilter(); drawTopics(); const el = $('#' + tr.dataset.id); if (el) { el.scrollIntoView({behavior:TH.reduceMotion ? 'auto' : 'smooth', block:'start'}); el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 1400); } };
+      tr.addEventListener('click', go);
+      tr.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
+  }
+  function drawFilter() {
+    const opts = [['all', {en:'All six', ms:'Semua enam'}], ['p1', {en:'Problem 1', ms:'Masalah 1'}], ['p2', {en:'Problem 2', ms:'Masalah 2'}], ['p3', {en:'Problem 3', ms:'Masalah 3'}], ['technical', TH.TOPIC_KINDS.technical]];
+    $('#topicFilter').innerHTML = opts.map((o) => `<button type="button" data-f="${o[0]}" aria-pressed="${o[0] === filter}">${t(o[1])}</button>`).join('');
+    $$('#topicFilter button').forEach((b) => b.addEventListener('click', () => { filter = b.dataset.f; drawFilter(); drawTopics(); }));
+  }
+  const shown = (tp) => filter === 'all' || (filter[0] === 'p' ? tp.problems.includes(+filter[1]) : tp.kind === filter);
+  function drawTopics() {
+    $('#topics').innerHTML = TH.TOPICS.map((tp, i) => !shown(tp) ? '' :
+      `<li class="topic" id="${tp.id}"><div class="topic-top"><span class="topic-n">${i + 1}</span><span class="tag tag-kind">${t(TH.TOPIC_KINDS[tp.kind])}</span>` +
+      tp.problems.slice().sort().map((n) => `<span class="tag tag-problem">${esc(probName(n))}</span>`).join('') +
+      `<button class="btn btn-ghost btn-sm topic-copy" type="button" data-i="${i}">${t({en:'Copy text', ms:'Salin teks'})}</button></div>` +
+      `<h3>${tx(tp.title)}</h3>` +
+      `<p class="label">${t({en:'Problem statement', ms:'Pernyataan masalah'})}</p><p class="topic-ps">${tx(tp.ps)}</p>` +
+      `<p class="label">${t({en:'Research questions', ms:'Soalan kajian'})}</p><ol class="rqs">${tp.rq.map((q, k) => `<li><span class="rq-n">RQ${k + 1}</span><span>${tx(q)}</span></li>`).join('')}</ol>` +
+      `<dl class="topic-meta"><div><dt>${t({en:'Method', ms:'Kaedah'})}</dt><dd>${tx(tp.method)}</dd></div>` +
+      `<div><dt>${t({en:'Data', ms:'Data'})}</dt><dd>${tx(tp.data)}</dd></div>` +
+      `<div><dt>${t({en:'Builds on', ms:'Dibina di atas'})}</dt><dd>${tp.pages.map((id) => { const p = PAGE_NAME(id); return p ? `<a class="chip brand" href="${p.href}">${t(p.label)}</a>` : ''; }).join(' ')}</dd></div>` +
+      `<div><dt>${t({en:'Expertise', ms:'Kepakaran'})}</dt><dd>${tx(tp.expertise)}</dd></div>` +
+      `<div class="wide"><dt>${t({en:'Expected output', ms:'Hasil dijangka'})}</dt><dd>${tx(tp.output)}</dd></div></dl></li>`).join('');
+    $$('#topics .topic-copy').forEach((b) => b.addEventListener('click', () => copyTopic(TH.TOPICS[+b.dataset.i], b)));
+  }
+  function copyTopic(tp, btn) {
+    const txt = [L(tp.title), '', TH.T('Problem statement', 'Pernyataan masalah'), L(tp.ps), '', TH.T('Research questions', 'Soalan kajian')]
+      .concat(tp.rq.map((q, k) => 'RQ' + (k + 1) + ': ' + L(q)))
+      .concat(['', TH.T('Method: ', 'Kaedah: ') + L(tp.method), TH.T('Data: ', 'Data: ') + L(tp.data), TH.T('Expertise: ', 'Kepakaran: ') + L(tp.expertise), TH.T('Expected output: ', 'Hasil dijangka: ') + L(tp.output)]).join('\n');
+    const done = () => { const old = btn.innerHTML; btn.textContent = TH.T('Copied', 'Disalin'); setTimeout(() => { btn.innerHTML = old; }, 1500); };
+    const fallback = () => { const ta = document.createElement('textarea'); ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (e) {} ta.remove(); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, fallback); else fallback();
+  }
+  const all = () => { drawCoverage(); drawFilter(); drawTopics(); };
+  all(); TH.onLang.push(all);
+};
+
+/* ======================================================================
    Notes: print
    ====================================================================== */
 TH.pageInit.notes = function () {

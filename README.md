@@ -18,12 +18,13 @@ Sister site of the [Kedah Silver Economy dashboard](https://mukhrizizraf.github.
 | `literacy.html` | Literacy programmes in plain language: four steps, five programmes, the funnel |
 | `blueprint.html` | Technical appendix, not in the top bar (linked from the bottom of the overview, the menu and the footer): layout schema, data architecture, backend schema, programme telemetry trace, ecosystem map, governance |
 | `notes.html` | Sources, what is official vs synthetic, questions for TH, glossary |
+| `topics.html` | Six possible grant proposal topics from TH's problems (technical tracker, depositor readiness, saving behaviour, early-payment funding, literacy evaluation, selection equity), each with a problem statement, two research questions, method, data and output; a coverage table shows together they cover every TH problem and dashboard page |
 
 Pages that use data (tracker, depositor, plan, cost, programmes) end with **The data behind this page**: a preview of the Excel template that feeds it, sample rows, a column guide, and clickable steps that light up the rows and columns each figure uses. The `.xlsx` files are in `assets/templates/`.
 
 Highlights follow one vocabulary on every page: `.term` (serif italic) for TH and Hajj terms, `.kw` (gold marker) for key figures, `.issue` (red wavy underline) for problems, `.ask` / `.ask-inline` (gold, with a ?) for open questions for colleagues, and `.tag` labels for problem / in the prototype / proposed.
 
-Every page is bilingual (English / Bahasa Melayu toggle), has light and dark themes, and supports ← → keys to move between pages. The "i" buttons explain each panel; switch on **Presenter notes** in the footer to add pitch tips to them (or open any page with `?present`).
+Every page is bilingual (English / Bahasa Melayu toggle), has light and dark modes plus four colour themes (TH green, Desert sand, Kiswah black & gold, Olive grove; palette button in the top bar), and supports ← → keys to move between pages. The "i" buttons explain each panel; switch on **Presenter notes** in the footer to add pitch tips to them (or open any page with `?present`).
 
 ## Run it
 
@@ -52,6 +53,8 @@ tools/                   build_templates.py + export-templates.js: rebuild the t
 ```
 
 ### Rebuilding the Excel templates
+
+See also `CLAUDE.md`.
 
 The templates are defined once, in `TH.TEMPLATES` in `th-data.js`; the pages render them and the `.xlsx` files are built from them. After changing a template, run `python tools/build_templates.py` (needs Node and `openpyxl`).
 

@@ -51,6 +51,7 @@ var ICON = {
   warn:'<path d="M12 7.5v5.5M12 16.4v.2"/>',
   crit:'<path d="M8 8l8 8M16 8l-8 8"/>',
   print:'<path d="M7 9V3.5h10V9M7 17H4.5V10.5a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5V17H17"/><path d="M7 14h10v6.5H7z"/>',
+  palette:'<path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.2 0 1.8-.8 1.8-1.7 0-1.3-1.1-1.6-1.1-2.7 0-.9.7-1.6 1.6-1.6h2.2a4 4 0 0 0 4-4c0-3.9-3.8-7-8.5-7z"/><circle cx="7.8" cy="11.2" r="1.1"/><circle cx="10.4" cy="7.6" r="1.1"/><circle cx="14.6" cy="7.8" r="1.1"/>',
   sheet:'<rect x="3.5" y="4" width="17" height="16" rx="2.5"/><path d="M3.5 9h17M3.5 14.5h17M9.5 4v16"/>',
   download:'<path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/>',
   coin:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v9M9.5 9.8c0-1.2 1.1-1.8 2.5-1.8s2.5.6 2.5 1.7c0 2.6-5 1.6-5 4.3 0 1.1 1.1 1.8 2.5 1.8s2.5-.6 2.5-1.8"/>'
@@ -74,6 +75,7 @@ var PICON = {
   plan:'<rect pathLength="1" x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path pathLength="1" d="M3.5 9.8h17M8 3v4M16 3v4"/><path pathLength="1" d="M8.5 14.8l2.3 2.2 4.7-4.6"/>',
   blueprint:'<path pathLength="1" d="M5.5 3.5h9l4 4v13h-13z"/><path pathLength="1" d="M14.5 3.5v4h4"/><path pathLength="1" d="M8.5 17.5l3.5-7 3.5 7z"/><circle pathLength="1" cx="12" cy="10.5" r="1.3"/>',
   literacy:'<path pathLength="1" d="M12 6.5C9.8 5 6.6 4.5 3.5 5v13.5c3.1-.5 6.3 0 8.5 1.5 2.2-1.5 5.4-2 8.5-1.5V5c-3.1-.5-6.3 0-8.5 1.5z"/><path pathLength="1" d="M12 6.5V20"/>',
+  topics:'<path pathLength="1" d="M9 18h6M10 21h4"/><path pathLength="1" d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/>',
   notes:'<path pathLength="1" d="M6 3.5h8.5l4 4v13H6z"/><path pathLength="1" d="M14.5 3.5v4h4M9 12h7M9 15.5h7M9 9h3"/>',
   cost:'<rect pathLength="1" x="2.5" y="6" width="19" height="12" rx="2.5"/><circle pathLength="1" cx="12" cy="12" r="2.8"/><path pathLength="1" d="M6.5 9.5v5M17.5 9.5v5"/>'
 };
@@ -104,6 +106,7 @@ var bar = '<a class="skip sr" href="#main">' + TH.t({en:'Skip to content', ms:'L
   '<a class="brand" href="index.html" aria-label="' + TH.esc(TH.T('Istito\'ah Tracker: a proposal from SEFB, UUM to Lembaga Tabung Haji. Home', 'Penjejak Istito\'ah: cadangan SEFB, UUM kepada Lembaga Tabung Haji. Laman utama')) + '">' + TH.LOCKUP + '<span class="brand-text"><b>' + TH.t({en:'Istito\'ah Tracker', ms:'Penjejak Istito\'ah'}) + '</b><span>' + TH.t({en:'Proposal · SEFB to TH', ms:'Cadangan · SEFB kepada TH'}) + '</span></span></a>' +
   '<nav class="nav" aria-label="Pages">' + navLinks() + '</nav>' +
   '<button class="bar-btn lang-btn" type="button" aria-label="Bahasa / Language"><span class="lang-code"></span></button>' +
+  '<button class="bar-btn pal-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="palPop">' + TH.icon('palette') + '</button>' +
   '<button class="bar-btn theme-btn" type="button"></button>' +
   '<button class="bar-btn menu-btn" type="button" aria-expanded="false" aria-controls="drawer" aria-label="Menu">' + TH.icon('menu') + '</button>' +
   '</div></header>' +
@@ -284,6 +287,42 @@ doc.addEventListener('DOMContentLoaded', function () {
     var onMq = function () { if (!root.getAttribute('data-theme')) { paintThemeBtn(); TH.onTheme.forEach(function (f) { f(); }); } };
     mq.addEventListener ? mq.addEventListener('change', onMq) : mq.addListener(onMq);
   }
+
+  /* colour themes: a small menu under the palette button */
+  var palBtn = TH.$('.pal-btn'), palPop = doc.createElement('div');
+  palPop.className = 'pal-pop'; palPop.id = 'palPop'; palPop.hidden = true; palPop.setAttribute('role', 'group');
+  body.appendChild(palPop);
+  function curPal() { return root.getAttribute('data-palette') || 'th'; }
+  function paintPal() {
+    palBtn.setAttribute('aria-label', TH.T('Colour theme', 'Tema warna'));
+    palBtn.setAttribute('title', TH.T('Colour theme', 'Tema warna'));
+    palPop.setAttribute('aria-label', TH.T('Colour theme', 'Tema warna'));
+    palPop.innerHTML = '<p class="label">' + TH.esc(TH.T('Colour theme', 'Tema warna')) + '</p>' + (TH.PALETTES || []).map(function (p) {
+      return '<button type="button" data-pal="' + p.id + '" aria-pressed="' + (p.id === curPal()) + '"><span class="sw">' + p.sw.map(function (c) { return '<i style="background:' + c + '"></i>'; }).join('') + '</span>' + TH.esc(TH.L(p.name)) + '</button>';
+    }).join('') + '<p class="pal-note">' + TH.esc(TH.T('Light or dark: use the sun / moon button.', 'Cerah atau gelap: guna butang matahari / bulan.')) + '</p>';
+  }
+  function openPal(o) {
+    palPop.hidden = !o; palBtn.setAttribute('aria-expanded', o ? 'true' : 'false');
+    if (o) {
+      var r = palBtn.getBoundingClientRect();
+      palPop.style.top = (r.bottom + 8 + scrollY) + 'px';
+      palPop.style.left = Math.max(12, Math.min(r.right - palPop.offsetWidth, innerWidth - palPop.offsetWidth - 12)) + scrollX + 'px';
+      var c = TH.$('[aria-pressed="true"]', palPop); c && c.focus();
+    }
+  }
+  paintPal();
+  palBtn.addEventListener('click', function (e) { e.stopPropagation(); openPal(palPop.hidden); });
+  palPop.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-pal]'); if (!b) return;
+    var id = b.getAttribute('data-pal');
+    if (id === 'th') root.removeAttribute('data-palette'); else root.setAttribute('data-palette', id);
+    TH.store.set('th-palette', id); paintPal(); openPal(false); palBtn.focus();
+    TH.onTheme.forEach(function (f) { f(); });
+  });
+  doc.addEventListener('click', function (e) { if (!palPop.hidden && !palPop.contains(e.target) && e.target !== palBtn) openPal(false); });
+  doc.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !palPop.hidden) { openPal(false); palBtn.focus(); } });
+  addEventListener('resize', function () { openPal(false); });
+  TH.onLang.push(paintPal);
 
   TH.$('.present-btn').addEventListener('click', function () {
     TH.present = !TH.present; TH.store.set('th-present', TH.present ? '1' : '0'); paintPresent(); TH.closeInfo();

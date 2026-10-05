@@ -3,4 +3,5 @@ exclude:
   - PRODUCT.md
   - DESIGN.md
   - README.md
+  - CLAUDE.md
   - tools

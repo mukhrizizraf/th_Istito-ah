@@ -24,7 +24,16 @@ TH.PAGES = [
   {id:'literacy', href:'literacy.html', nav:{en:'Programmes', ms:'Program'}, label:{en:'Literacy programmes', ms:'Program literasi'},
    desc:{en:'Programmes that help depositors save every month, and how TH sees if they work.', ms:'Program yang membantu pendeposit menabung setiap bulan, dan cara TH melihat keberkesanannya.'}},
   {id:'notes', href:'notes.html', nav:{en:'Sources', ms:'Sumber'}, label:{en:'Sources & assumptions', ms:'Sumber & andaian'},
-   desc:{en:'What is official, what is synthetic, and what TH must confirm.', ms:'Apa yang rasmi, apa yang sintetik, dan apa yang perlu disahkan TH.'}}
+   desc:{en:'What is official, what is synthetic, and what TH must confirm.', ms:'Apa yang rasmi, apa yang sintetik, dan apa yang perlu disahkan TH.'}},
+  {id:'topics', href:'topics.html', nav:{en:'Topics', ms:'Topik'}, label:{en:'Grant proposal topics', ms:'Topik cadangan geran'},
+   desc:{en:'Six possible proposals from TH\'s problems, each with a problem statement and research questions.', ms:'Enam cadangan yang mungkin daripada masalah TH, setiap satu dengan pernyataan masalah dan soalan kajian.'}}
+];
+/* Colour themes (no blue). Each one has light and dark tokens in th.css under [data-palette]. */
+TH.PALETTES = [
+  {id:'th', name:{en:'TH green', ms:'Hijau TH'}, sw:['#0a6b4c', '#c99316', '#eef2ee']},
+  {id:'sand', name:{en:'Desert sand', ms:'Pasir gurun'}, sw:['#9a5b1e', '#c99316', '#f4efe6']},
+  {id:'kiswah', name:{en:'Kiswah black & gold', ms:'Kiswah hitam & emas'}, sw:['#1c1c1c', '#e0b03a', '#f1f0ec']},
+  {id:'olive', name:{en:'Olive grove', ms:'Kebun zaitun'}, sw:['#5a6b1f', '#c99316', '#eff0e6']}
 ];
 /* Pages kept out of the top bar: linked from the bottom of the overview and the footer */
 TH.EXTRA_PAGES = [
@@ -605,6 +614,81 @@ TH.TEMPLATES = {
   }
 };
 
+/* ---------- Possible grant proposal topics ----------
+   Drafts for the team discussion: each grows out of one or more of TH's
+   three problems and builds on a part of this dashboard (pages). */
+TH.TOPIC_KINDS = {
+  technical:{en:'Technical', ms:'Teknikal'}, readiness:{en:'Readiness', ms:'Kesediaan'}, behaviour:{en:'Behavioural', ms:'Tingkah laku'},
+  finance:{en:'Institutional finance', ms:'Kewangan institusi'}, literacy:{en:'Literacy & education', ms:'Literasi & pendidikan'}, policy:{en:'Policy & equity', ms:'Dasar & ekuiti'}
+};
+TH.TOPICS = [
+  {id:'t1', kind:'technical', problems:[1, 2, 3], pages:['tracker', 'plan', 'blueprint'],
+   title:{en:'A privacy-preserving Istito\'ah Readiness Tracker for Tabung Haji: design and evaluation', ms:'Penjejak Kesediaan Istito\'ah yang memelihara privasi untuk Tabung Haji: reka bentuk dan penilaian'},
+   ps:{en:'TH holds balances for 9.7 million depositors but has no single view of who is ready for Hajj, who has stalled, and where. Readiness data sits across systems and branches, reports arrive after the quarter ends, and any view must respect PDPA 2010. Seruan Istito\'ah and the 31 December 2028 deadline make a near real-time, privacy-preserving view urgent.',
+       ms:'TH memegang baki 9.7 juta pendeposit tetapi tiada satu paparan tentang siapa yang bersedia untuk haji, siapa yang terhenti, dan di mana. Data kesediaan tersebar di pelbagai sistem dan cawangan, laporan tiba selepas suku tahun berakhir, dan sebarang paparan mesti mematuhi PDPA 2010. Seruan Istito\'ah dan tarikh akhir 31 Disember 2028 menjadikan paparan hampir masa nyata yang memelihara privasi satu keperluan mendesak.'},
+   rq:[{en:'What data architecture and readiness indicators let TH monitor 9.7 million depositors by state, age group and saving channel, using only pseudonymised, aggregated data?', ms:'Seni bina data dan penunjuk kesediaan apakah yang membolehkan TH memantau 9.7 juta pendeposit mengikut negeri, kumpulan umur dan saluran simpanan, menggunakan data agregat tanpa nama sahaja?'},
+       {en:'Does the tracker help TH leaders and branch staff decide faster and more accurately than current reports, and which design features explain the difference?', ms:'Adakah penjejak membantu pemimpin dan kakitangan cawangan TH membuat keputusan lebih cepat dan tepat berbanding laporan semasa, dan ciri reka bentuk mana yang menjelaskan perbezaannya?'}],
+   method:{en:'Design science research: build the tracker in three phases with TH, then test it with leaders and branch staff on real decision tasks (time, accuracy, usability score).', ms:'Penyelidikan sains reka bentuk: membina penjejak dalam tiga fasa bersama TH, kemudian mengujinya dengan pemimpin dan kakitangan cawangan pada tugasan keputusan sebenar (masa, ketepatan, skor kebolehgunaan).'},
+   data:{en:'Monthly snapshot, KPI targets and TH amounts templates; usability test records.', ms:'Templat Monthly snapshot, sasaran KPI dan amaun TH; rekod ujian kebolehgunaan.'},
+   expertise:{en:'Information systems, data engineering, UX design', ms:'Sistem maklumat, kejuruteraan data, reka bentuk UX'},
+   output:{en:'A working dashboard inside TH, a data dictionary and an evaluation paper.', ms:'Papan pemuka berfungsi di dalam TH, kamus data dan kertas penilaian.'}},
+
+  {id:'t2', kind:'readiness', problems:[3, 1], pages:['tracker', 'depositor', 'cost'],
+   title:{en:'How ready are Tabung Haji depositors to perform Hajj? Measuring financial istito\'ah against each pilgrim\'s own payment', ms:'Sejauh mana pendeposit Tabung Haji bersedia menunaikan haji? Mengukur istito\'ah kewangan berbanding bayaran jemaah sendiri'},
+   ps:{en:'Seruan Istito\'ah makes savings the main criterion for choosing pilgrims, yet "ready" means different amounts for different people: RM15,000 for a first-time B40 pilgrim, RM23,500 for M40 and RM33,300 for T20. There is no published measure of how many depositors are ready against their own payment, which groups lag, or how many registered depositors may miss RM15,000 by the 2028 deadline. Istito\'ah is also more than money: knowledge, health and family support matter.',
+       ms:'Seruan Istito\'ah menjadikan simpanan kriteria utama pemilihan jemaah, namun "bersedia" bermaksud amaun berbeza bagi orang berbeza: RM15,000 bagi jemaah B40 kali pertama, RM23,500 bagi M40 dan RM33,300 bagi T20. Tiada ukuran diterbitkan tentang berapa ramai pendeposit bersedia berbanding bayaran sendiri, kumpulan mana yang ketinggalan, atau berapa ramai pendeposit berdaftar mungkin tidak mencapai RM15,000 menjelang tarikh akhir 2028. Istito\'ah juga lebih daripada wang: ilmu, kesihatan dan sokongan keluarga turut penting.'},
+   rq:[{en:'What share of depositors, by state, age group, payment category and saving channel, can meet their own Bayaran Haji, and which household factors explain the gap?', ms:'Berapa peratus pendeposit, mengikut negeri, kumpulan umur, kategori bayaran dan saluran simpanan, mampu memenuhi Bayaran Haji sendiri, dan faktor isi rumah mana yang menjelaskan jurangnya?'},
+       {en:'Which registered depositors are most at risk of missing RM15,000 by 31 December 2028, and how does financial readiness relate to knowledge, health and family readiness?', ms:'Pendeposit berdaftar mana yang paling berisiko tidak mencapai RM15,000 menjelang 31 Disember 2028, dan bagaimana kesediaan kewangan berkait dengan kesediaan ilmu, kesihatan dan keluarga?'}],
+   method:{en:'Analysis of pseudonymised balances inside TH, plus a survey of a stratified sample of registered depositors on income, commitments and non-financial readiness.', ms:'Analisis baki tanpa nama di dalam TH, serta tinjauan sampel berstrata pendeposit berdaftar tentang pendapatan, komitmen dan kesediaan bukan kewangan.'},
+   data:{en:'Monthly snapshot template; a depositor survey.', ms:'Templat Monthly snapshot; tinjauan pendeposit.'},
+   expertise:{en:'Household finance, Islamic finance, survey statistics', ms:'Kewangan isi rumah, kewangan Islam, statistik tinjauan'},
+   output:{en:'An Istito\'ah readiness index by state and group, a 2028 risk profile and a policy brief.', ms:'Indeks kesediaan istito\'ah mengikut negeri dan kumpulan, profil risiko 2028 dan ringkasan dasar.'}},
+
+  {id:'t3', kind:'behaviour', problems:[1], pages:['tracker', 'literacy', 'depositor'],
+   title:{en:'Why do depositors save irregularly? Behavioural drivers of last-minute Hajj saving and Shariah-compliant nudges for steady saving', ms:'Mengapa pendeposit menyimpan secara tidak konsisten? Pemacu tingkah laku simpanan haji saat akhir dan dorongan patuh Syariah untuk simpanan berterusan'},
+   ps:{en:'TH reports that many depositors save little for years and deposit a lump sum only when their turn is near. Irregular saving makes readiness hard to predict and leaves TH carrying costs in the meantime. The causes are unclear (irregular income, present bias, competing priorities, or the sense that the turn is far away), and which nudges work for Malaysian Muslim savers, within Shariah, has not been tested.',
+       ms:'TH melaporkan ramai pendeposit menyimpan sedikit bertahun-tahun dan memasukkan wang sekaligus hanya apabila giliran hampir tiba. Simpanan tidak konsisten menyukarkan ramalan kesediaan dan menyebabkan TH menanggung kos sementara itu. Puncanya belum jelas (pendapatan tidak tetap, bias masa kini, keutamaan lain, atau rasa giliran masih jauh), dan dorongan mana yang berkesan bagi penyimpan Muslim Malaysia, dalam batas Syariah, belum diuji.'},
+   rq:[{en:'What saving patterns (regular, irregular, last-minute lump sum) do depositors follow, and which income, demographic and attitude factors predict them?', ms:'Apakah corak simpanan (tetap, tidak tetap, sekaligus saat akhir) yang diikuti pendeposit, dan faktor pendapatan, demografi dan sikap mana yang meramalkannya?'},
+       {en:'Do default payroll deduction, monthly reminders and commitment devices increase the number of months depositors save, compared with no nudge, in a randomised field trial?', ms:'Adakah potongan gaji secara lalai, peringatan bulanan dan alat komitmen meningkatkan bilangan bulan pendeposit menyimpan, berbanding tanpa dorongan, dalam ujian lapangan rawak?'}],
+   method:{en:'Pattern mining on 12-month deposit histories, then a randomised controlled trial with TH (THiJARI reminders, payroll defaults) over 6 to 12 months.', ms:'Perlombongan corak pada sejarah simpanan 12 bulan, kemudian ujian terkawal rawak bersama TH (peringatan THiJARI, potongan gaji lalai) selama 6 hingga 12 bulan.'},
+   data:{en:'Monthly snapshot (months_deposited_12m, deposit_this_month_rm) and Programme log templates.', ms:'Templat Monthly snapshot (months_deposited_12m, deposit_this_month_rm) dan Programme log.'},
+   expertise:{en:'Behavioural economics, experimental design, Shariah advisory', ms:'Ekonomi tingkah laku, reka bentuk eksperimen, nasihat Syariah'},
+   output:{en:'A typology of saving patterns, trial results and a nudge playbook for TH.', ms:'Tipologi corak simpanan, keputusan ujian dan buku panduan dorongan untuk TH.'}},
+
+  {id:'t4', kind:'finance', problems:[2, 1], pages:['cost', 'depositor'],
+   title:{en:'Funding Hajj costs before the season: liquidity planning and Shariah-compliant ways to align pilgrims\' savings with TH\'s early payments', ms:'Membiayai kos haji sebelum musim: perancangan kecairan dan kaedah patuh Syariah untuk menyelaraskan simpanan jemaah dengan bayaran awal TH'},
+   ps:{en:'TH must pay some Hajj costs two to three years before each season, but cannot use depositors\' money while many future pilgrims have not saved enough, so TH funds the gap itself, on top of HAFIS assistance of about RM234 million this season. How large this gap is under different saving behaviours and cost rises, and how more of it could fairly come from pilgrims\' own savings, is not publicly known.',
+       ms:'TH perlu membayar sebahagian kos haji dua hingga tiga tahun sebelum setiap musim, tetapi tidak boleh menggunakan wang pendeposit selagi ramai bakal jemaah belum cukup simpanan, jadi TH membiayai jurang itu sendiri, selain bantuan HAFIS kira-kira RM234 juta musim ini. Saiz jurang ini di bawah tingkah laku simpanan dan kenaikan kos yang berbeza, dan bagaimana lebih banyak daripadanya boleh datang secara adil daripada simpanan jemaah sendiri, tidak diketahui umum.'},
+   rq:[{en:'How large is TH\'s early-payment funding gap for coming seasons under different scenarios of depositor saving, Kos Haji rises and category mix?', ms:'Berapa besar jurang pembiayaan bayaran awal TH bagi musim akan datang di bawah senario simpanan pendeposit, kenaikan Kos Haji dan campuran kategori yang berbeza?'},
+       {en:'Which Shariah-compliant mechanisms, such as an earlier savings deadline for those near their turn or a ring-fenced Tabung Istito\'ah, would reduce the gap, and how acceptable are they to depositors?', ms:'Mekanisme patuh Syariah mana, seperti tarikh akhir simpanan lebih awal bagi yang hampir giliran atau Tabung Istito\'ah yang diasingkan, akan mengurangkan jurang, dan sejauh mana ia diterima pendeposit?'}],
+   method:{en:'Cash-flow scenario modelling with TH finance, Shariah analysis of candidate mechanisms, and a choice experiment on depositor acceptance.', ms:'Pemodelan senario aliran tunai bersama kewangan TH, analisis Syariah mekanisme calon, dan eksperimen pilihan tentang penerimaan pendeposit.'},
+   data:{en:'TH amounts template; aggregated Monthly snapshot of registrants near their turn; TH\'s early-payment schedule (to be shared by TH).', ms:'Templat amaun TH; Monthly snapshot agregat pendaftar yang hampir giliran; jadual bayaran awal TH (akan dikongsi TH).'},
+   expertise:{en:'Islamic and corporate finance, actuarial modelling, Shariah', ms:'Kewangan Islam dan korporat, pemodelan aktuari, Syariah'},
+   output:{en:'A funding-gap model and an options paper for TH\'s board.', ms:'Model jurang pembiayaan dan kertas pilihan untuk lembaga TH.'}},
+
+  {id:'t5', kind:'literacy', problems:[1, 3], pages:['literacy', 'depositor'],
+   title:{en:'Does Hajj financial literacy change saving behaviour? Evaluating age-targeted programmes delivered through apps, mosques and employers', ms:'Adakah literasi kewangan haji mengubah tingkah laku simpanan? Menilai program mengikut umur melalui aplikasi, masjid dan majikan'},
+   ps:{en:'Literacy efforts usually report attendance, not changes in saving. TH needs to know which programme, for which group and through which channel, actually makes depositors save every month and reach RM15,000 sooner. Without that evidence, outreach budgets cannot be targeted, and the reported 18% deferral rate at the offer stage cannot be traced to its causes.',
+       ms:'Usaha literasi biasanya melaporkan kehadiran, bukan perubahan simpanan. TH perlu tahu program mana, bagi kumpulan mana dan melalui saluran mana, yang benar-benar membuat pendeposit menyimpan setiap bulan dan mencapai RM15,000 lebih awal. Tanpa bukti ini, bajet jangkauan tidak dapat disasarkan, dan kadar penangguhan 18% pada peringkat tawaran tidak dapat dikesan puncanya.'},
+   rq:[{en:'Do depositors who join a programme save in more months a year and reach RM15,000 sooner than similar depositors who do not?', ms:'Adakah pendeposit yang menyertai program menyimpan dalam lebih banyak bulan setahun dan mencapai RM15,000 lebih awal berbanding pendeposit serupa yang tidak menyertai?'},
+       {en:'Which delivery channel (THiJARI app, mosque sessions, employer payroll) works best for youth, families, mid-career and older depositors?', ms:'Saluran penyampaian mana (aplikasi THiJARI, sesi masjid, potongan gaji majikan) paling berkesan bagi belia, keluarga, pertengahan kerjaya dan pendeposit berumur?'}],
+   method:{en:'Quasi-experimental evaluation (matched comparison, difference-in-differences) using the programme log joined to monthly snapshots, with a literacy quiz before and after.', ms:'Penilaian kuasi-eksperimen (perbandingan padanan, perbezaan-dalam-perbezaan) menggunakan log program yang digabung dengan petikan bulanan, dengan kuiz literasi sebelum dan selepas.'},
+   data:{en:'Programme log and Monthly snapshot templates.', ms:'Templat Programme log dan Monthly snapshot.'},
+   expertise:{en:'Financial education, programme evaluation, Islamic studies', ms:'Pendidikan kewangan, penilaian program, pengajian Islam'},
+   output:{en:'Evaluated programme kits and evidence on what works for whom.', ms:'Kit program yang dinilai dan bukti tentang apa yang berkesan bagi siapa.'}},
+
+  {id:'t6', kind:'policy', problems:[3], pages:['tracker', 'cost'],
+   title:{en:'Is savings-based selection fair? Equity effects of Seruan Istito\'ah on who gets to perform Hajj', ms:'Adakah pemilihan berasaskan simpanan adil? Kesan ekuiti Seruan Istito\'ah terhadap siapa yang dapat menunaikan haji'},
+   ps:{en:'With 31,600 places a year against 9.7 million depositors, Seruan Istito\'ah shifts selection toward savings: automatic queue eligibility at RM15,000 from 2029 and a re-sorted queue. This may speed up ready pilgrims but could push back lower-income, rural or older depositors who save slowly. These equity effects have not been measured.',
+       ms:'Dengan 31,600 tempat setahun berbanding 9.7 juta pendeposit, Seruan Istito\'ah mengalihkan pemilihan ke arah simpanan: kelayakan giliran automatik pada RM15,000 mulai 2029 dan giliran yang disusun semula. Ini mungkin mempercepat jemaah yang bersedia tetapi boleh melambatkan pendeposit berpendapatan rendah, luar bandar atau berumur yang menyimpan perlahan. Kesan ekuiti ini belum diukur.'},
+   rq:[{en:'How will the RM15,000 rule and the automatic re-sorting of the queue change the profile of pilgrims by payment category, state and age?', ms:'Bagaimana peraturan RM15,000 dan penyusunan semula giliran secara automatik mengubah profil jemaah mengikut kategori bayaran, negeri dan umur?'},
+       {en:'Which complementary criteria or support (years of steady saving, first-time status, targeted assistance) keep selection fair without weakening readiness?', ms:'Kriteria atau sokongan pelengkap mana (tempoh menyimpan secara konsisten, status kali pertama, bantuan bersasar) mengekalkan pemilihan yang adil tanpa melemahkan kesediaan?'}],
+   method:{en:'Microsimulation of the queue before and after the rule, on pseudonymised registration and balance data, plus interviews with TH and depositor groups.', ms:'Mikrosimulasi giliran sebelum dan selepas peraturan, menggunakan data pendaftaran dan baki tanpa nama, serta temu bual bersama TH dan kumpulan pendeposit.'},
+   data:{en:'Monthly snapshot with registration dates; queue data from TH.', ms:'Monthly snapshot dengan tarikh pendaftaran; data giliran daripada TH.'},
+   expertise:{en:'Public policy, econometrics and simulation, maqasid al-shariah', ms:'Dasar awam, ekonometrik dan simulasi, maqasid al-syariah'},
+   output:{en:'An equity assessment of Seruan Istito\'ah and policy options.', ms:'Penilaian ekuiti Seruan Istito\'ah dan pilihan dasar.'}}
+];
+
 /* ---------- Info notes ("i" buttons) ----------
    t = title, d = what it shows and how to read it (everyone),
    p = pitch tip (shown only when Presenter notes are switched on). */
@@ -682,6 +766,9 @@ TH.INFO = {
   early: {t:{en:'Early-payment calculator', ms:'Kalkulator bayaran awal'},
     d:{en:'What TH pays ahead = 31,600 pilgrims × RM33,300 × the share paid early. What the next pilgrims hold = 31,600 × their average own payment × the share saved. Their savings can cover up to the bill; the rest is the gap TH funds itself. Both shares are assumptions to check with TH.', ms:'Bayaran awal TH = 31,600 jemaah × RM33,300 × bahagian dibayar awal. Simpanan bakal jemaah = 31,600 × purata bayaran sendiri × bahagian disimpan. Simpanan mereka boleh menampung sehingga jumlah bil; bakinya jurang yang dibiayai TH. Kedua-dua bahagian ialah andaian untuk disemak dengan TH.'},
     p:{en:'Ask TH in the meeting: what share is paid early, and how far ahead? Then set the slider live.', ms:'Tanya TH dalam mesyuarat: berapa bahagian dibayar awal, dan berapa lama lebih awal? Kemudian tetapkan peluncur secara langsung.'}},
+  coverage: {t:{en:'What each topic covers', ms:'Liputan setiap topik'},
+    d:{en:'A filled dot means the topic works directly on that TH problem or builds on that part of the dashboard. Every column has at least one topic, so together the proposals cover everything the dashboard explains.', ms:'Titik penuh bermaksud topik itu menangani terus masalah TH tersebut atau membina di atas bahagian papan pemuka itu. Setiap lajur mempunyai sekurang-kurangnya satu topik, jadi bersama-sama cadangan ini meliputi semua yang dijelaskan papan pemuka.'},
+    p:{en:'Topics can be merged or split; the table shows nothing is left out if a topic is dropped.', ms:'Topik boleh digabung atau dipecahkan; jadual menunjukkan tiada yang tertinggal jika satu topik digugurkan.'}},
   dt: {t:{en:'Data template', ms:'Templat data'},
     d:{en:'The shape of the spreadsheet that feeds this page: its columns, a few made-up rows, and how the page turns rows into numbers. Click a step to light up the rows and columns it uses. Shaded fx columns are worked out, not typed. Download it to see the same thing in Excel.', ms:'Bentuk hamparan yang menyalurkan data ke halaman ini: lajurnya, beberapa baris rekaan, dan cara halaman menukar baris kepada angka. Klik satu langkah untuk menyerlahkan baris dan lajur yang digunakan. Lajur fx berlorek dikira, bukan ditaip. Muat turun untuk melihatnya dalam Excel.'},
     p:{en:'Show this when someone asks "where do the numbers come from?" Click the steps one by one.', ms:'Tunjukkan ini apabila ditanya "dari mana angka ini datang?" Klik langkah satu demi satu.'}},
